@@ -1,0 +1,8 @@
+{
+  "name": "uniPro-Backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/n-x-t-gen/uniPro-Backend.git",
+  "author": "ppaalo <ppaalo.henriquecosta@gmail.com>",
+  "license": "MIT"
+}

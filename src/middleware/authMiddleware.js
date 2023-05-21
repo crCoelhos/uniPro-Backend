@@ -7,18 +7,15 @@ const config = require(__dirname + '/../config/config.js')[env];
 
 async function authMiddleware(req, res, next) {
   const authHeader = req.header('Authorization');
-  console.log(req)
   if (!authHeader) {
     return res.status(401).json('Acesso negado. Token não fornecido.');
   }
-  console.log(authHeader)
   
   try {
     //decodifica o token do usuario que fez a requisição
     const decoded = jwt.verify(authHeader, config.secret);
     //procura o usuario na base
     const user = await User.where({ _id: decoded._id }).findOne();
-    console.log(decoded)
     if (!user) {
       throw new Error();
     }

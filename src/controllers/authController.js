@@ -12,7 +12,6 @@ async function login(req, res) {
   try {
     // const user = await User.findone({
       const user = await User.where({ email:email}).findOne();
-      console.log(user)
     if (!user) {
       return res.status(400).json({ error: 'Usuario ou senha invalida' });
     }

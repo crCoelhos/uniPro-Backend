@@ -1,3 +1,4 @@
+// Nome, Email, Senha, Telefone, CPF, Cargo (Novo Model?), nascimento
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -19,13 +20,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  CPF: {
+  cpf: {
     type: String,
     required: true,
   },
-  isAdmin: {
-    type: Boolean,
-    default: false,
+  birthdate: {
+    type: Date,
+    required: true,
   },
 });
 

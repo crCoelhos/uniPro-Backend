@@ -9,7 +9,7 @@ async function signup(req, res) {
     // nome, email, senha, telefone, cpf, data de nascimento
     const { name, email, password, contact, cpf, birthdate } = req.body;
 
-    const [existingUser, existingEmail, existingContact, existingCpf] = await Promise.all([
+    const [existingEmail, existingContact, existingCpf] = await Promise.all([
       User.findOne({ email }),
       User.findOne({ contact }),
       User.findOne({ cpf }),

@@ -1,5 +1,4 @@
 const express = require('express');
-const User = require('./model/user');
 require('dotenv').config();
 
 // Conexao com o Banco de dados
@@ -8,6 +7,10 @@ connectDB();
 
 const app = express();
 app.use(express.json());
+
+
+const authRoute = require('./routes/authRoutes.js')
+app.use("/", authRoute);
 
 // somente iniciar os servicos ser conectar ao banco
 connectDB().then(() => {

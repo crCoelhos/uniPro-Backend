@@ -1,18 +1,18 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
-
-const User = mongoose.model('User', userSchema);
+const User = require('../models/User')
+// const User = mongoose.model('User', userSchema);
 
 async function signup(req, res) {
   try {
     // nome, email, senha, telefone, cpf, data de nascimento
     const { name, email, password, contact, cpf, birthdate } = req.body;
 
-    const [existingUser, existingEmail, existingContact, existingCpf] = await Promise.all([
-      User.findOne({ email }),
-      User.findOne({ contact }),
-      User.findOne({ cpf }),
+    const [ existingEmail, existingContact, existingCpf] = await Promise.all([
+      User.findOne({ email:email }),
+      User.findOne({ contact:contact }),
+      User.findOne({ cpf:cpf }),
     ]);
 
     if (existingEmail) {

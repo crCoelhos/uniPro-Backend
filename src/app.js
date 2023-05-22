@@ -1,29 +1,18 @@
-const connectDB = require('./config/database');
-connectDB();
 const express = require('express');
-// const User = require('./models/User');
-// const bcrypt = require('bcrypt');
-
-const app = express();
-const port = process.env.PORT || 3000;
-
-// Carrega as variáveis de ambiente do arquivo .env
+const User = require('./model/user');
 require('dotenv').config();
 
-// Importa as rotas
-const userRoutes = require('./routes/userRoutes.js');
-const authRoutes = require('./routes/authRoutes.js');
+// Conexao com o Banco de dados
+const connectDB = require('./config/database');
+connectDB();
 
-// Configuração do Body Parser
-app.use(express.urlencoded({ extended: true }));
+const app = express();
 app.use(express.json());
 
-// Configuração das rotas
-app.use('/user', userRoutes);
-app.use('/auth', authRoutes);
-// app.use('/admin', adminRoutes);
-
-// Inicia o servidor
-app.listen(port, () => {
-  console.log(`Servidor rodando na porta ${port}`); 
+// somente iniciar os servicos ser conectar ao banco
+connectDB().then(() => {
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log(`Servidor rodando na porta ${port}`);
+  });
 });

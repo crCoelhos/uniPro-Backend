@@ -1,47 +1,85 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require("../models/User.js");
+const mongoose = require('mongoose');
 
+const User = mongoose.model('User', userSchema);
 
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.js')[env];
+async function signup(req, res) {
+  try {
+    // nome, email, senha, telefone, cpf, data de nascimento
+    const { name, email, password, contact, cpf, birthdate } = req.body;
+
+    const [existingUser, existingEmail, existingContact, existingCpf] = await Promise.all([
+      User.findOne({ email }),
+      User.findOne({ contact }),
+      User.findOne({ cpf }),
+    ]);
+
+    if (existingEmail) {
+      return res.status(409).json({ message: 'E-mail já está em uso' });
+    }
+
+    if (existingContact) {
+      return res.status(409).json({ message: 'Contato já está em uso' });
+    }
+
+    if (existingCpf) {
+      return res.status(409).json({ message: 'CPF já está em uso' });
+    }
+
+    // Criacao do usuario com a senha criptografada
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({
+      name,
+      email,
+      password: hashedPassword,
+      contact,
+      cpf,
+      birthdate,
+    });
+
+    await newUser.save();
+
+    res.status(201).json({ message: 'Conta criada com sucesso' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Erro ao criar a conta' });
+  }
+}
+
 
 async function login(req, res) {
-  const { email, password } = req.body;
-
   try {
-    // const user = await User.findone({
-      const user = await User.where({ email:email}).findOne();
+    const { login, password } = req.body;
+
+    const user = await User.findOne({
+      $or: [
+        { email: login },
+        { contact: login }
+      ]
+    });
+
     if (!user) {
-      return res.status(400).json({ error: 'Usuario ou senha invalida' });
+      return res.status(400).json({ error: 'Usuário ou senha inválida' });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      return res.status(400).json({ error: 'Usuario ou senha invalida' });
+      return res.status(400).json({ error: 'Usuário ou senha inválida' });
     }
 
-    const token = jwt.sign({ _id: user.id }, config.secret, { expiresIn: '1h' });
-    res.cookie('token', token, { httpOnly: true, maxAge: 3600000 });
-
-    return res.status(200).json({ token, user });
+    // Crie e retorne um token de acesso
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    res.json({ token });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Erro interno do servidor, contate o suporte' });
+    res.status(500).json({ error: 'Erro ao fazer login' });
   }
 }
 
-async function protected(req, res) {
-  try {
-    res.json({ message: `Bem-vindo de volta, ${req.user.name}!` });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erro interno do servidor, contate o suporte' });
-  }
-}
 
 
 module.exports = {
   login,
-  protected,
+  signup
 };

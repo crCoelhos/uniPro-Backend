@@ -19,10 +19,12 @@ const userSchema = new mongoose.Schema({
   contact: {
     type: String,
     required: true,
+    unique: true,
   },
   cpf: {
     type: String,
     required: true,
+    unique: true,
   },
   birthdate: {
     type: Date,

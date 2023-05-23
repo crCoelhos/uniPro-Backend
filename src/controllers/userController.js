@@ -1,6 +1,6 @@
-const { default: mongoose, Mongoose } = require("mongoose");
 const User = require("../models/User.js");
 const bcrypt = require('bcrypt');
+const User = require('../models/User')
 
 
 exports.createUser = async (req, res) => {

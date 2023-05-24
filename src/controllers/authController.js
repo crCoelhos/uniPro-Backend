@@ -1,8 +1,10 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
-const User = require('../models/user')
-// const User = mongoose.model('User', userSchema);
+const env = process.env.NODE_ENV || 'development';
+const config = require(__dirname + '/../config/config.js')[env];
+const { Op } = require('sequelize');
+const db = require('../models');
+const User = db.User;
 
 async function signup(req, res) {
   try {
@@ -53,10 +55,10 @@ async function login(req, res) {
     const { login, password } = req.body;
 
     const user = await User.findOne({
-      $or: [
+      where:{[Op.or]: [
         { email: login },
-        { contact: login }
-      ]
+        { cpf: login }
+      ]}
     });
 
     if (!user) {
@@ -69,7 +71,7 @@ async function login(req, res) {
     }
 
     // Crie e retorne um token de acesso
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id }, config.secret, { expiresIn: '1h' });
     res.json({ token });
   } catch (error) {
     console.error(error);

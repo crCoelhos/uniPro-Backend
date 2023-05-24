@@ -5,9 +5,9 @@ module.exports = {
     await queryInterface.createTable('Users', {
       id: {
         allowNull: false,
-        defaultValue: DataTypes.UUIDV4,
+        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.UUID
+        type: Sequelize.INTEGER
       },
       name: {
         type:Sequelize.STRING,
@@ -45,7 +45,10 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
+
+    
   },
+  
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Users');
   }

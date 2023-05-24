@@ -5,12 +5,13 @@ module.exports = (sequelize, DataTypes) => {
   class UserRole extends Model {
     static associate(models) {
      // definir associações caso tenha
+  
     }    
   }  
   UserRole.init(
     {
       userId: {
-        type: DataTypes.UUID,
+        type: DataTypes.INTEGER,
         allowNull: false,
         references: {
           model: 'User',
@@ -20,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
       },
       roleId: {
-        type: DataTypes.UUID,
+        type: DataTypes.INTEGER,
         allowNull: false,
         references: {
           model: 'Role',

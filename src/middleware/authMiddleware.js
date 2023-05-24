@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-
+const db = require('../models');
+const User = db.User;
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
 
@@ -10,12 +10,11 @@ async function authMiddleware(req, res, next) {
   if (!authHeader) {
     return res.status(401).json('Acesso negado. Token não fornecido.');
   }
-  
   try {
     //decodifica o token do usuario que fez a requisição
     const decoded = jwt.verify(authHeader, config.secret);
     //procura o usuario na base
-    const user = await User.where({ _id: decoded._id }).findOne();
+    const user = await User.findByPk(decoded.id)
     if (!user) {
       throw new Error();
     }

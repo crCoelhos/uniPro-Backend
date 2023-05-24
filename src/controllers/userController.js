@@ -1,6 +1,5 @@
-const User = require("../models/User.js");
 const bcrypt = require('bcrypt');
-const User = require('../models/User')
+const User = require('../models/user')
 
 
 exports.createUser = async (req, res) => {
@@ -24,8 +23,8 @@ exports.createUser = async (req, res) => {
 exports.getAllUsers = async (req, res) => {
     try {
         
-        const user = await User.find({})
-        res.status(200).json(user);
+        const users = await User.findAll()
+        res.status(200).json(users);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -37,7 +36,7 @@ exports.getUserById = async (req, res) => {
         if(!id){
             res.json({message: "Você não passou o id no paramentro"})
         }
-        const user = await User.findById(id)
+        const user = await User.findByPk(id)
         res.status(200).json(user);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -46,13 +45,18 @@ exports.getUserById = async (req, res) => {
 
 exports.updateUserById = async (req, res) => {
     try {
-        const { id } = req.params;
+        const id  = req.params.id;
         if(!id){
             res.json({message: "Você não passou o id no paramentro"})
         }
-        const updates= req.body;
+        const user = await User.findByPk(id)
+        if (user) {
+            const updates= req.body;
+            const hashedPassword = await bcrypt.hash(updates.password, 10);
+            updates.password = hashedPassword;
+            await user.update(updates);
+        }
         console.log(updates)
-        const user = await User.findByIdAndUpdate(id, updates,{new:true})
         console.log(user)
         res.status(200).json(user);
     } catch (err) {
@@ -62,12 +66,17 @@ exports.updateUserById = async (req, res) => {
 
 exports.deleteUserById = async (req, res) => {
     try {
-        const { id } = req.params;
+        const id = req.params.id;
         if(!id){
             res.json({message: "Você não passou o id no paramentro"})
         }
-        const user = await User.findByIdAndDelete(id)
-        res.status(200).json(user);
+        const user = await User.findByPk(id)
+        if(user){
+            await user.destroy(user)
+            res.status(204).json({ message: 'usuario excluído com sucesso' });
+        } else {
+            res.status(404).json({ message: 'usuario não encontrado' });
+        }
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

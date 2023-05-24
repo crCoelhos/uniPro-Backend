@@ -9,12 +9,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID
       },
-      firstName: {
-        type:Sequelize.STRING,
-        allowNull: false
-      },
-      lastName: 
-      {
+      name: {
         type:Sequelize.STRING,
         allowNull: false
       },

@@ -1,42 +1,42 @@
 const bcrypt = require('bcrypt');
-const db = require('../models');
 const { Op } = require('sequelize');
-const User = db.User;
+const db = require('../models');
 const Role = db.Role;
+const User = db.User;
 const UserRole = db.UserRole
 
 
 exports.createUser = async (req, res) => {
     try {
 
-        const id = req.user.id;
-        const roleUser = await this.getRole({ id })
+        const _id = req.user.id;
+        const roleUser = await this.getRole({ _id })
 
         if (roleUser.name !== 'ADMIN') {
             return res.status(403).json({ message: 'Você não tem permissão para criar novos usuários.' });
         }
-        const { name, cpf, email, contact, password, birthdate } = req.body[0];
-        const roleName  = req.body[1];
+        const { user, role } = req.body;
+        const hashedPassword = await bcrypt.hash(userUpdate.password, 10);
+        userUpdate.password = hashedPassword;
 
-        // Criptografa a senha
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const user = await User.create({ name, cpf, email, contact, password: hashedPassword, birthdate });
-        const role = await Role.findOne({
-            where: { name: roleName.name },
-        })
-        console.log("2222222222")
-        const userRole = await UserRole.create({ userId: user.id, roleId: role.id })
+        const userCreate = await User.create(user);
+        await userCreate.setRole(role.id)
+        console.log(role)
         res.status(201).json(user);
     } catch (err) {
-        res.status(500).json({ message: err.message }); 
-    } 
+        res.status(500).json({ message: err.message });
+    }
 }
 
 exports.getAllUserRole = async (req, res) => {
     try {
+        const _id = req.user.id;
+        const roleUser = await this.getRole({ _id })
+
+        if (roleUser.name !== 'ADMIN') {
+            return res.status(403).json({ message: 'Você não tem permissão para criar novos usuários.' });
+        }
         const userRole = await UserRole.findAll();
-        const users = await User.findAll();
         res.status(200).json(userRole);
     } catch (err) {
 
@@ -46,8 +46,17 @@ exports.getAllUserRole = async (req, res) => {
 
 exports.getAllUsers = async (req, res) => {
     try {
-        const userRole = await UserRole.findAll();
+        const _id = req.user.id;
+        const roleUser = await this.getRole({ _id })
+
+        if (roleUser.name !== 'ADMIN') {
+            return res.status(403).json({ message: 'Você não tem permissão para criar novos usuários.' });
+        }
         const users = await User.findAll({
+            include: [{
+                model: Role,
+                as: 'role',
+            }],
             attributes: {
                 exclude: ['password'],
             }
@@ -60,11 +69,17 @@ exports.getAllUsers = async (req, res) => {
 }
 exports.getUserById = async (req, res) => {
     try {
+        const _id = req.user.id;
+        const roleUser = await this.getRole({ _id })
+
+        if (roleUser.name !== 'ADMIN') {
+            return res.status(403).json({ message: 'Você não tem permissão para criar novos usuários.' });
+        }
         const { id } = req.params;
         if (!id) {
             res.json({ message: "Você não passou o id no paramentro" })
         }
-        const user = await User.findByPk(id) 
+        const user = await User.findByPk(id)
         res.status(200).json(user);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -73,18 +88,27 @@ exports.getUserById = async (req, res) => {
 
 exports.updateUserById = async (req, res) => {
     try {
+        const _id = req.user.id;
+        const roleUser = await this.getRole({ _id })
+        if (roleUser.name !== 'ADMIN') {
+            return res.status(403).json({ message: 'Você não tem permissão para criar novos usuários.' });
+        }
         const id = req.params.id;
         if (!id) {
             res.json({ message: "Você não passou o id no paramentro" })
         }
-        const user = await User.findByPk(id)
-        if (user) {
-            const updates = req.body;
-            const hashedPassword = await bcrypt.hash(updates.password, 10);
-            updates.password = hashedPassword;
-            await user.update(updates);
+
+        const userUpdate = await User.findByPk(id)
+        if (userUpdate) {
+            const { user, role } = req.body;
+            const hashedPassword = await bcrypt.hash(userUpdate.password, 10);
+            userUpdate.password = hashedPassword;
+
+            const userUpdate = await User.create(user);
+            await userUpdate.setRole(role.id)
+            await user.setRole(role.id)
+            return res.status(200).json(user);
         }
-        res.status(200).json(user);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -92,11 +116,18 @@ exports.updateUserById = async (req, res) => {
 
 exports.deleteUserById = async (req, res) => {
     try {
+        const _id = req.user.id;
+        const roleUser = await this.getRole({ _id })
+
+        if (roleUser.name !== 'ADMIN') {
+            return res.status(403).json({ message: 'Você não tem permissão para criar novos usuários.' });
+        }
         const id = req.params.id;
         if (!id) {
             res.json({ message: "Você não passou o id no paramentro" })
         }
         const user = await User.findByPk(id)
+        console.log(user)
         if (user) {
             await user.destroy(user)
             res.status(204).json({ message: 'usuario excluído com sucesso' });
@@ -110,25 +141,89 @@ exports.deleteUserById = async (req, res) => {
 
 
 exports.getRole = async (req, res) => {
-
-    const id = req.id;
+    console.log(req)
+    const id = req._id;
     if (!id) {
         res.json({ message: "Você não passou o id no paramentro" })
     }
     const userRole = await UserRole.findOne({
-        where: {userId: id},
+        where: { userId: id },
         attributes: ['roleId']
     })
-    .then(({ roleId }) => Role.findOne({
-        where: { id: roleId },
-        attributes: ['name']
-    }));
+        .then(({ roleId }) => Role.findOne({
+            where: { id: roleId },
+            attributes: ['name']
+        }));
     return userRole;
 }
 
+exports.getUserRoleById = async (req, res) => {
+    try{
+        const _id = req.user.id;
+        const roleUser = await this.getRole({ _id })
 
+        if (roleUser.name !== 'ADMIN') {
+            return res.status(403).json({ message: 'Você não tem permissão para criar novos usuários.' });
+        }
 
-exports.updateUserRole = (req, res) =>{
-    
+        const id = req.params.id;
+        if(!id){
+            res.json({message:'Você não passou nenhum id correto como parâmetro'})
+        }
+        const role = await UserRole.findOne({
+            where:{id:id},
+            attributes:['id', 'userId', 'roleId', 'createdAt', 'updatedAt'],
+        })
+        res.status(200).json(role)
+    }catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 }
-// this.getAllUserRoles();
+
+exports.getUserRoleByUserId = async (req, res) => {
+    try {
+        const _id = req.user.id;
+        const roleUser = await this.getRole({ _id })
+    
+        if (roleUser.name !== 'ADMIN') {
+            return res.status(403).json({ message: 'Você não tem permissão para criar novos usuários.' });
+        }
+        const id = req.params.id;
+        if(!id){
+            res.json({message:'Você não passou nenhum id correto como parâmetro'})
+        }
+        const role = await UserRole.findAll({
+            where:{userId:id}, 
+            attributes:['id', 'userId', 'roleId', 'createdAt', 'updatedAt'],
+            include:[{
+                model: Role,
+                as:'role'
+            }]
+        })
+        res.status(200).json(role)
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}
+
+exports.getUserRoleByRoleId = async (req, res) => {
+    try {
+        const _id = req.user.id;
+        const roleUser = await this.getRole({ _id })
+    
+        if (roleUser.name !== 'ADMIN') {
+            return res.status(403).json({ message: 'Você não tem permissão para criar novos usuários.' });
+        }
+        const id = req.params.id;
+        if(!id){
+            res.json({message:'Você não passou nenhum id correto como parâmetro'})
+        }
+        const role = await UserRole.findAll({
+            where:{roleId:id}, 
+            attributes:['id', 'userId', 'roleId', 'createdAt', 'updatedAt']
+        })
+        res.status(200).json(role)
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}

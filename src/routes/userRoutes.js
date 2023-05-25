@@ -3,20 +3,19 @@ const router = express.Router();
 const userController = require('../controllers/userController.js');
 const authMiddleware = require('../middleware/authMiddleware.js');
 
-// const User = require("../models/User.js");
 
-// Define as rotas para as operações CRUD de usuarios
+// Define as rotas para as operações CRUD de usuarios(Com exceção do userroles)
 router.get('/userroles', authMiddleware, userController.getAllUserRole);
-router.get('/:id', authMiddleware, userController.getUserById);
-router.post('/', authMiddleware, userController.createUser);
-router.put('/:id', authMiddleware, userController.updateUserById);
-router.delete('/:id', authMiddleware, userController.deleteUserById);
+router.get('/user/:id', authMiddleware, userController.getUserById);
+router.post('/user/', authMiddleware, userController.createUser);
+router.put('/user/:id', authMiddleware, userController.updateUserById);
+router.delete('/user/:id', authMiddleware, userController.deleteUserById);
 
 // Define as rotas para as operações CRUD de UserRoles
-router.get('/', authMiddleware, userController.getAllUsers);
-// router.get('/:id', authMiddleware, userController.getUserById);
-// router.post('/', authMiddleware, userController.createUser);
-// router.put('/:id', authMiddleware, userController.updateUserById);
+router.get('/user/', authMiddleware, userController.getAllUsers);
+router.get('/userroles/:id', authMiddleware, userController.getUserRoleById);
+router.get('/userroles/user/:id', authMiddleware, userController.getUserRoleByUserId);
+router.get('/userroles/role/:id', authMiddleware, userController.getUserRoleByRoleId);
 // router.delete('/:id', authMiddleware, userController.deleteUserById);
 
 

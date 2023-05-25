@@ -13,11 +13,13 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.belongsToMany(models.Role, {
         through: "UserRole",
-        as:"roles",
-        foreignKey:"roleId"
+        as:"role",
+        foreignKey:"userId",
+        onDelete: 'CASCADE'
       })
     }
   }
+  
   User.init({
     name: {
       type:DataTypes.STRING,

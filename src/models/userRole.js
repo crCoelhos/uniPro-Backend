@@ -1,13 +1,11 @@
 'use strict';
 const { Model } = require('sequelize');
-
 module.exports = (sequelize, DataTypes) => {
   class UserRole extends Model {
     static associate(models) {
-     // definir associações caso tenha
-  
-    }    
-  }  
+      // definir associações caso tenha
+    }
+  }
   UserRole.init(
     {
       userId: {

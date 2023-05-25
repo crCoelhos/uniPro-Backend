@@ -13,8 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.belongsToMany(models.User, {
         through:"UserRole",
-        as:"users",
-        foreignKey:"userId"
+        as:"user",
+        foreignKey:"roleId",
+        onDelete: 'CASCADE'
       })
     }
   }

@@ -1,7 +1,6 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Event extends Model {
     /**
@@ -13,31 +12,42 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Event.init({
-    name: {
-      type:DataTypes.STRING,
-      allowNull:false
+
+  Event.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      name: {
+        type:DataTypes.STRING,
+        allowNull:false
+      },
+      state: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
+      },
+      date: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      location: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
-    state: {
-      type:DataTypes.BOOLEAN,
-      allowNull:false
-    },
-    date: {
-      type:DataTypes.DATE,
-      allowNull:false
-    },
-    location: {
-      type:DataTypes.STRING,
-      allowNull:false
-    },
-    description: {
-      type:DataTypes.STRING,
-      allowNull:false
+    {
+      sequelize,
+      modelName: 'Event',
+      tableName: 'Events',
     }
-  }, {
-    sequelize,
-    modelName: 'Event',
-    tableName: 'events'
-  });
+  );
+
   return Event;
 };

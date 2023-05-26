@@ -20,3 +20,5 @@ Models
 - [ ] (GET) todos usuarios
 
 16 anos pode participar mais sem alcool, abaixo de 16 precisa de termo assinado pelos pais (envio de foto do termo)? a pensar???
+
+- Logica para enviar email por usuario.

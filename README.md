@@ -22,3 +22,5 @@ Models
 16 anos pode participar mais sem alcool, abaixo de 16 precisa de termo assinado pelos pais (envio de foto do termo)? a pensar???
 
 - Logica para enviar email por usuario.
+
+enviar por front todos os ingresso? ou quando abrir o evento mostrar os ingresso, caso tenha passado da data dizer que esgotou e caso tenha passado.

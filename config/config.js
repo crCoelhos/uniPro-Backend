@@ -9,6 +9,7 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     host: process.env.DB_HOST,
+    access: process.env.ACCESS_TOKEN,
     dialect: 'mysql',
   },
   test: {
@@ -17,6 +18,7 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     host: process.env.DB_HOST,
+    access: process.env.ACCESS_TOKEN,
     dialect: 'mysql',
   },
   production: {
@@ -25,6 +27,7 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     host: process.env.DB_HOST,
+    access: process.env.ACCESS_TOKEN,
     dialect: 'mysql',
     dialectOptions: {
       ssl: {

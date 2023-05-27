@@ -5,6 +5,7 @@ const config = require(__dirname + '/../config/config.js')[env];
 const { Op } = require('sequelize');
 const db = require('../models');
 const User = db.User;
+const UserRole = db.UserRole;
 
 async function signup(req, res) {
   try {
@@ -31,7 +32,7 @@ async function signup(req, res) {
 
     // Criacao do usuario com a senha criptografada
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({
+    const newUser = await User.create({
       name,
       email,
       password: hashedPassword,
@@ -40,7 +41,11 @@ async function signup(req, res) {
       birthdate,
     });
 
-    await newUser.save();
+    // Criar do cargo(checka ser o 1=user)
+    await UserRole.create({
+      userId: newUser.id,
+      roleId: 1,
+    });
 
     res.status(201).json({ message: 'Conta criada com sucesso' });
   } catch (error) {

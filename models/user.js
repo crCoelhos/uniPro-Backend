@@ -1,66 +1,60 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
-  
       this.belongsTo(models.Role, {
-        as:"role",
-        foreignKey:"roleId",
-      })
-
+        as: 'role',
+        foreignKey: 'roleId',
+      });
     }
   }
-  
-  User.init({
-    name: {
-      type:DataTypes.STRING,
-      allowNull: false
-    },
-    password: {
-      type:DataTypes.STRING,
-      allowNull: false
-    },
-    birthdate: {
-      type: DataTypes.DATEONLY,
-      allowNull: false,
-    },
-    email: {
-      type:DataTypes.STRING,
-      allowNull: false,
-      unique: true 
-    },
-    contact: {
-      type:DataTypes.STRING,
-      allowNull: false,
-      unique: true 
-    },
-    cpf: {
-      type:DataTypes.STRING,
-      allowNull: false,
-      unique: true 
-    },
-    roleId:{
-      type: DataTypes.INTEGER,
-      allowNull:false,
-      references: {
-        model: 'Role',
-        key: 'id',
-      },
-    }
-  }, {
-    sequelize,
-    modelName: 'User',
-    tableName: 'users'
 
-  });
+  User.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      birthdate: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      contact: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      cpf: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      roleId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Role',
+          key: 'id',
+        },
+      },
+    },
+    {
+      sequelize,
+      modelName: 'User',
+      tableName: 'users',
+    }
+  );
+
   return User;
 };

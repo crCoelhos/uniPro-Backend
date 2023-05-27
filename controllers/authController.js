@@ -2,16 +2,15 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
-const { Op, CIDR } = require('sequelize');
+const { Op } = require('sequelize');
 const db = require('../models');
 const User = db.User;
-const UserRole = db.UserRole;
 const Role = db.Role;
 
 async function signup(req, res) {
   try {
     // nome, email, senha, telefone, cpf, data de nascimento
-    const { name, email, password, contact, cpf, birthdate, roleId } = req.body;
+    const { name, email, password, contact, cpf, birthdate } = req.body;
 
     const [existingEmail, existingContact, existingCpf] = await Promise.all([
       User.findOne({where: { email:email }}),
@@ -33,15 +32,17 @@ async function signup(req, res) {
 
     // Criacao do usuario com a senha criptografada
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.create({
+    const newUser = new User({
       name,
       email,
       password: hashedPassword,
       contact,
       cpf,
       birthdate,
-      roleId,
+      roleId: 1, // RoleID auto_increment cargo 1 USER.
     });
+
+    await newUser.save();
 
     res.status(201).json({ message: 'Conta criada com sucesso' });
   } catch (error) {
@@ -63,7 +64,7 @@ async function login(req, res) {
       },
       include: [{
         model: Role,
-        as:'role',
+        as: 'role',
         attributes: ['name'] // Adicione os atributos que deseja retornar do Role
       }]
     });
@@ -81,12 +82,13 @@ async function login(req, res) {
 
     // Crie e retorne um token de acesso
     const token = jwt.sign({ id: user.id }, config.secret, { expiresIn: '1h' });
-    res.json({ name, role, token });
+    res.json({ name, role: role.name, token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao fazer login' });
   }
 }
+
 
 
 

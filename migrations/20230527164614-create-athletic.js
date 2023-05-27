@@ -13,12 +13,8 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull:false,
       },
-      college: {
-        type: Sequelize.STRING,
-        allowNull:false,
-      },
-      curse: {
-        type: Sequelize.STRING,
+      college_course: {
+        type:Sequelize.JSON,
         allowNull:false,
       },
       direction: {

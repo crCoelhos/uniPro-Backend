@@ -19,13 +19,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull:false,
 
     },
-    college: {
-      type:DataTypes.STRING,
-      allowNull:false,
-
-    },
-    curse: {
-      type:DataTypes.STRING,
+    college_course: {
+      type:DataTypes.JSON,
       allowNull:false,
 
     },

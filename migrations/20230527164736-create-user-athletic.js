@@ -1,7 +1,5 @@
 'use strict';
 
-const user = require('../models/user');
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -31,6 +29,7 @@ module.exports = {
       accepted:{
         allowNull: false,
         type: Sequelize.BOOLEAN,
+        autoIncrement: false,
       },
       createdAt: {
         allowNull: false,

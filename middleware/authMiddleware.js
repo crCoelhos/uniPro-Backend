@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 const db = require('../models');
 const User = db.User;
+const Role = db.Role;
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
-
 
 async function authMiddleware(req, res, next) {
   const authHeader = req.header('Authorization');
@@ -13,12 +13,29 @@ async function authMiddleware(req, res, next) {
   try {
     //decodifica o token do usuario que fez a requisição
     const decoded = jwt.verify(authHeader, config.secret);
+
     //procura o usuario na base
-    const user = await User.findByPk(decoded.id)
+    const user = await User.findByPk(decoded.id, {
+      include: [{
+        model: Role,
+        as: 'role',
+        attributes: ['name']
+      }],
+      attributes: { exclude: ['password'] }
+    });
     if (!user) {
       throw new Error();
     }
-    req.user = user;
+
+    const { name, role } = user;
+    const roleName = role.name;
+
+    //req.user = user;
+    req.user = {
+      name,
+      role: roleName,
+      token: decoded
+    };
 
     req.token = decoded;
     next();

@@ -1,18 +1,108 @@
-const Event = require("../models/event.js");
+const db = require('../models');
+const Event = db.Event;
 
-exports.createEvent = async (req, res) => {
+async function createEvent(req, res) {
     try {
-        // Verifica se o usuário logado possui a role "admin"
-        if (req.user.role !== 'Admin') {
-            return res.status(403).json({ message: 'Você não tem permissão para criar novos usuários.' });
-        }
-
-        // Criptografa a senha
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const event = await Event.create({  });
-        res.status(201).json(event);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+  
+      console.log(req.user);
+      
+      if (req.user.role !== 'ADMIN') {
+          return res.status(403).json({ message: 'Você não tem permissão para criar eventos.' });
+      }
+  
+      const { name, state, date, location, description } = req.body;
+  
+      const newEvent = await Event.create({
+        name,
+        state,
+        date,
+        location,
+        description,
+      });
+  
+      res.status(201).json({ event: newEvent });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Erro ao criar o evento' });
     }
+  }
+  
+
+async function getEvent(req, res) {
+  try {
+    const eventId = req.params.id;
+
+    const event = await Event.findByPk(eventId);
+
+    if (!event) {
+      return res.status(404).json({ error: 'Evento não encontrado' });
+    }
+
+    res.json({ event });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao obter o evento' });
+  }
+}
+
+async function updateEvent(req, res) {
+  try {
+
+    if (req.user.role !== 'ADMIN') {
+        return res.status(403).json({ message: 'Você não tem permissão editar evento.' });
+    }
+
+    const eventId = req.params.id;
+    const { name, state, date, location, description } = req.body;
+
+    const event = await Event.findByPk(eventId);
+
+    if (!event) {
+      return res.status(404).json({ error: 'Evento não encontrado' });
+    }
+
+    event.name = name;
+    event.state = state;
+    event.date = date;
+    event.location = location;
+    event.description = description;
+
+    await event.save();
+
+    res.json({ event });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao atualizar o evento' });
+  }
+}
+
+async function deleteEvent(req, res) {
+  try {
+
+    if (req.user.role.name !== 'ADMIN') {
+        return res.status(403).json({ message: 'Você não tem permissão para deletar eventos.' });
+    }
+
+    const eventId = req.params.id;
+
+    const event = await Event.findByPk(eventId);
+
+    if (!event) {
+      return res.status(404).json({ error: 'Evento não encontrado' });
+    }
+
+    await event.destroy();
+
+    res.json({ message: 'Evento excluído com sucesso' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao excluir o evento' });
+  }
+}
+
+module.exports = {
+  createEvent,
+  getEvent,
+  updateEvent,
+  deleteEvent,
 };

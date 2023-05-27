@@ -41,6 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     accepted:{
       allowNull: false,
       type: DataTypes.BOOLEAN,
+      autoIncrement: false,
     }
   }, {
     sequelize,

@@ -36,6 +36,14 @@ module.exports = {
         allowNull: false,
         unique: true 
       },
+      roleId:{
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'roles',
+          key: 'id'
+        },
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

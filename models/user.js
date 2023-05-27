@@ -11,12 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsToMany(models.Role, {
-        through: "UserRole",
+  
+      this.belongsTo(models.Role, {
         as:"role",
-        foreignKey:"userId",
-        onDelete: 'CASCADE'
+        foreignKey:"roleId",
       })
+
     }
   }
   
@@ -47,6 +47,14 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.STRING,
       allowNull: false,
       unique: true 
+    },
+    roleId:{
+      type: DataTypes.INTEGER,
+      allowNull:false,
+      references: {
+        model: 'Role',
+        key: 'id',
+      },
     }
   }, {
     sequelize,

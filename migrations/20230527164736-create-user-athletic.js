@@ -1,8 +1,11 @@
 'use strict';
+
+const user = require('../models/user');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('UserRole', {
+    await queryInterface.createTable('user_athletics', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -10,22 +13,24 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       userId: {
-        allowNull: false,
+        allowNull:false,
         type: Sequelize.INTEGER,
-        references: {
+        references:{
           model: 'users',
           key: 'id'
-        },
-        onDelete:'CASCADE'
+        }
       },
-      roleId: {
-        allowNull: false,
+      athleticId: {
+        allowNull:false,
         type: Sequelize.INTEGER,
-        references: {
-          model: 'roles',
+        references:{
+          model: 'athletics',
           key: 'id'
-        },
-        onDelete:'CASCADE'
+        }
+      },
+      accepted:{
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
@@ -38,6 +43,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('UserRoles');
+    await queryInterface.dropTable('user_athletics');
   }
 };

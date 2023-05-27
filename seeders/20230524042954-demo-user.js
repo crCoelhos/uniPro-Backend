@@ -11,6 +11,7 @@ module.exports = {
         birthdate: new Date(),
         contact: '9999999',
         cpf: '7777777777',
+        roleId: 3,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -21,6 +22,7 @@ module.exports = {
         birthdate: new Date(),
         contact: '9999998',
         cpf: '7777777776',
+        roleId: 3,
         createdAt: new Date(),
         updatedAt: new Date()
       }

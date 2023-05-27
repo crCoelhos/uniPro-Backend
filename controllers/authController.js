@@ -6,6 +6,7 @@ const { Op } = require('sequelize');
 const db = require('../models');
 const User = db.User;
 const UserRole = db.UserRole;
+const Role = db.Role;
 
 async function signup(req, res) {
   try {
@@ -60,10 +61,20 @@ async function login(req, res) {
     const { login, password } = req.body;
 
     const user = await User.findOne({
-      where:{[Op.or]: [
-        { email: login },
-        { cpf: login }
-      ]}
+      where: {
+        [Op.or]: [
+          { email: login },
+          { cpf: login }
+        ]
+      },
+      include: [{
+        model: UserRole,
+        attributes: ['userRole'], // Adicione os atributos que deseja retornar do UserRole
+        include: [{
+          model: Role,
+          attributes: ['name'] // Adicione os atributos que deseja retornar do Role
+        }]
+      }]
     });
 
     if (!user) {
@@ -75,14 +86,18 @@ async function login(req, res) {
       return res.status(400).json({ error: 'Usuário ou senha inválida' });
     }
 
+    // Extrair o nome e o userRole do usuário
+    const { name, userRole } = user;
+
     // Crie e retorne um token de acesso
     const token = jwt.sign({ id: user.id }, config.secret, { expiresIn: '1h' });
-    res.json({ token });
+    res.json({ name, userRole, token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao fazer login' });
   }
 }
+
 
 
 

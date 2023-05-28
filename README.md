@@ -10,14 +10,14 @@ Rotas usuario
 
 Models
 
-- [ ] Criacao User(Nome, email, senha, contato, cpf, nascimento)
-- [ ] Cricao Role(Cargo, descricao)
-- [ ] Criacao User_roles (user ObjectID: ref:User; role ObjectID: ref:role)
+- [x] Criacao User(Nome, email, senha, contato, cpf, nascimento)
+- [x] Cricao Role(Cargo, descricao)
+- [x] Criacao User_roles (user ObjectID: ref:User; role ObjectID: ref:role)
 
 ## Rota Admin
 
-- [ ] (PUT) modificar usuarios [cargos, dados]
-- [ ] (GET) todos usuarios
+- [x] (PUT) modificar usuarios [cargos, dados]
+- [x] (GET) todos usuarios
 
 16 anos pode participar mais sem alcool, abaixo de 16 precisa de termo assinado pelos pais (envio de foto do termo)? a pensar???
 
@@ -26,3 +26,6 @@ Models
 enviar por front todos os ingresso? ou quando abrir o evento mostrar os ingresso, caso tenha passado da data dizer que esgotou e caso tenha passado.
 
 npx sequelize-cli migration:generate --name (nome)
+
+- Criar as rotas de lot e ticket
+- Criar lot e ticket em pilha

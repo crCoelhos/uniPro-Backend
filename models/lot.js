@@ -5,7 +5,7 @@ module.exports = (sequelize) => {
     static associate(models) {
       this.belongsTo(models.Event, {
         foreignKey: 'eventId',
-        as: 'event',
+        as: 'event'
       });
     }
   }

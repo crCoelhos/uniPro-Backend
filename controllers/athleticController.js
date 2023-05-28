@@ -25,11 +25,13 @@ async function createAthletic(req, res) {
   }
 }
 
-// esconde os id usuarios da diretoria - pedente
 async function getAllAthletics(req, res) {
   try {
-
-    const athletics = await Athletic.findAll();
+    const athletics = await Athletic.findAll({
+      attributes: {
+        exclude: ['direction']
+      }
+    });
 
     res.json({ athletics });
   } catch (error) {
@@ -38,11 +40,15 @@ async function getAllAthletics(req, res) {
   }
 }
 
-// esconde os id usuarios da diretoria - pedente
 async function getAthleticByName(req, res) {
   try {
     const athleticName = req.params.name;
-    const athletic = await Athletic.findOne({ where: { name: athleticName } });
+    const athletic = await Athletic.findOne({
+      where: { name: athleticName },
+      attributes: {
+        exclude: ['direction']
+      }
+    });
 
     if (!athletic) {
       return res.status(404).json({ message: 'Atletica não encontrada' });
@@ -54,7 +60,6 @@ async function getAthleticByName(req, res) {
     res.status(500).json({ error: 'Erro ao obter a Atletica' });
   }
 }
-
 
 async function deleteAthletic(req, res) {
   try {

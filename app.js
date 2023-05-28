@@ -15,6 +15,10 @@ app.use("/admin", userRoute);
 app.use("/admin", roleRoute);
 app.use("/admin", eventController);
 
+
+const athleticRoutes = require('./routes/athleticRoutes.js')
+app.use(athleticRoutes);
+
 // somente iniciar os servicos ser conectar ao banco
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

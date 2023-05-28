@@ -29,7 +29,7 @@ module.exports = {
       accepted:{
         allowNull: false,
         type: Sequelize.BOOLEAN,
-        autoIncrement: false,
+        defaultValue: false,
       },
       createdAt: {
         allowNull: false,

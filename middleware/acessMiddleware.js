@@ -1,5 +1,6 @@
 // linha de seguranaca entre front-back
-const config = require('../config/secret');
+const env = process.env.NODE_ENV || 'development';
+const config = require(__dirname + '/../config/config.js')[env];
 
 async function accessMiddleware(req, res, next) {
   const accessHeader = req.header('Access');
@@ -9,6 +10,7 @@ async function accessMiddleware(req, res, next) {
   }
 
   try {
+    console.log(config.host)
     if (accessHeader !== config.access) {
       throw new Error('Token inválido');
     }

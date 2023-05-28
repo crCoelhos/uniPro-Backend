@@ -45,20 +45,15 @@ async function getEvent(req, res) {
   }
 }
 
-async function getEvent(req, res) {
+async function getAllEvent(req, res) {
   try {
-    const eventId = req.params.id;
 
-    const event = await Event.findByPk(eventId);
+    const events = await Event.findAll();
 
-    if (!event) {
-      return res.status(404).json({ error: 'Evento não encontrado' });
-    }
-
-    res.json({ event });
+    res.json(events);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Erro ao obter o evento' });
+    res.status(500).json({ error: 'Erro ao obter os eventos' });
   }
 }
 
@@ -130,6 +125,7 @@ async function deleteEvent(req, res) {
 module.exports = {
   createEvent,
   getEvent,
+  getAllEvent,
   updateEvent,
   deleteEvent,
 };

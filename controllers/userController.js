@@ -1,14 +1,15 @@
 const bcrypt = require('bcrypt');
 const db = require('../models');
 const Role = db.Role;
+const Lot = db.Lot;
 const User = db.User;
-
+const Ticket = db.Ticket;
 
 exports.createUser = async (req, res) => {
     try {
 
         if (req.user.role !== 'ADMIN') {
-            return res.status(403).json({ message: 'Você não tem permissão para criar eventos.' });
+            return res.status(403).json({ message: 'Você não tem permissão para criar usuários.' });
         }
     
         const { user } = req.body;
@@ -26,7 +27,7 @@ exports.createUser = async (req, res) => {
 exports.getAllUsers = async (req, res) => {
     try {
         if (req.user.role !== 'ADMIN') {
-            return res.status(403).json({ message: 'Você não tem permissão para criar eventos.' });
+            return res.status(403).json({ message: 'Você não tem permissão de busca de usuários.' });
         }
     
         const users = await User.findAll({
@@ -48,7 +49,7 @@ exports.getAllUsers = async (req, res) => {
 exports.getUserById = async (req, res) => {
     try {
         if (req.user.role !== 'ADMIN') {
-            return res.status(403).json({ message: 'Você não tem permissão para criar eventos.' });
+            return res.status(403).json({ message: 'Você não tem permissão de busca de usuário.' });
         }
     
         const { id } = req.params;
@@ -61,9 +62,19 @@ exports.getUserById = async (req, res) => {
                 model: Role,
                 as: 'role',
                 attributes:['name']
+            },
+            {
+                model: Ticket,
+                as: 'ticket',
+                attributes:['name'],
+                include:{
+                    model:Lot,
+                    as: 'lot',
+                    attributes:['name'],
+                }
             }],
             attributes: {
-                exclude: ['roleId'],
+                exclude: ['roleId', 'password'],
             }
         })
         res.status(200).json(user);
@@ -75,7 +86,7 @@ exports.getUserById = async (req, res) => {
 exports.updateUserById = async (req, res) => {
     try {
         if (req.user.role !== 'ADMIN') {
-            return res.status(403).json({ message: 'Você não tem permissão para criar eventos.' });
+            return res.status(403).json({ message: 'Você não tem permissão para editar usuário.' });
         }
     
         const id = req.params.id;
@@ -103,7 +114,7 @@ exports.updateUserById = async (req, res) => {
 exports.deleteUserById = async (req, res) => {
     try {
         if (req.user.role !== 'ADMIN') {
-            return res.status(403).json({ message: 'Você não tem permissão para criar eventos.' });
+            return res.status(403).json({ message: 'Você não tem permissão para deletar usuário.' });
         }
     
         const id = req.params.id;
@@ -111,12 +122,11 @@ exports.deleteUserById = async (req, res) => {
             res.json({ message: "Você não passou o id no paramentro" })
         }
         const user = await User.findByPk(id)
-        console.log(user)
         if (user) {
             await user.destroy()
-            res.status(204).json({ message: 'usuario excluído com sucesso' });
+            res.status(204).json({ message: 'Usuário excluído com sucesso' });
         } else {
-            res.status(404).json({ message: 'usuario não encontrado' });
+            res.status(404).json({ message: 'Usuário não encontrado' });
         }
     } catch (err) {
         res.status(500).json({ message: err.message });

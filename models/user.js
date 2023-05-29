@@ -8,6 +8,12 @@ module.exports = (sequelize, DataTypes) => {
         as: 'role',
         foreignKey: 'roleId',
       });
+      this.belongsToMany(models.Ticket,{
+        through:'user_tickets',
+        as: 'ticket',
+        foreignKey:'userId',
+        otherKey: 'ticketId'
+      })
     }
   }
 

@@ -7,6 +7,16 @@ module.exports = (sequelize) => {
         foreignKey: 'lotId',
         as: 'lot',
       });
+      this.belongsToMany(models.User,{
+        through:'user_tickets',
+        as: 'user',
+        foreignKey:'ticketId', 
+        otherKey: 'userId'
+      })
+      this.hasMany(models.User_ticket,{
+        foreignKey:'ticketId',
+        as:'User_ticket'
+      })
     }
   }
 
@@ -21,13 +31,27 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      amount: {
+      price: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false
+      },
+      sold:{
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue:false
+      },
+      inProcessing:{
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue:false
+      },
+      lotId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-      },
-      price: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
+        references:{
+          model:'lots',
+          key: 'id'
+        }
       },
     },
     {

@@ -1,10 +1,10 @@
 const db = require('../models');
 const Event = db.Event;
+const Lot = db.Lot;
 
 async function createEvent(req, res) {
   try {
 
-    console.log(req.user);
 
     if (req.user.role !== 'ADMIN') {
       return res.status(403).json({ message: 'Você não tem permissão para criar eventos.' });
@@ -32,7 +32,15 @@ async function getEvent(req, res) {
   try {
     const eventId = req.params.id;
 
-    const event = await Event.findByPk(eventId);
+    const event = await Event.findOne({
+      where:{
+        id:eventId
+      },
+      include:[{
+        model: Lot,
+        as: 'lot'
+      }]
+    });
 
     if (!event) {
       return res.status(404).json({ error: 'Evento não encontrado' });
@@ -48,7 +56,10 @@ async function getEvent(req, res) {
 async function getAllEvent(req, res) {
   try {
 
-    const events = await Event.findAll();
+    const events = await Event.findAll({include:[{
+      model: Lot,
+      as: 'lot'
+    }]});
 
     res.json(events);
   } catch (error) {
@@ -113,8 +124,8 @@ async function deleteEvent(req, res) {
       return res.status(404).json({ error: 'Evento não encontrado' });
     }
 
-    await event.destroy();
-
+    event.state = 0;
+    await event.save()
     res.json({ message: 'Evento excluído com sucesso' });
   } catch (error) {
     console.error(error);

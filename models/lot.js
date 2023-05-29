@@ -7,6 +7,10 @@ module.exports = (sequelize) => {
         foreignKey: 'eventId',
         as: 'event'
       });
+      this.hasMany(models.Ticket,{
+        foreignKey:'lotId',
+        as:'ticket'
+      })
     }
   }
 
@@ -24,6 +28,14 @@ module.exports = (sequelize) => {
         type: DataTypes.DATE,
         allowNull: false,
       },
+      eventId:{
+        type: DataTypes.INTEGER,
+        allowNull:false,
+        references:{
+          model: 'Event',
+          key: 'id'
+        }
+      }
     },
     {
       sequelize,

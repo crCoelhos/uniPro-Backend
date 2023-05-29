@@ -10,16 +10,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.hasMany(models.Lot,{
+        as: 'lot',
+        foreignKey:'eventId'
+      })
     }
   }
 
   Event.init(
     {
-      id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
       name: {
         type:DataTypes.STRING,
         allowNull:false

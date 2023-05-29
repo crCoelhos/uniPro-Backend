@@ -81,7 +81,7 @@ async function login(req, res) {
     const { name, role } = user;
 
     // Crie e retorne um token de acesso
-    const token = jwt.sign({ id: user.id }, config.secret, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id }, config.secret, { expiresIn: '6h' });
     res.json({ name, role: role.name, token });
   } catch (error) {
     console.error(error);

@@ -9,11 +9,15 @@ app.use(express.json());
 const authRoute = require('./routes/authRoutes.js')
 const userRoute = require('./routes/userRoutes.js')
 const roleRoute = require('./routes/roleRoutes.js')
-const eventController = require('./routes/eventRoutes.js')
+const eventRoute = require('./routes/eventRoutes.js')
+const lotRoute = require('./routes/lotRoutes.js')
+const ticketRoute = require('./routes/ticketRoutes.js')
 app.use("/auth", authRoute);
 app.use("/admin", userRoute);
 app.use("/admin", roleRoute);
-app.use("/admin", eventController);
+app.use("/admin", eventRoute);
+app.use("/admin", lotRoute);
+app.use("/admin", ticketRoute);
 
 // somente iniciar os servicos ser conectar ao banco
 const port = process.env.PORT || 3000;

@@ -10,7 +10,6 @@ async function accessMiddleware(req, res, next) {
   }
 
   try {
-    console.log(config.host)
     if (accessHeader !== config.access) {
       throw new Error('Token inválido');
     }

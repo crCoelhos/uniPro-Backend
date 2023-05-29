@@ -18,8 +18,8 @@ module.exports = {
         allowNull:false,
       },
       direction: {
-        type: Sequelize.JSON,
-        allowNull:true,
+        type: Sequelize.TEXT,
+        allowNull: true,
       },
       img_url: {
         type: Sequelize.STRING,

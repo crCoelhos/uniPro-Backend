@@ -29,3 +29,5 @@ npx sequelize-cli migration:generate --name (nome)
 
 - Criar as rotas de lot e ticket
 - Criar lot e ticket em pilha
+- associar o usuario ao ingresso ao enviar o token
+- criar atributo status em user_ticket com ENUM(processando, confirmado, cancelado), alterar o atributo de ticket sold para status como boolean

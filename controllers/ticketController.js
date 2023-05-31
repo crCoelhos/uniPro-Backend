@@ -17,10 +17,10 @@ exports.createTicket = async (req, res) => {
             return res.status(403).json({ message: 'Você não tem permissão para criar tickets.' });
         }
 
-        const { ticket } = req.body;
+        const ticket  = req.body;
 
 
-        const newTicket = new Ticket({ ticket });
+        const newTicket = await Ticket.create(ticket );
         res.status(201).json(newTicket);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -62,12 +62,12 @@ exports.getTicketById = async (req, res) => {
             include: [{
                 model: Lot,
                 as: 'lot',
-                attributes:['name']
+                attributes: ['name']
             },
             {
                 model: User,
                 as: 'user',
-                attributes:['name', 'cpf']
+                attributes: ['name', 'cpf']
             }],
             attributes: {
                 exclude: ['lotId', 'sold', 'inProcessing']
@@ -143,24 +143,34 @@ exports.processTicket = async (req, res) => {
 
         //procura o usuario na base
         const confirm = req.header('Confirm')
-        const ticket  = req.body
+        const ticket = req.body
         if (!confirm) {
             return res.status(400).json({ error: 'Processo inválido' });
         }
-        const [ isTicket, isUser ] = await Promise.all([
-            Ticket.findOne({
-                where: { id: ticket.id },
-                sold: false
+        const lotId = await Lot.findOne({where:{name:ticket.lot}})
+        const [isTicket, isUser] = await Promise.all([
+            Ticket.findAll({
+                // limit: 1,
+                where: {[Op.and]: [
+                    { [Op.and]:[{name: ticket.name} , { sold: false }]},                    
+                    // {lotId:lotId}
+                ]},
+                include:[{
+                    model: Lot,
+                    as:'lot'
+                }]
+                
             }),
             User.findByPk(decoded.id)
 
         ])
+        console.log(isTicket)
 
         if (!isTicket) {
             return res.status(400).json({ error: 'Ticket inválido' });
         }
-        isTicket.inProcessing = confirm
-        isTicket.save()
+        // isTicket.inProcessing = confirm
+        // isTicket.save()
         const token = jwt.sign({ ticketId: isTicket.id, userId: isUser.id }, config.secret, { expiresIn: '20m' });
         res.json({ token });
     } catch (err) {
@@ -182,7 +192,7 @@ exports.buyTicket = async (req, res) => {
 
         //decodifica o token do ticket que fez a requisição
         const decoded = jwt.verify(confirmHeader, config.secret);
-        const [ ticket, user ] = await Promise.all([
+        const [ticket, user] = await Promise.all([
             Ticket.findOne({
                 where: { id: decoded.ticketId },
                 sold: false,
@@ -195,7 +205,7 @@ exports.buyTicket = async (req, res) => {
         ticket.sold = true;
         ticket.save();
 
-        const user_ticket = await User_ticket.create({ userId: user.id, ticketId: ticket.id})
+        const user_ticket = await User_ticket.create({ userId: user.id, ticketId: ticket.id })
         res.status(201).json({ ticket, message: 'Compra realizada com sucesso' });
     } catch (err) {
         if (err.name === 'TokenExpiredError') {

@@ -8,7 +8,7 @@ router.post('/processticket', authMiddleware, processTicket);
 router.get('/buyticket', authMiddleware, buyTicket);
 router.get('/ticket/:id', getTicketById);
 router.get('/tickets', getAllTickets);
-router.put('/ticket/:id', authMiddleware, updateTicketById);
-router.delete('/ticket:id', authMiddleware, deleteTicketById);
+router.put('/ticket/:id', updateTicketById);
+router.delete('/ticket:id', deleteTicketById);
 
 module.exports = router;

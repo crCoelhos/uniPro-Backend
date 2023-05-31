@@ -15,9 +15,9 @@ const ticketRoute = require('./routes/ticketRoutes.js')
 app.use("/auth", authRoute);
 app.use("/admin", userRoute);
 app.use("/admin", roleRoute);
-app.use("/admin", eventRoute);
-app.use("/admin", lotRoute);
-app.use("/admin", ticketRoute);
+app.use("/", eventRoute);
+app.use("/", lotRoute);
+app.use("/", ticketRoute);
 
 
 const athleticRoutes = require('./routes/athleticRoutes.js')

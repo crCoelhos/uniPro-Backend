@@ -3,9 +3,9 @@ const { Model, DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   class Ticket extends Model {
     static associate(models) {
-      this.belongsTo(models.Lot, {
-        foreignKey: 'lotId',
-        as: 'lot',
+      this.belongsTo(models.Batch, {
+        foreignKey: 'batchId',
+        as: 'batch',
       });
       this.belongsToMany(models.User,{
         through:'user_tickets',
@@ -23,9 +23,11 @@ module.exports = (sequelize) => {
   Ticket.init(
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        allowNull: false,
+        unique: true,
         primaryKey: true,
-        autoIncrement: true,
       },
       name: {
         type: DataTypes.STRING,
@@ -35,21 +37,29 @@ module.exports = (sequelize) => {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false
       },
-      sold:{
+      status:{
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue:false
       },
+      // userId: {
+      //   type: DataTypes.INTEGER,
+      //   allowNull: true,
+      //   references:{
+      //     model:'users',
+      //     key: 'id'
+      //   }
+      // },
       inProcessing:{
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue:false
       },
-      lotId: {
+      batchId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references:{
-          model:'lots',
+          model:'batchs',
           key: 'id'
         }
       },

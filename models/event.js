@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.Lot,{
-        as: 'lot',
+      this.hasMany(models.Batch,{
+        as: 'batch',
         foreignKey:'eventId'
       })
     }

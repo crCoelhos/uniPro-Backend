@@ -1,20 +1,20 @@
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  class Lot extends Model {
+  class Batch extends Model {
     static associate(models) {
       this.belongsTo(models.Event, {
         foreignKey: 'eventId',
         as: 'event'
       });
       this.hasMany(models.Ticket,{
-        foreignKey:'lotId',
+        foreignKey:'batchId',
         as:'ticket'
       })
     }
   }
 
-  Lot.init(
+  Batch.init(
     {
       name: {
         type: DataTypes.STRING,
@@ -39,10 +39,10 @@ module.exports = (sequelize) => {
     },
     {
       sequelize,
-      modelName: 'Lot',
-      tableName: 'Lots',
+      modelName: 'Batch',
+      tableName: 'Batchs',
     }
   );
 
-  return Lot;
+  return Batch;
 };

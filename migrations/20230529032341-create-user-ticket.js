@@ -18,13 +18,15 @@ module.exports = {
         allowNull:false
       },
       ticketId: {
-        unique:true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references:{
           model: 'tickets',
           key: 'id'
         },
         allowNull:false
+      },
+      status:{
+        type: Sequelize.ENUM('cancelado', 'confirmado','processando')
       },
       createdAt: {
         allowNull: false,

@@ -1,32 +1,32 @@
 const db = require('../models');
 const { Op } = require('sequelize');
-const Lot = db.Lot;
+const Batch = db.Batch;
 const Event = db.Event;
 const Ticket = db.Ticket;
 
 
-exports.createLot = async (req, res) => {
+exports.createBatch = async (req, res) => {
     try {
 
         if (req.user.role !== 'ADMIN') {
-            return res.status(403).json({ message: 'Você não tem permissão para criar lots.' });
+            return res.status(403).json({ message: 'Você não tem permissão para criar batchs.' });
         }
 
-        const { lot } = req.body;
+        const  batch  = req.body;
 
 
-        const newLot = new Lot({ lot });
-        res.status(201).json(newLot);
+        const newbatch = new Batch( batch );
+        res.status(201).json(newbatch);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 }
 
 
-exports.getAllLots = async (req, res) => {
+exports.getAllBatchs = async (req, res) => {
     try {
 
-        const lots = await Lot.findAll({
+        const batchs = await Batch.findAll({
             include: [{
                 model: Event,
                 as: 'event',
@@ -36,20 +36,20 @@ exports.getAllLots = async (req, res) => {
             }
         });
         
-        res.status(200).json(lots);
+        res.status(200).json(batchs);
     } catch (err) {
 
         res.status(500).json({ message: err.message });
     }
 }
-exports.getLotById = async (req, res) => {
+exports.getBatchById = async (req, res) => {
     try {
 
         const { id } = req.params;
         if (!id) {
             res.json({ message: "Você não passou o id no paramentro" })
         }
-        const lot = await Lot.findOne({
+        const batch = await Batch.findOne({
             where: { id: id },
             include: [{
                 model: Event,
@@ -61,23 +61,23 @@ exports.getLotById = async (req, res) => {
         })
         const [ticketsOpen, ticketsTotal] = await Promise.all([
             Ticket.count({where:{
-                lotId:lot.id,
+                batchId:batch.id,
                 [Op.and]: {sold: false}
             }}),
-            lot.countTicket()
+            batch.countTicket()
           ]);
          
         
-        res.status(200).json({lot, ticketsTotal, ticketsOpen});
+        res.status(200).json({batch, ticketsTotal, ticketsOpen});
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 }
 
-exports.updateLotById = async (req, res) => {
+exports.updateBatchById = async (req, res) => {
     try {
         if (req.user.role !== 'ADMIN') {
-            return res.status(403).json({ message: 'Você não tem permissão editar lot.' });
+            return res.status(403).json({ message: 'Você não tem permissão editar batch.' });
         }
 
         const id = req.params.id;
@@ -85,14 +85,14 @@ exports.updateLotById = async (req, res) => {
             res.json({ message: "Você não passou o id no paramentro" })
         }
 
-        const lotUpdate = await Lot.findByPk(id)
-        if (!lotUpdate) {
+        const batchUpdate = await Batch.findByPk(id)
+        if (!batchUpdate) {
             res.json({ message: 'Usuário não encontrado' })
 
         }
-        const lot = req.body;
+        const batch = req.body;
 
-        await Lot.update(lot, {
+        await Batch.update(batch, {
             where: { id: id }
         });
         return res.status(200).json({ message: "Usuário atualizado" });
@@ -102,22 +102,22 @@ exports.updateLotById = async (req, res) => {
     }
 }
 
-exports.deleteLotById = async (req, res) => {
+exports.deleteBatchById = async (req, res) => {
     try {
         if (req.user.role !== 'ADMIN') {
-            return res.status(403).json({ message: 'Você não tem permissão para deletar lots.' });
+            return res.status(403).json({ message: 'Você não tem permissão para deletar batchs.' });
         }
 
         const id = req.params.id;
         if (!id) {
             res.json({ message: "Você não passou o id no paramentro" })
         }
-        const lot = await Lot.findByPk(id)
-        if (lot) {
-            await lot.destroy()
-            res.status(204).json({ message: 'Lot excluído com sucesso' });
+        const batch = await Batch.findByPk(id)
+        if (batch) {
+            await batch.destroy()
+            res.status(204).json({ message: 'Batch excluído com sucesso' });
         } else {
-            res.status(404).json({ message: 'Lot não encontrado' });
+            res.status(404).json({ message: 'Batch não encontrado' });
         }
     } catch (err) {
         res.status(500).json({ message: err.message });

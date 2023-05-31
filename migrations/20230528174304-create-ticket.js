@@ -5,10 +5,11 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('Tickets', {
       id: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         allowNull: false,
-        type: Sequelize.INTEGER,        
+        unique: true,
         primaryKey: true,
-        autoIncrement: true,
       },
       name: {
         type: Sequelize.STRING,
@@ -18,7 +19,7 @@ module.exports = {
         type: Sequelize.DECIMAL(10, 2),
         allowNull: false
       },
-      sold:{
+      status:{
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue:false
@@ -28,11 +29,19 @@ module.exports = {
         allowNull: false,
         defaultValue:false
       },
-      lotId: {
+      // userId: {
+      //   type: Sequelize.INTEGER,
+      //   allowNull: true,
+      //   references:{
+      //     model:'users',
+      //     key: 'id'
+      //   }
+      // },
+      batchId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references:{
-          model:'lots',
+          model:'batchs',
           key: 'id'
         }
       },

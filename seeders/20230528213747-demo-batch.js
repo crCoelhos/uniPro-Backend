@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Lots', [
+    return queryInterface.bulkInsert('Batchs', [
       {
         name: '1º Lote',
         startDate: '2023-10-07',
@@ -55,6 +55,6 @@ module.exports = {
     ]);
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Lots', null, {});
+    return queryInterface.bulkDelete('Batchs', null, {});
   }
 };

@@ -1,6 +1,6 @@
 const db = require('../models');
 const Event = db.Event;
-const Lot = db.Lot;
+const Batch = db.Batch;
 
 async function createEvent(req, res) {
   try {
@@ -37,8 +37,8 @@ async function getEvent(req, res) {
         id:eventId
       },
       include:[{
-        model: Lot,
-        as: 'lot'
+        model: Batch,
+        as: 'batch'
       }]
     });
 
@@ -57,8 +57,8 @@ async function getAllEvent(req, res) {
   try {
 
     const events = await Event.findAll({include:[{
-      model: Lot,
-      as: 'lot'
+      model: Batch,
+      as: 'batch'
     }]});
 
     res.json(events);

@@ -7,54 +7,54 @@ module.exports = {
       {
         name: 'Noob',
         price: 105,
-        sold: false,
+        status: true,
         inProcessing: false,
-        lotId: 1,
+        batchId: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         name: 'Casual',
         price: 130,
-        sold: false,
+        status: true,
         inProcessing: false,
-        lotId: 1,
+        batchId: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         name: 'Pro',
         price: 155,
-        sold: false,
+        status: true,
         inProcessing: false,
-        lotId: 1,
+        batchId: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         name: 'Noob',
         price: 115,
-        sold: false,
+        status: true,
         inProcessing: false,
-        lotId: 2,
+        batchId: 2,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         name: 'Casual',
         price: 140,
-        sold: false,
+        status: true,
         inProcessing: false,
-        lotId: 2,
+        batchId: 2,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         name: 'Pro',
         price: 165,
-        sold: false,
+        status: true,
         inProcessing: false,
-        lotId: 2,
+        batchId: 2,
         createdAt: new Date(),
         updatedAt: new Date()
       }

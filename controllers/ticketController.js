@@ -5,7 +5,7 @@ const db = require('../models');
 const { Op } = require('sequelize');
 const user_ticket = require('../models/user_ticket');
 const Ticket = db.Ticket;
-const Lot = db.Lot;
+const Batch = db.Batch;
 const User = db.User;
 const User_ticket = db.User_ticket;
 
@@ -16,12 +16,14 @@ exports.createTicket = async (req, res) => {
         if (req.user.role !== 'ADMIN') {
             return res.status(403).json({ message: 'Você não tem permissão para criar tickets.' });
         }
+        const tickets = []
+        const { ticket, quantidade}  = req.body;
+        for( let i =0; i < quantidade; i++){
+            let newTicket = await Ticket.create(ticket );
+            tickets.push(newTicket)
+        }
 
-        const ticket  = req.body;
-
-
-        const newTicket = await Ticket.create(ticket );
-        res.status(201).json(newTicket);
+        res.status(201).json(tickets);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -33,13 +35,13 @@ exports.getAllTickets = async (req, res) => {
 
         const tickets = await Ticket.findAll({
             include: [{
-                model: Lot,
-                as: 'lot',
+                model: Batch,
+                as: 'batch',
             }],
             attributes: {
                 exclude: [
-                    'lotId',
-                    'sold',
+                    'batchId',
+                    'status',
                     'inProcessing'
                 ],
             }
@@ -60,8 +62,8 @@ exports.getTicketById = async (req, res) => {
         const ticket = await Ticket.findOne({
             where: { id: id },
             include: [{
-                model: Lot,
-                as: 'lot',
+                model: Batch,
+                as: 'batch',
                 attributes: ['name']
             },
             {
@@ -70,7 +72,7 @@ exports.getTicketById = async (req, res) => {
                 attributes: ['name', 'cpf']
             }],
             attributes: {
-                exclude: ['lotId', 'sold', 'inProcessing']
+                exclude: ['batchId', 'sold', 'inProcessing']
             }
         })
 
@@ -141,23 +143,17 @@ exports.processTicket = async (req, res) => {
     try {
         const decoded = jwt.verify(authHeader, config.secret);
 
-        //procura o usuario na base
-        const confirm = req.header('Confirm')
         const ticket = req.body
-        if (!confirm) {
-            return res.status(400).json({ error: 'Processo inválido' });
-        }
-        const lotId = await Lot.findOne({where:{name:ticket.lot}})
+       
+        const batchId = await Batch.findOne({where:{name:ticket.batch}})
         const [isTicket, isUser] = await Promise.all([
             Ticket.findAll({
-                // limit: 1,
                 where: {[Op.and]: [
-                    { [Op.and]:[{name: ticket.name} , { sold: false }]},                    
-                    // {lotId:lotId}
+                    {name: ticket.name} , { status: true }              
                 ]},
                 include:[{
-                    model: Lot,
-                    as:'lot'
+                    model: Batch,
+                    as:'batch'
                 }]
                 
             }),

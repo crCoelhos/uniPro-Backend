@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const db = require('../models');
 const Role = db.Role;
-const Lot = db.Lot;
+const Batch = db.Batch;
 const User = db.User;
 const Ticket = db.Ticket;
 
@@ -68,8 +68,8 @@ exports.getUserById = async (req, res) => {
                 as: 'ticket',
                 attributes:['name'],
                 include:{
-                    model:Lot,
-                    as: 'lot',
+                    model:Batch,
+                    as: 'batch',
                     attributes:['name'],
                 }
             }],

@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     ticketId: {
       unique:true,
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
       references: {
         model: 'tickets',
         key: 'id'

@@ -10,7 +10,7 @@ const Role = db.Role;
 async function signup(req, res) {
   try {
     // nome, email, senha, telefone, cpf, data de nascimento
-    const { name, email, password, contact, cpf, birthdate } = req.body;
+    const { name, email, password, contact, cpf, birthdate, sex } = req.body;
 
     const [existingEmail, existingContact, existingCpf] = await Promise.all([
       User.findOne({where: { email:email }}),
@@ -39,6 +39,7 @@ async function signup(req, res) {
       contact,
       cpf,
       birthdate,
+      sex,
       roleId: 1, // RoleID auto_increment cargo 1 USER.
     });
 

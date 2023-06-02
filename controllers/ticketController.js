@@ -142,7 +142,7 @@ exports.processTicket = async (req, res) => {
         if (qtTickets == category.quantity) {
             return res.status(301).json('Acabou os ingressos desse lote.');
         }
-        const isUser_ticket = User_ticket.findOne({where:{
+        const isUser_ticket = await User_ticket.findOne({where:{
             userId:user.id,
             status: 'processando'
             // so para teste, em produção é 'status:"confimado"'
@@ -162,7 +162,7 @@ exports.processTicket = async (req, res) => {
 
         const user_ticket = await User_ticket.create({ userId: user.id, ticketId:ticket.id, status: 'processando'})
 
-        res.json({message: "Continuar compra"});
+        res.json({user_ticket, message: "Continuar compra"});
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

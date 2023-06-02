@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware.js')
-const { createTicket, updateTicketById, deleteTicketById, getTicketById, getAllTickets, processTicket, buyTicket} = require('../controllers/ticketController.js');
+const { createTicket, updateTicketById, deleteTicketById, getTicketById, getAllTickets, buyTicket} = require('../controllers/ticketController.js');
+const { processTicket } = require('../controllers/paymentController.js')
 
 router.post('/ticket', authMiddleware, createTicket);
 router.post('/processticket', authMiddleware, processTicket);

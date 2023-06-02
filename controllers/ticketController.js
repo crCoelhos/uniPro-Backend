@@ -121,52 +121,52 @@ exports.deleteTicketById = async (req, res) => {
     }
 }
 
+// Transferido para o payment controller
+// exports.processTicket = async (req, res) => {
 
-exports.processTicket = async (req, res) => {
+//     const authHeader = req.header('Authorization');
+//     if (!authHeader) {
+//         return res.status(401).json('Acesso negado. Token não fornecido.');
+//     }
 
-    const authHeader = req.header('Authorization');
-    if (!authHeader) {
-        return res.status(401).json('Acesso negado. Token não fornecido.');
-    }
+//     try {
+//         const decoded = jwt.verify(authHeader, config.secret);
 
-    try {
-        const decoded = jwt.verify(authHeader, config.secret);
+//         const categoryId = req.body
+//         const [category, user] = await Promise.all([
+//             Category.findByPk(categoryId.id),
+//             User.findByPk(decoded.id)
 
-        const categoryId = req.body
-        const [category, user] = await Promise.all([
-            Category.findByPk(categoryId.id),
-            User.findByPk(decoded.id)
-
-        ])
-        const qtTickets = await Ticket.count()
-        if (qtTickets == category.quantity) {
-            return res.status(301).json('Acabou os ingressos desse lote.');
-        }
-        const isUser_ticket = User_ticket.findOne({where:{
-            userId:user.id,
-            status: 'processando'
-            // so para teste, em produção é 'status:"confimado"'
-        }})
-        console.log(isUser_ticket)
-        if(isUser_ticket){
-            return res.status(301).json(`${user.name} já possui ingresso`);
-        }
+//         ])
+//         const qtTickets = await Ticket.count()
+//         if (qtTickets == category.quantity) {
+//             return res.status(301).json('Acabou os ingressos desse lote.');
+//         }
+//         const isUser_ticket = await User_ticket.findOne({where:{
+//             userId:user.id,
+//             status: 'processando'
+//             // so para teste, em produção é 'status:"confimado"'
+//         }})
+//         console.log(isUser_ticket)
+//         if(isUser_ticket){
+//             return res.status(301).json(`${user.name} já possui ingresso`);
+//         }
         
-        const ticket = await Ticket.create({
-            name: category.name,
-            price: category.price,
-            startDate: category.startDate,
-            finishDate: category.finishDate,
-            eventId: category.eventId,
-        })
+//         const ticket = await Ticket.create({
+//             name: category.name,
+//             price: category.price,
+//             startDate: category.startDate,
+//             finishDate: category.finishDate,
+//             eventId: category.eventId,
+//         })
 
-        const user_ticket = await User_ticket.create({ userId: user.id, ticketId:ticket.id, status: 'processando'})
+//         const user_ticket = await User_ticket.create({ userId: user.id, ticketId:ticket.id, status: 'processando'})
 
-        res.json({message: "Continuar compra"});
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-}
+//         res.json({message: "Continuar compra"});
+//     } catch (err) {
+//         res.status(500).json({ message: err.message });
+//     }
+// }
 
 exports.buyTicket = async (req, res) => {
     const authHeader = req.header('Authorization');

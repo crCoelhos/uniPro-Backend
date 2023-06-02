@@ -56,10 +56,7 @@ async function getEvent(req, res) {
 async function getAllEvent(req, res) {
   try {
 
-    const events = await Event.findAll({include:[{
-      model: Batch,
-      as: 'batch'
-    }]});
+    const events = await Event.findAll();
 
     res.json(events);
   } catch (error) {

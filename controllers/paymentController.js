@@ -32,8 +32,7 @@ async function processTicket(req, res) {
     const isUser_ticket = await User_ticket.findOne({
       where: {
         userId: user.id,
-        status: 'processando'
-        // so para teste, em produção é 'status:"confirmado"'
+        status: 'confirmado'
       }
     });
 

@@ -137,20 +137,7 @@ exports.deleteTicketById = async (req, res) => {
 //             Category.findByPk(categoryId.id),
 //             User.findByPk(decoded.id)
 
-//         ])
-//         const qtTickets = await Ticket.count()
-//         if (qtTickets == category.quantity) {
-//             return res.status(301).json('Acabou os ingressos desse lote.');
-//         }
-//         const isUser_ticket = await User_ticket.findOne({where:{
-//             userId:user.id,
-//             status: 'processando'
-//             // so para teste, em produção é 'status:"confimado"'
-//         }})
-//         console.log(isUser_ticket)
-//         if(isUser_ticket){
-//             return res.status(301).json(`${user.name} já possui ingresso`);
-//         }
+
         
 //         const ticket = await Ticket.create({
 //             name: category.name,
@@ -162,11 +149,7 @@ exports.deleteTicketById = async (req, res) => {
 
 //         const user_ticket = await User_ticket.create({ userId: user.id, ticketId:ticket.id, status: 'processando'})
 
-//         res.json({message: "Continuar compra"});
-//     } catch (err) {
-//         res.status(500).json({ message: err.message });
-//     }
-// }
+
 
 exports.buyTicket = async (req, res) => {
     const authHeader = req.header('Authorization');

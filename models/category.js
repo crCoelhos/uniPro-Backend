@@ -1,24 +1,35 @@
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  class Batch extends Model {
+  class Category extends Model {
     static associate(models) {
       this.belongsTo(models.Event, {
         foreignKey: 'eventId',
-        as: 'event'
+        as: 'event',
       });
-      this.hasMany(models.Ticket,{
-        foreignKey:'batchId',
-        as:'ticket'
-      })
     }
   }
 
-  Batch.init(
+  Category.init(
     {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        allowNull: false,
+        unique: true,
+        primaryKey: true,
+      },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      price: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false
+      },
+      quantity: {
+        type: DataTypes.INTEGER,
+        allowNull: false
       },
       startDate: {
         type: DataTypes.DATE,
@@ -35,14 +46,14 @@ module.exports = (sequelize) => {
           model: 'Event',
           key: 'id'
         }
-      }
+      },
     },
     {
       sequelize,
-      modelName: 'Batch',
-      tableName: 'Batchs',
+      modelName: 'Category',
+      tableName: 'Categorys',
     }
   );
 
-  return Batch;
+  return Category;
 };

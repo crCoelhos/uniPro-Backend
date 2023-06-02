@@ -4,10 +4,11 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('User_tickets', {
       id: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         allowNull: false,
-        autoIncrement: true,
+        unique: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
       },
       userId: {
         type: Sequelize.INTEGER,
@@ -26,7 +27,8 @@ module.exports = {
         allowNull:false
       },
       status:{
-        type: Sequelize.ENUM('cancelado', 'confirmado','processando')
+        type: Sequelize.ENUM('cancelado', 'confirmado','processando', 'aguardando', 'expirado'),
+      allowNull:false
       },
       createdAt: {
         allowNull: false,

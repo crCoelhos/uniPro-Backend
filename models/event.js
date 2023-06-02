@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.hasMany(models.Batch,{
-        as: 'batch',
+      this.hasMany(models.Ticket,{
+        as: 'ticket',
         foreignKey:'eventId'
       })
     }
@@ -36,6 +36,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      // quantity:{
+      //   type:DataTypes.INTEGER,
+      //   allowNull:false
+      // },
       description: {
         type: DataTypes.STRING,
         allowNull: true,

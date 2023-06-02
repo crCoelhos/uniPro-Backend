@@ -19,29 +19,19 @@ module.exports = {
         type: Sequelize.DECIMAL(10, 2),
         allowNull: false
       },
-      status:{
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue:false
+      startDate: {
+        type: Sequelize.DATE,
+        allowNull: false
       },
-      inProcessing:{
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue:false
+      finishDate: {
+        type: Sequelize.DATE,
+        allowNull: false
       },
-      // userId: {
-      //   type: Sequelize.INTEGER,
-      //   allowNull: true,
-      //   references:{
-      //     model:'users',
-      //     key: 'id'
-      //   }
-      // },
-      batchId: {
+      eventId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references:{
-          model:'batchs',
+          model:'events',
           key: 'id'
         }
       },

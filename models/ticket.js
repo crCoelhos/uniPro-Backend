@@ -3,16 +3,16 @@ const { Model, DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   class Ticket extends Model {
     static associate(models) {
-      this.belongsTo(models.Batch, {
-        foreignKey: 'batchId',
-        as: 'batch',
+      this.belongsTo(models.Event, {
+        foreignKey: 'eventId',
+        as: 'event',
       });
-      this.belongsToMany(models.User,{
-        through:'user_tickets',
-        as: 'user',
-        foreignKey:'ticketId', 
-        otherKey: 'userId'
-      })
+      // this.belongsToMany(models.User,{
+      //   through:'user_tickets',
+      //   as: 'user',
+      //   foreignKey:'ticketId', 
+      //   otherKey: 'userId'
+      // })
       this.hasMany(models.User_ticket,{
         foreignKey:'ticketId',
         as:'User_ticket'
@@ -37,29 +37,19 @@ module.exports = (sequelize) => {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false
       },
-      status:{
-        type: DataTypes.BOOLEAN,
+      startDate: {
+        type: DataTypes.DATE,
         allowNull: false,
-        defaultValue:false
       },
-      // userId: {
-      //   type: DataTypes.INTEGER,
-      //   allowNull: true,
-      //   references:{
-      //     model:'users',
-      //     key: 'id'
-      //   }
-      // },
-      inProcessing:{
-        type: DataTypes.BOOLEAN,
+      finishDate: {
+        type: DataTypes.DATE,
         allowNull: false,
-        defaultValue:false
       },
-      batchId: {
+      eventId:{
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull:false,
         references:{
-          model:'batchs',
+          model: 'Event',
           key: 'id'
         }
       },

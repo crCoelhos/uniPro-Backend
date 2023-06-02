@@ -5,7 +5,7 @@ const authRoute = require('./authRoutes');
 const userRoute = require('./userRoutes');
 const roleRoute = require('./roleRoutes');
 const eventRoute = require('./eventRoutes');
-const batchRoute = require('./batchRoutes');
+const categoryRoute = require('./categoryRoutes');
 const ticketRoute = require('./ticketRoutes');
 const athleticRoutes = require('./athleticRoutes.js')
 
@@ -13,7 +13,7 @@ router.use('/auth', authRoute);
 router.use('/admin', userRoute);
 router.use('/admin', roleRoute);
 router.use('/admin', eventRoute);
-router.use('/admin', batchRoute);
+router.use('/admin', categoryRoute);
 router.use('/admin', ticketRoute);
 router.use(athleticRoutes);
 

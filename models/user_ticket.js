@@ -15,13 +15,24 @@ module.exports = (sequelize, DataTypes) => {
       //   as: 'user',
       //   foreignKey: 'userId'
       // })
-      // this.hasOne(models.Ticket,{
-      //   as: 'ticket',
-      //   foreignKey: 'ticketId'
-      // })
+      this.belongsTo(models.Ticket,{
+        as: 'ticket',
+        foreignKey: 'ticketId'
+      })
+      this.belongsTo(models.User,{
+        as: 'user',
+        foreignKey: 'userId'
+      })
     }
   }
   User_ticket.init({
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+      unique: true,
+      primaryKey: true,
+    },
     userId: {
       type: DataTypes.INTEGER,
       references: {
@@ -38,6 +49,10 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       },
       allowNull: false
+    },
+    status:{
+      type: DataTypes.ENUM('cancelado', 'confirmado','processando', 'aguardando', 'expirado'),
+      allowNull:false
     },
   }, {
     sequelize,

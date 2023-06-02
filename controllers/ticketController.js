@@ -3,9 +3,9 @@ const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
 const db = require('../models');
 const { Op } = require('sequelize');
-const user_ticket = require('../models/user_ticket');
 const Ticket = db.Ticket;
-const Batch = db.Batch;
+const Category = db.Category;
+const Event = db.Event;
 const User = db.User;
 const User_ticket = db.User_ticket;
 
@@ -16,14 +16,10 @@ exports.createTicket = async (req, res) => {
         if (req.user.role !== 'ADMIN') {
             return res.status(403).json({ message: 'Você não tem permissão para criar tickets.' });
         }
-        const tickets = []
-        const { ticket, quantidade}  = req.body;
-        for( let i =0; i < quantidade; i++){
-            let newTicket = await Ticket.create(ticket );
-            tickets.push(newTicket)
-        }
+        const ticket = req.body;
+        let newTicket = await Ticket.create(ticket);
 
-        res.status(201).json(tickets);
+        res.status(201).json(newTicket);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -35,16 +31,9 @@ exports.getAllTickets = async (req, res) => {
 
         const tickets = await Ticket.findAll({
             include: [{
-                model: Batch,
-                as: 'batch',
+                model: Event,
+                as: 'event',
             }],
-            attributes: {
-                exclude: [
-                    'batchId',
-                    'status',
-                    'inProcessing'
-                ],
-            }
         });
         res.status(200).json(tickets);
     } catch (err) {
@@ -62,8 +51,8 @@ exports.getTicketById = async (req, res) => {
         const ticket = await Ticket.findOne({
             where: { id: id },
             include: [{
-                model: Batch,
-                as: 'batch',
+                model: Event,
+                as: 'event',
                 attributes: ['name']
             },
             {
@@ -72,7 +61,7 @@ exports.getTicketById = async (req, res) => {
                 attributes: ['name', 'cpf']
             }],
             attributes: {
-                exclude: ['batchId', 'sold', 'inProcessing']
+                exclude: ['eventId']
             }
         })
 
@@ -143,66 +132,57 @@ exports.processTicket = async (req, res) => {
     try {
         const decoded = jwt.verify(authHeader, config.secret);
 
-        const ticket = req.body
-       
-        const batchId = await Batch.findOne({where:{name:ticket.batch}})
-        const [isTicket, isUser] = await Promise.all([
-            Ticket.findAll({
-                where: {[Op.and]: [
-                    {name: ticket.name} , { status: true }              
-                ]},
-                include:[{
-                    model: Batch,
-                    as:'batch'
-                }]
-                
-            }),
+        const categoryId = req.body
+        const [category, user] = await Promise.all([
+            Category.findByPk(categoryId.id),
             User.findByPk(decoded.id)
 
         ])
-        console.log(isTicket)
-
-        if (!isTicket) {
-            return res.status(400).json({ error: 'Ticket inválido' });
+        const qtTickets = await Ticket.count()
+        if (qtTickets == category.quantity) {
+            return res.status(301).json('Acabou os ingressos desse lote.');
         }
-        // isTicket.inProcessing = confirm
-        // isTicket.save()
-        const token = jwt.sign({ ticketId: isTicket.id, userId: isUser.id }, config.secret, { expiresIn: '20m' });
-        res.json({ token });
+        const isUser_ticket = User_ticket.findOne({where:{
+            userId:user.id,
+            status: 'processando'
+            // so para teste, em produção é 'status:"confimado"'
+        }})
+        console.log(isUser_ticket)
+        if(isUser_ticket){
+            return res.status(301).json(`${user.name} já possui ingresso`);
+        }
+        
+        const ticket = await Ticket.create({
+            name: category.name,
+            price: category.price,
+            startDate: category.startDate,
+            finishDate: category.finishDate,
+            eventId: category.eventId,
+        })
+
+        const user_ticket = await User_ticket.create({ userId: user.id, ticketId:ticket.id, status: 'processando'})
+
+        res.json({message: "Continuar compra"});
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
 }
 
 exports.buyTicket = async (req, res) => {
-    // const confirmBuy  = req.body;
-    // if(!confirmBuy){
-    //     return res.status(400).json({ error: 'Compra não confirmada' });
-    // }
-
-    const confirmHeader = req.header('Confirm');
-    if (!confirmHeader) {
+    const authHeader = req.header('Authorization');
+    if (!authHeader) {
         return res.status(401).json('Acesso negado. Token não fornecido.');
     }
+
     try {
+        const decoded = jwt.verify(authHeader, config.secret);
 
-        //decodifica o token do ticket que fez a requisição
-        const decoded = jwt.verify(confirmHeader, config.secret);
-        const [ticket, user] = await Promise.all([
-            Ticket.findOne({
-                where: { id: decoded.ticketId },
-                sold: false,
-                inProcessing: true
-            }),
-            User.findByPk(decoded.userId)
-
+        console.log(req.body)
+        const [user] = await Promise.all([
+            User.findByPk(decoded.id)
         ])
 
-        ticket.sold = true;
-        ticket.save();
-
-        const user_ticket = await User_ticket.create({ userId: user.id, ticketId: ticket.id })
-        res.status(201).json({ ticket, message: 'Compra realizada com sucesso' });
+        res.status(201).json({ message: 'Compra realizada com sucesso' });
     } catch (err) {
         if (err.name === 'TokenExpiredError') {
             return res.status(401).json({ error: 'Sua sessão expirou. Por favor, inicie a compra novamente.' });

@@ -10,7 +10,7 @@ const User = db.User;
 const User_ticket = db.User_ticket;
 
 
-exports.createTicket = async (req, res) => {
+async function createTicket(req, res) {
     try {
 
         if (req.user.role !== 'ADMIN') {
@@ -26,7 +26,7 @@ exports.createTicket = async (req, res) => {
 }
 
 
-exports.getAllTickets = async (req, res) => {
+async function getAllTickets(req, res) {
     try {
 
         const tickets = await Ticket.findAll({
@@ -41,7 +41,7 @@ exports.getAllTickets = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 }
-exports.getTicketById = async (req, res) => {
+async function getTicketById(req, res) {
     try {
 
         const { id } = req.params;
@@ -71,7 +71,7 @@ exports.getTicketById = async (req, res) => {
     }
 }
 
-exports.updateTicketById = async (req, res) => {
+async function updateTicketById(req, res) {
     try {
         if (req.user.role !== 'ADMIN') {
             return res.status(403).json({ message: 'Você não tem permissão editar ticket.' });
@@ -99,7 +99,7 @@ exports.updateTicketById = async (req, res) => {
     }
 }
 
-exports.deleteTicketById = async (req, res) => {
+async function deleteTicketById(req, res) {
     try {
         if (req.user.role !== 'ADMIN') {
             return res.status(403).json({ message: 'Você não tem permissão para deletar tickets.' });
@@ -121,37 +121,8 @@ exports.deleteTicketById = async (req, res) => {
     }
 }
 
-// Transferido para o payment controller
-// exports.processTicket = async (req, res) => {
 
-//     const authHeader = req.header('Authorization');
-//     if (!authHeader) {
-//         return res.status(401).json('Acesso negado. Token não fornecido.');
-//     }
-
-//     try {
-//         const decoded = jwt.verify(authHeader, config.secret);
-
-//         const categoryId = req.body
-//         const [category, user] = await Promise.all([
-//             Category.findByPk(categoryId.id),
-//             User.findByPk(decoded.id)
-
-
-        
-//         const ticket = await Ticket.create({
-//             name: category.name,
-//             price: category.price,
-//             startDate: category.startDate,
-//             finishDate: category.finishDate,
-//             eventId: category.eventId,
-//         })
-
-//         const user_ticket = await User_ticket.create({ userId: user.id, ticketId:ticket.id, status: 'processando'})
-
-
-
-exports.buyTicket = async (req, res) => {
+async function buyTicket(req, res) {
     const authHeader = req.header('Authorization');
     if (!authHeader) {
         return res.status(401).json('Acesso negado. Token não fornecido.');
@@ -174,3 +145,12 @@ exports.buyTicket = async (req, res) => {
     }
 }
 
+
+module.exports = {
+    createTicket,
+    getAllTickets,
+    getTicketById,
+    updateTicketById,
+    deleteTicketById,
+    buyTicket
+}

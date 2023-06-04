@@ -109,7 +109,7 @@ async function updateEvent(req, res) {
 async function deleteEvent(req, res) {
   try {
 
-    if (req.user.role.name !== 'ADMIN') {
+    if (req.user.role !== 'ADMIN') {
       return res.status(403).json({ message: 'Você não tem permissão para deletar eventos.' });
     }
 

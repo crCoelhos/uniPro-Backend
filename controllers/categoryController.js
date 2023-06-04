@@ -7,11 +7,11 @@ const Category = db.Category;
 const Event = db.Event;
 
 
-exports.createCategory = async (req, res) => {
+async function createCategory(req, res) {
     try {
 
         if (req.user.role !== 'ADMIN') {
-            return res.status(403).json({ message: 'Você não tem permissão para criar categorys.' });
+            return res.status(403).json({ message: 'Você não tem permissão para criar categories.' });
         }
         const category = req.body;
         let newCategory = await Category.create(category);
@@ -23,10 +23,10 @@ exports.createCategory = async (req, res) => {
 }
 
 
-exports.getAllCategorys = async (req, res) => {
+async function getAllCategories(req, res) {
     try {
 
-        const categorys = await Category.findAll({
+        const categories = await Category.findAll({
             include: [{
                 model: Event,
                 as: 'event',
@@ -38,13 +38,13 @@ exports.getAllCategorys = async (req, res) => {
                 ],
             }
         });
-        res.status(200).json(categorys);
+        res.status(200).json(categories);
     } catch (err) {
 
         res.status(500).json({ message: err.message });
     }
 }
-exports.getCategoryById = async (req, res) => {
+async function getCategoryById(req, res) {
     try {
 
         const { id } = req.params;
@@ -69,7 +69,7 @@ exports.getCategoryById = async (req, res) => {
     }
 }
 
-exports.updateCategoryById = async (req, res) => {
+async function updateCategoryById(req, res) {
     try {
         if (req.user.role !== 'ADMIN') {
             return res.status(403).json({ message: 'Você não tem permissão editar category.' });
@@ -97,10 +97,10 @@ exports.updateCategoryById = async (req, res) => {
     }
 }
 
-exports.deleteCategoryById = async (req, res) => {
+async function deleteCategoryById(req, res) {
     try {
         if (req.user.role !== 'ADMIN') {
-            return res.status(403).json({ message: 'Você não tem permissão para deletar categorys.' });
+            return res.status(403).json({ message: 'Você não tem permissão para deletar categories.' });
         }
 
         const id = req.params.id;
@@ -119,3 +119,10 @@ exports.deleteCategoryById = async (req, res) => {
     }
 }
 
+module.exports = {
+    createCategory,
+    getAllCategories,
+    getCategoryById,
+    updateCategoryById,
+    deleteCategoryById
+}

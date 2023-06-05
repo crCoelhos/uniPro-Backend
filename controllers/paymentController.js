@@ -9,7 +9,7 @@ const config = require(__dirname + '/../config/config.js')[env];
 const stripe = require('stripe')(process.env.STRIPE);
 
 
-async function processTicket(req, res) {
+async function bookTicket(req, res) {
   try {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
@@ -51,28 +51,6 @@ async function processTicket(req, res) {
 
     const userTicket = await User_ticket.create({ userId: user.id, ticketId: ticket.id, status: 'processando' });
 
-    // Criacao da sessao de pagamento com o stripe
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [
-        {
-          price_data: {
-            currency: 'brl',
-            unit_amount: category.price * 100, // Converter para centavos
-            product_data: {
-              name: category.name,
-            },
-          },
-          quantity: 1,
-        },
-      ],
-      mode: 'payment',
-      success_url: 'http://localhost:3000/success',
-      cancel_url: 'http://localhost:3000/cancel',
-    });
-
-    await User_ticket.update({ status: 'aguardando' }, { where: { id: userTicket.id } });
-
     res.json({ sessionId: session.id })
   } catch (error) {
     console.error(error);
@@ -81,5 +59,5 @@ async function processTicket(req, res) {
 }
 
 module.exports = {
-  processTicket
+  bookTicket
 };

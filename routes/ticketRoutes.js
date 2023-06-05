@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware.js')
 const { createTicket, updateTicketById, deleteTicketById, getTicketById, getAllTickets, buyTicket} = require('../controllers/ticketController.js');
-const { processTicket } = require('../controllers/paymentController.js')
+const { bookTicket } = require('../controllers/paymentController.js')
 
 router.post('/ticket', authMiddleware, createTicket);
-router.post('/processticket', authMiddleware, processTicket);
+router.post('/processticket', authMiddleware, bookTicket);
 router.get('/buyticket', authMiddleware, buyTicket);
 router.get('/ticket/:id', getTicketById);
 router.get('/tickets', getAllTickets);

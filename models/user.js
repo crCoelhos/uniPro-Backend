@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       sex: {
-        type: DataTypes.ENUM('F',"M"),
+        type: DataTypes.ENUM("F","M"),
         allowNull: false,
       },
       email: {

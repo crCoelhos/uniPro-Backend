@@ -6,8 +6,6 @@ const User_ticket = db.User_ticket;
 const jwt = require('jsonwebtoken');
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
-const stripe = require('stripe')(process.env.STRIPE);
-
 
 async function bookTicket(req, res) {
   try {

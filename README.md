@@ -30,3 +30,4 @@ npx sequelize-cli migration:generate --name (nome)
 - upload da imagem do documento do usuário;
 - upload da imagem do evento;
 - upload da imagem da atlética;
+- quando for fazer imagem do documento, faz imagem do evento também

@@ -5,11 +5,11 @@ const { createTicket, updateTicketById, deleteTicketById, getTicketById, getAllT
 const { bookTicket } = require('../controllers/paymentController.js')
 
 router.post('/ticket', authMiddleware, createTicket);
-router.post('/processticket', authMiddleware, bookTicket);
+router.post('/bookticket', authMiddleware, bookTicket);
 router.get('/buyticket', authMiddleware, buyTicket);
 router.get('/ticket/:id', getTicketById);
 router.get('/tickets', getAllTickets);
 router.put('/ticket/:id', updateTicketById);
-router.delete('/ticket:id', deleteTicketById);
+router.delete('/ticket/:id', deleteTicketById);
 
 module.exports = router;

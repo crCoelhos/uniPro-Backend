@@ -27,7 +27,7 @@ enviar por front todos os ingresso? ou quando abrir o evento mostrar os ingresso
 
 npx sequelize-cli migration:generate --name (nome)
 
-- Criar as rotas de lot e ticket
-- Criar lot e ticket em pilha
-- associar o usuario ao ingresso ao enviar o token
-- criar atributo status em user_ticket com ENUM(processando, confirmado, cancelado), alterar o atributo de ticket sold para status como boolean
+- upload da imagem do documento do usuário;
+- upload da imagem do evento;
+- upload da imagem da atlética;
+- quando for fazer imagem do documento, faz imagem do evento também

@@ -11,8 +11,8 @@ module.exports = {
     host: process.env.DB_HOST,
     access: process.env.ACCESS_TOKEN,
     mercadopago: {
-      access_token: process.env.PAYMENT_KEY,
-      integrator_id: process.env.PAYMENT_TOKEN
+      access_token: process.env.PAYMENT_TOKEN,
+      integrator_id: process.env.PAYMENT_KEY
     },
     dialect: 'mysql',
   },
@@ -24,8 +24,8 @@ module.exports = {
     host: process.env.DB_HOST,
     access: process.env.ACCESS_TOKEN,
     mercadopago: {
-      access_token: process.env.PAYMENT_KEY,
-      integrator_id: process.env.PAYMENT_TOKEN
+      access_token: process.env.PAYMENT_TOKEN,
+      integrator_id: process.env.PAYMENT_KEY
     },
     dialect: 'mysql',
   },
@@ -38,8 +38,8 @@ module.exports = {
     access: process.env.ACCESS_TOKEN,
     dialect: 'mysql',
     mercadopago: {
-      access_token: process.env.PAYMENT_KEY,
-      integrator_id: process.env.PAYMENT_TOKEN
+      access_token: process.env.PAYMENT_TOKEN,
+      integrator_id: process.env.PAYMENT_KEY
     },
     dialectOptions: {
       ssl: {

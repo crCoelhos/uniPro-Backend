@@ -4,12 +4,12 @@ const Category = db.Category;
 const User = db.User;
 const User_ticket = db.User_ticket;
 const mercadopago = require('mercadopago');
+const MercadopagoService = require('../services/mercadopagoService');
+const Order = require('../models/order');
 const jwt = require('jsonwebtoken');
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
 
-// Configurar o token de acesso do Mercado Pago
-mercadopago.configurations.setAccessToken(config.mercadopago.access_token);
 
 // levar por ticket controller (necessario)
 async function bookTicket(req, res) {
@@ -61,7 +61,8 @@ async function bookTicket(req, res) {
   }
 }
 
-async function ProcessPayment(req, res) {
+// necessario alteracoes, fazer ser por pix ou cartao.
+async function Pay(req, res) {
   try {
     const { body } = req;
     const { payer } = body;
@@ -71,53 +72,43 @@ async function ProcessPayment(req, res) {
     if (!Number.isInteger(body.transactionAmount)) {
       throw new Error("Invalid transaction amount");
     }
+    const {
+      token,
+      payment_method_id,
+      transaction_amount,
+      description,
+      installments,
+      email,
+    } = req.body;
 
-    if (!body.token) {
-      throw new Error("Missing token");
+    const mercadopago = new MercadopagoService();
+    const { status, ...rest } = await mercadopago.execute({
+      token,
+      payment_method_id,
+      transaction_amount,
+      description,
+      installments,
+      email
+    });
+
+    if (status !== 201) {
+      throw new Error('Falha de pagamento!');
     }
 
-    // Create the payment data
-    const paymentData = {
-      transaction_amount: body.transactionAmount,
-      token: body.token,
-      description: body.description,
-      installments: body.installments,
-      payment_method_id: body.paymentMethodId,
-      issuer_id: body.issuerId,
-      payer: {
-        email: payer.email,
-        identification: {
-          type: payer.identification.docType,
-          number: payer.identification.docNumber
-        }
-      }
-    };
+    const data = await Order.create(rest);
 
-    // Call the Mercadopago API
-    const response = await mercadopago.payment.save(paymentData);
-    const { response: data } = response;
-
-    // Check the status of the payment
-    if (data.status === "approved") {
-      res.status(201).json({
-        detail: data.status_detail,
-        status: data.status,
-        id: data.id
-      });
-    } else {
-      res.status(400).json({
-        error_message: data.status_detail
-      });
+    if (!data) {
+      throw new Error('Falha ao salvar no banco!');
     }
+
+    res.status(200).json({ status: 200, body: data });
   } catch (error) {
     console.log(error);
-    res.status(500).json({
-      error_message: error.message
-    });
+    res.status(500).json({ error: 'Internal server error' });
   }
 }
 
 module.exports = {
   bookTicket,
-  ProcessPayment
+  Pay
 };

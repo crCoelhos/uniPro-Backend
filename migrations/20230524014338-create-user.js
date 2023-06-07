@@ -40,6 +40,14 @@ module.exports = {
         allowNull: false,
         unique: true 
       },
+      photo:{
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      document:{
+        type: Sequelize.STRING,
+        allowNull: true
+      },
       roleId:{
         allowNull: false,
         type: Sequelize.INTEGER,

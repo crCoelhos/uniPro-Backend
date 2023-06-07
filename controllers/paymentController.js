@@ -65,7 +65,8 @@ async function ProcessPayment(req, res) {
   try {
     const { body } = req;
     const { payer } = body;
-
+    console.log(payer)
+    console.log(body)
     // Validate the input data
     if (!Number.isInteger(body.transactionAmount)) {
       throw new Error("Invalid transaction amount");

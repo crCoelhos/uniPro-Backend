@@ -50,6 +50,14 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true,
       },
+      photo:{
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      document:{
+        type: DataTypes.STRING,
+        allowNull: true
+      },
       roleId: {
         type: DataTypes.INTEGER,
         allowNull: false,

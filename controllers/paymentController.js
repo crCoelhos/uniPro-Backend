@@ -4,7 +4,8 @@ const Category = db.Category;
 const User = db.User;
 const User_ticket = db.User_ticket;
 const mercadopago = require('mercadopago');
-const MercadopagoService = require('../services/mercadopagoService');
+const MercadopagoService = require('../services/payment/mercadopagoService');
+const CartaoService = require('../services/payment/cartaoService');
 const Order = require('../models/order');
 const jwt = require('jsonwebtoken');
 const env = process.env.NODE_ENV || 'development';
@@ -65,12 +66,13 @@ async function bookTicket(req, res) {
 async function Pay(req, res) {
   try {
     const { body } = req;
-    const { payer } = body;
+    const { payer, paymentMethod } = body;
 
-    // Validate the input data
-    if (!Number.isInteger(body.transactionAmount)) {
-      throw new Error("Invalid transaction amount");
-    }
+    console.log(body.transaction_amount);
+
+    if (!body.transaction_amount) {
+      throw new Error("Valor inválido");
+    }    
     const {
       token,
       payment_method_id,
@@ -80,8 +82,17 @@ async function Pay(req, res) {
       email,
     } = req.body;
 
-    const mercadopago = new MercadopagoService();
-    const { status, ...rest } = await mercadopago.execute({
+    let paymentService;
+    
+    if (paymentMethod === 'pix') {
+      paymentService = new PixService();
+    } else if (paymentMethod === 'cartao') {
+      paymentService = new CartaoService();
+    } else {
+      throw new Error('Metodo de pagamento invalido');
+    }
+
+    const { status, ...rest } = await paymentService.execute({
       token,
       payment_method_id,
       transaction_amount,
@@ -106,6 +117,7 @@ async function Pay(req, res) {
     res.status(500).json({ error: 'Internal server error' });
   }
 }
+
 
 module.exports = {
   bookTicket,

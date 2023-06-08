@@ -1,20 +1,18 @@
 const mercadopago = require('mercadopago');
 const process = require('process');
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.js')[env];
+const config = require(__dirname + '/../../config/config.js')[env];
 
-class MercadopagoService {
+class CartaoService {
   async execute({
     transaction_amount,
     token,
     description,
     installments,
-    payment_method_id,
+    paymentMethodId,
     email
   }) {
     mercadopago.configurations.setAccessToken(config.mercadopago.access_token);
-
-    //console.log('Access Token:', config.mercadopago.access_token);
 
     return await mercadopago.payment
       .save({
@@ -22,7 +20,7 @@ class MercadopagoService {
         token,
         description,
         installments,
-        payment_method_id,
+        payment_method_id: paymentMethodId,
         payer: { email }
       })
       .then(async (data) => {
@@ -43,4 +41,4 @@ class MercadopagoService {
   }
 }
 
-module.exports = MercadopagoService;
+module.exports = CartaoService;

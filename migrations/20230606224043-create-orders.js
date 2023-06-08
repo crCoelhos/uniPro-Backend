@@ -18,13 +18,17 @@ module.exports = {
       },
       first_six_digits: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       last_four_digits: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       display_name: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      payment_method: {
         type: Sequelize.STRING,
         allowNull: false,
       },

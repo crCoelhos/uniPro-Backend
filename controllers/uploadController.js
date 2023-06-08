@@ -1,5 +1,6 @@
 const upload = require('../services/multer');
 const db = require('../models');
+const Athletic = db.Athletic
 const Event = db.Event;
 const User = db.User;
 async function uploadUserPhoto(req, res) {
@@ -36,7 +37,7 @@ async function uploadEventPhoto(req, res) {
 
     const event = await Event.findByPk(req.params.id);
     if (!event) {
-      return res.status(404).json({ message: 'Usuário não encontrado' });
+      return res.status(404).json({ message: 'Evento não encontrado' });
     }
 
     upload.single('event')(req, res, (err) => {
@@ -53,9 +54,32 @@ async function uploadEventPhoto(req, res) {
     res.status(500).json({ message: err.message });
   }
 }
+async function uploadAthleticPhoto(req, res) {
+  try {
+
+    const athletic = await Athletic.findByPk(req.params.id);
+    if (!athletic) {
+      return res.status(404).json({ message: 'Atlética não encontrada' });
+    }
+
+    upload.single('athletic')(req, res, (err) => {
+
+      if (err) {
+        return res.status(400).json({ message: err.message });
+      }
+      athletic.img_url = req.file.filename;
+      athletic.save();
+
+      return res.status(200).json({ message: 'Foto da atlética atualizada' });
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
 
 module.exports = {
   uploadUserPhoto,
-  uploadEventPhoto
+  uploadEventPhoto,
+  uploadAthleticPhoto
 }
 

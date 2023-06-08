@@ -3,6 +3,7 @@ const path = require('path');
 const db = require('../models');
 const User = db.User;
 const Event = db.Event
+const Athletic = db.Athletic
 
 // Define as opções de armazenamento
 const storage = multer.diskStorage({
@@ -12,6 +13,8 @@ const storage = multer.diskStorage({
       cb(null, 'uploads/users');
     if (file.fieldname == "event")
       cb(null, 'uploads/events');
+    if (file.fieldname == "athletic")
+      cb(null, 'uploads/athletics');
   },
   // Define o nome do arquivo
   filename: async (req, file, cb) => {
@@ -34,6 +37,17 @@ const storage = multer.diskStorage({
         cb(null, filename);
 
       }
+    }
+    if (file.fieldname == "athletic") {
+      const athletic = await Athletic.findOne({
+        where: { id: req.params.id },
+        attributes:['name']
+      })
+      const name = athletic.name.replace(" ", "")
+      const ext = path.extname(file.originalname);
+      const filename = name + ext;
+      cb(null, filename);
+
     }
     if (file.fieldname == "event") {
       const event = await Event.findOne({

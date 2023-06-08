@@ -1,6 +1,6 @@
 const db = require('../models');
 const Event = db.Event;
-const Batch = db.Batch;
+const Category = db.Category;
 
 async function createEvent(req, res) {
   try {
@@ -22,7 +22,7 @@ async function createEvent(req, res) {
 }
 
 
-async function getEvent(req, res) {
+async function getEventById(req, res) {
   try {
     const eventId = req.params.id;
 
@@ -30,6 +30,10 @@ async function getEvent(req, res) {
       where:{
         id:eventId
       },
+      include:[{
+        model:Category,
+        as: 'category'
+      }]
     });
 
     if (!event) {
@@ -122,7 +126,7 @@ async function deleteEvent(req, res) {
 
 module.exports = {
   createEvent,
-  getEvent,
+  getEventById,
   getAllEvent,
   updateEvent,
   deleteEvent,

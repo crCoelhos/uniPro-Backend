@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
         as: 'ticket',
         foreignKey:'eventId'
       })
+      this.hasMany(models.Category,{
+        as: 'category',
+        foreignKey:'eventId'
+      })
     }
   }
 

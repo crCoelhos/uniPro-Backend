@@ -36,10 +36,6 @@ async function getEvent(req, res) {
       where:{
         id:eventId
       },
-      include:[{
-        model: Batch,
-        as: 'batch'
-      }]
     });
 
     if (!event) {

@@ -26,9 +26,17 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      policy:{
+        type: Sequelize.TEXT,
+        allowNull:false
+      },
       description: {
         type: Sequelize.STRING,
         allowNull: false
+      },
+      bannerEvent:{
+        type: Sequelize.STRING,
+        allowNull: true
       },
       createdAt: {
         allowNull: false,

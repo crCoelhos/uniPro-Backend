@@ -36,13 +36,17 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      // quantity:{
-      //   type:DataTypes.INTEGER,
-      //   allowNull:false
-      // },
+      policy:{
+        type:DataTypes.TEXT,
+        allowNull:false
+      },
       description: {
         type: DataTypes.STRING,
         allowNull: true,
+      },
+      bannerEvent:{
+        type: DataTypes.STRING,
+        allowNull: true
       },
     },
     {

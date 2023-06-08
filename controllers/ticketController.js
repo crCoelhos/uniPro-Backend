@@ -1,13 +1,11 @@
 const jwt = require('jsonwebtoken');
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
-const db = require('../models');
 const { Op } = require('sequelize');
+const db = require('../models');
 const Ticket = db.Ticket;
-const Category = db.Category;
 const Event = db.Event;
 const User = db.User;
-const User_ticket = db.User_ticket;
 
 
 async function createTicket(req, res) {

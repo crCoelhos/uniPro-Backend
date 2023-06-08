@@ -64,6 +64,13 @@ async function bookTicket(req, res) {
 // necessario alteracoes, fazer ser por pix ou cartao.
 async function Pay(req, res) {
   try {
+    const { body } = req;
+    const { payer } = body;
+
+    // Validate the input data
+    if (!Number.isInteger(body.transactionAmount)) {
+      throw new Error("Invalid transaction amount");
+    }
     const {
       token,
       payment_method_id,

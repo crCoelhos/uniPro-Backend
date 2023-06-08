@@ -10,15 +10,9 @@ async function createEvent(req, res) {
       return res.status(403).json({ message: 'Você não tem permissão para criar eventos.' });
     }
 
-    const { name, state, date, location, description } = req.body;
+    const event = req.body;
 
-    const newEvent = await Event.create({
-      name,
-      state,
-      date,
-      location,
-      description,
-    });
+    const newEvent = await Event.create(event);
 
     res.status(201).json({ event: newEvent });
   } catch (error) {

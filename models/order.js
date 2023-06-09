@@ -24,13 +24,18 @@ module.exports = (sequelize, DataTypes) => {
       },
       first_six_digits: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       last_four_digits: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       display_name: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      // PIX, ou Cartao
+      payment_method: {
         type: DataTypes.STRING,
         allowNull: false,
       },

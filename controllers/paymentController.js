@@ -5,9 +5,7 @@ const Category = db.Category;
 const User = db.User;
 const User_ticket = db.User_ticket;
 const mercadopago = require('mercadopago');
-const MercadopagoService = require('../services/payment/mercadopagoService');
-const CartaoService = require('../services/payment/cartaoService');
-const Order = require('../models/order');
+
 const jwt = require('jsonwebtoken');
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
@@ -81,59 +79,40 @@ async function bookTicket(req, res) {
 // necessario alteracoes, fazer ser por pix ou cartao.
 async function Pay(req, res) {
   try {
+    mercadopago.configurations.setAccessToken(config.mercadopago.access_token);
+
     const { body } = req;
-    const { payer, paymentMethod } = body;
+    const { payer } = body;
+    const paymentData = {
+      transaction_amount: Number(body.transaction_amount),
+      token: body.token,
+      description: body.description,
+      installments: Number(body.installments),
+      payment_method_id: body.paymentMethodId,
+      issuer_id: body.issuerId,
+      payer: {
+        email: payer.email,
+        identification: {
+          type: payer.identification.docType,
+          number: payer.identification.docNumber
+        }
+      }
+    };
 
-    console.log(body.transaction_amount);
+    const response = await mercadopago.payment.save(paymentData);
+    const { response: data } = response;
 
-    if (!body.transaction_amount) {
-      throw new Error("Valor inválido");
-    }    
-    const {
-      token,
-      payment_method_id,
-      transaction_amount,
-      description,
-      installments,
-      email,
-    } = req.body;
-
-    let paymentService;
-    
-    if (paymentMethod === 'pix') {
-      paymentService = new PixService();
-    } else if (paymentMethod === 'cartao') {
-      paymentService = new CartaoService();
-    } else {
-      throw new Error('Metodo de pagamento invalido');
-    }
-
-    const { status, ...rest } = await paymentService.execute({
-      token,
-      payment_method_id,
-      transaction_amount,
-      description,
-      installments,
-      email
+    res.status(201).json({
+      detail: data.status_detail,
+      status: data.status,
+      id: data.id
     });
-
-    if (status !== 201) {
-      throw new Error('Falha de pagamento!');
-    }
-
-    const data = await Order.create(rest);
-
-    if (!data) {
-      throw new Error('Falha ao salvar no banco!');
-    }
-
-    res.status(200).json({ status: 200, body: data });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: 'Internal server error' });
+    const { errorMessage, errorStatus } = validateError(error);
+    res.status(errorStatus).json({ error_message: errorMessage });
   }
 }
-
 
 module.exports = {
   bookTicket,

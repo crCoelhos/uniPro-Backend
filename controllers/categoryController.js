@@ -14,7 +14,7 @@ async function createCategory(req, res) {
             return res.status(403).json({ message: 'Você não tem permissão para criar categories.' });
         }
         const category = req.body;
-        let newCategory = await Category.create(category);
+        const newCategory = await Category.create(category);
 
         res.status(201).json(newCategory);
     } catch (err) {

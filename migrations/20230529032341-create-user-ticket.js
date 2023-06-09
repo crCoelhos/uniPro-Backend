@@ -26,7 +26,15 @@ module.exports = {
         },
         allowNull:false
       },
-      status:{
+      eventId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'events',
+          key: 'id'
+        },
+        allowNull: false
+      },
+      state:{
         type: Sequelize.ENUM('cancelado', 'confirmado','processando', 'aguardando', 'expirado'),
       allowNull:false
       },

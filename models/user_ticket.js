@@ -42,7 +42,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     ticketId: {
-      unique:true,
       type: DataTypes.UUID,
       references: {
         model: 'tickets',
@@ -50,7 +49,15 @@ module.exports = (sequelize, DataTypes) => {
       },
       allowNull: false
     },
-    status:{
+    eventId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Event',
+        key: 'id'
+      },
+      allowNull: false
+    },
+    state:{
       type: DataTypes.ENUM('processando', 'aguardando', 'confirmado', 'cancelado', 'expirado'),
       allowNull:false
     },

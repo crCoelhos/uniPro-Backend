@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const db = require('../models');
 const Ticket = db.Ticket;
 const Category = db.Category;
@@ -26,24 +27,39 @@ async function bookTicket(req, res) {
       Category.findByPk(categoryId.id),
       User.findByPk(decoded.id)
     ]);
-
-    const qtTickets = await Ticket.count()
-    if (qtTickets == category.quantity) {
+    const qtTickets = await User_ticket.findAll({
+      where: {
+        state:{
+          [Op.or]: [
+           'confirmado',
+           'aguardando',
+           'processando',
+          ]
+        }
+      }
+    })
+    if (qtTickets.length == category.quantity) {
       return res.status(301).json('Acabou os ingressos desse lote.');
     }
-
+    //Verificação se o usuario ja possui processo de compra de ingresso
     const isUser_ticket = await User_ticket.findOne({
       where: {
         userId: user.id,
-        status: 'confirmado'
+        state: {
+          [Op.or]: [
+           'confirmado',
+           'aguardando',
+          //  'processando',
+          ]
+        },
+        eventId: category.eventId
       }
     });
-
-    //console.log(isUser_ticket)
+    // se o usuario ja possui processo em andamento ou confirmado a compra ele nao pode comprar mais daquele evento
     if (isUser_ticket) {
       return res.status(301).json(`${user.name} já possui ingresso`);
     }
-
+    //Criação do ingresso
     const ticket = await Ticket.create({
       name: category.name,
       price: category.price,
@@ -51,10 +67,10 @@ async function bookTicket(req, res) {
       finishDate: category.finishDate,
       eventId: category.eventId,
     });
+    //associação do ingresso com o usuario
+    const userTicket = await User_ticket.create({ userId: user.id, ticketId: ticket.id, eventId: category.eventId, state: 'processando' });
 
-    const userTicket = await User_ticket.create({ userId: user.id, ticketId: ticket.id, status: 'processando' });
-
-    res.json({ sessionId: session.id })
+    res.json( userTicket )
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao inicia o processo de comprar' });

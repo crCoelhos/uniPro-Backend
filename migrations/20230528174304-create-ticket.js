@@ -5,7 +5,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable('Tickets', {
       id: {
-        type: Sequelize.UUIDV4,
+        type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
         allowNull: false,
         unique: true,

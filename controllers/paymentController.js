@@ -88,7 +88,7 @@ async function Pay(req, res) {
       token: body.token,
       description: body.description,
       installments: Number(body.installments),
-      payment_method_id: body.paymentMethodId,
+      payment_method_id: body.payment_method_id,
       issuer_id: body.issuerId,
       payer: {
         email: payer.email,
@@ -101,11 +101,11 @@ async function Pay(req, res) {
 
     const response = await mercadopago.payment.save(paymentData);
     const { response: data } = response;
-
+    
     res.status(201).json({
-      detail: data.status_detail,
-      status: data.status,
-      id: data.id
+      pay_status_detail: data.status_detail,
+      pay_status: data.status,
+      pay_id: data.id
     });
   } catch (error) {
     console.log(error);

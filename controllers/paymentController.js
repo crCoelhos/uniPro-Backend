@@ -28,11 +28,11 @@ async function bookTicket(req, res) {
     ]);
     const qtTickets = await User_ticket.findAll({
       where: {
-        state:{
+        state: {
           [Op.or]: [
-           'confirmado',
-           'aguardando',
-           'processando',
+            'confirmado',
+            'aguardando',
+            'processando',
           ]
         }
       }
@@ -46,9 +46,9 @@ async function bookTicket(req, res) {
         userId: user.id,
         state: {
           [Op.or]: [
-           'confirmado',
-           'aguardando',
-          //  'processando',
+            'confirmado',
+            'aguardando',
+            //  'processando',
           ]
         },
         eventId: category.eventId
@@ -69,7 +69,7 @@ async function bookTicket(req, res) {
     //associação do ingresso com o usuario
     const userTicket = await User_ticket.create({ userId: user.id, ticketId: ticket.id, eventId: category.eventId, state: 'processando' });
 
-    res.json( userTicket )
+    res.json(userTicket)
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao inicia o processo de comprar' });
@@ -83,33 +83,75 @@ async function Pay(req, res) {
 
     const { body } = req;
     const { payer } = body;
-    const paymentData = {
-      transaction_amount: Number(body.transaction_amount),
-      token: body.token,
-      description: body.description,
-      installments: Number(body.installments),
-      payment_method_id: body.payment_method_id,
-      issuer_id: body.issuerId,
-      payer: {
-        email: payer.email,
-        identification: {
-          type: payer.identification.docType,
-          number: payer.identification.docNumber
-        }
-      }
-    };
-
-    const response = await mercadopago.payment.save(paymentData);
-    const { response: data } = response;
     
-    res.status(201).json({
-      pay_status_detail: data.status_detail,
-      pay_status: data.status,
-      pay_id: data.id
-    });
+    var paymentData = {}
+    if (body.payment_method_id === 'pix') {
+      paymentData = {
+        transaction_amount: body.transaction_amount,
+        description: body.description,
+        payment_method_id: body.payment_method_id,
+        payer: {
+          email: payer.email,
+          first_name: payer.first_name,
+          last_name: payer.last_name,
+          identification: {
+            type: payer.identification.type,
+            number: payer.identification.number
+          },
+          address: {
+            zip_code: payer.address.zip_code,
+            street_name: payer.address.street_name,
+            street_number: payer.address.street_number,
+            neighborhood: payer.address.neighborhood,
+            city: payer.address.city,
+            federal_unit: payer.address.federal_unit
+          }
+        }  
+      };
+      const response = await mercadopago.payment.create(paymentData);
+      const { response:data } = response;
+      const { point_of_interaction } = data
+
+      res.status(201).json({
+        pix_id:data.id,
+        pix_status:data.status,
+        pix_status_details:data.status_detail,
+        pix_qr_code: point_of_interaction.transaction_data
+      });
+    } else {
+      paymentData = {
+        transaction_amount: Number(body.transaction_amount),
+        token: body.token,
+        description: body.description,
+        installments: Number(body.installments),
+        payment_method_id: body.payment_method_id,
+        issuer_id: body.issuerId,
+        payer: {
+          email: payer.email,
+          identification: {
+            type: payer.identification.docType,
+            number: payer.identification.docNumber
+          }
+        }
+      };
+      const response = await mercadopago.payment.save(paymentData);
+      const { response: data } = response;
+      res.status(201).json({
+        pay_status_detail: data.status_detail,
+        pay_status: data.status,
+        pay_id: data.id
+      });
+    }
+    // console.log(paymentData)
+
+    // teste
+    // 4509 9535 6623 3704
+    // APRO 
+    // 11/25
+
   } catch (error) {
     console.log(error);
-    const { errorMessage, errorStatus } = validateError(error);
+    const { errorMessage, errorStatus } = validator(error);
     res.status(errorStatus).json({ error_message: errorMessage });
   }
 }

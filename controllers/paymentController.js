@@ -83,7 +83,7 @@ async function Pay(req, res) {
 
     const { body } = req;
     const { payer } = body;
-    
+    console.log(body)
     var paymentData = {}
     if (body.payment_method_id === 'pix') {
       paymentData = {
@@ -93,10 +93,10 @@ async function Pay(req, res) {
         payer: {
           email: payer.email,
           first_name: payer.first_name,
-          last_name: payer.last_name,
+          last_name: payer.last_name,  
           identification: {
             type: payer.identification.type,
-            number: payer.identification.number
+            number: payer.identification.number 
           },
           address: {
             zip_code: payer.address.zip_code,
@@ -126,7 +126,7 @@ async function Pay(req, res) {
         installments: Number(body.installments),
         payment_method_id: body.payment_method_id,
         issuer_id: body.issuerId,
-        payer: {
+        payer: { 
           email: payer.email,
           identification: {
             type: payer.identification.docType,
@@ -134,6 +134,7 @@ async function Pay(req, res) {
           }
         }
       };
+      console.log(mercadopago.payment)
       const response = await mercadopago.payment.save(paymentData);
       const { response: data } = response;
       res.status(201).json({

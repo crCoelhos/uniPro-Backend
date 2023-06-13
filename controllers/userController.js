@@ -67,11 +67,6 @@ async function getUserById(req, res) {
                 model: Ticket,
                 as: 'ticket',
                 attributes: ['name'],
-                include: {
-                    model: Batch,
-                    as: 'batch',
-                    attributes: ['name'],
-                }
             }],
             attributes: {
                 exclude: ['roleId', 'password'],
@@ -134,11 +129,10 @@ async function deleteUserById(req, res) {
 }
 
 
-
 module.exports = {
     createUser,
     getAllUsers,
     getUserById,
     updateUserById,
-    deleteUserById
+    deleteUserById,
 }

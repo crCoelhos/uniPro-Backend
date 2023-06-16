@@ -31,7 +31,12 @@ async function getAllAthletics(req, res) {
     const athletics = await Athletic.findAll({
       attributes: {
         exclude: ['direction']
-      }
+      },
+      include: [{
+        model: User,
+        as: 'user',        
+        attributes:['name']
+      }]
     });
 
     res.json({ athletics });
@@ -41,6 +46,28 @@ async function getAllAthletics(req, res) {
   }
 }
 
+async function getAthleticById(req, res) {
+  try {
+    const athleticId = req.params.id;
+    const athletic = await Athletic.findOne({
+      where: { id: athleticId },
+      include: [{
+        model: User,
+        as: 'user',        
+        attributes:['id','name']
+      }]
+    });
+
+    if (!athletic) {
+      return res.status(404).json({ message: 'Atletica não encontrada' });
+    }
+
+    res.json({ athletic });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao obter a Atletica' });
+  }
+}
 // por nome ou id
 async function getAthleticByName(req, res) {
   try {
@@ -152,6 +179,7 @@ async function removeUserFromAthletic(req, res) {
 module.exports = {
   createAthletic,
   getAllAthletics,
+  getAthleticById,
   getAthleticByName,
   deleteAthletic,
   addUserToAthletic,

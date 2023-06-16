@@ -5,6 +5,12 @@ module.exports = (sequelize, DataTypes) => {
   class Athletic extends Model {
     static associate(models) {
       // define association here
+      this.belongsToMany(models.User,{
+        through:'user_athletics',
+        as: 'user',
+        foreignKey:'athleticId',
+        otherKey: 'userId'
+      })
     }
   }
   Athletic.init(

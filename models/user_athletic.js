@@ -42,10 +42,16 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.BOOLEAN,
       defaultValue: false,
+    },
+    isInterested:{
+      allowNull: false,
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
     }
   }, {
     sequelize,
     modelName: 'user_athletic',
+    tableName: 'user_athletic',
   });
   return User_athletic;
 };

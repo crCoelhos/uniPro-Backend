@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const db = require('../models');
 const Role = db.Role;
-const Batch = db.Batch;
+const Athletic = db.Athletic;
 const User = db.User;
 const Ticket = db.Ticket;
 
@@ -29,17 +29,30 @@ async function getAllUsers(req, res) {
         if (req.user.role !== 'ADMIN') {
             return res.status(403).json({ message: 'Você não tem permissão de busca de usuários.' });
         }
+        console.log("AQUIIIIIIIIIIIIIIII")
 
         const users = await User.findAll({
             include: [{
                 model: Role,
                 as: 'role',
                 attributes: ['name']
-            }],
+            },
+            {
+                model: Athletic,
+                as: 'athleticByUser',
+                attributes: ['name']
+            },
+            {
+                model: Ticket,
+                as: 'ticket',
+                attributes: ['name'],
+            }
+            ],
             attributes: {
                 exclude: ['password'],
             }
         });
+        console.log("usuariooooooooooooooooooooooooooooooooooooooooooooooos",users)
         res.status(200).json(users);
     } catch (err) {
 
@@ -66,6 +79,11 @@ async function getUserById(req, res) {
             {
                 model: Ticket,
                 as: 'ticket',
+                attributes: ['name'],
+            },
+            {
+                model: Athletic,
+                as: 'athletic',
                 attributes: ['name'],
             }],
             attributes: {

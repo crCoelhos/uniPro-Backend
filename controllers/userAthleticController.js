@@ -24,7 +24,7 @@ async function getAllUserAthletics(req, res) {
             include: [{
                 model: User,
                 as: 'user',
-                attributes:['id', 'name']
+                attributes:['name']
             },
             {
                 model: Athletic,

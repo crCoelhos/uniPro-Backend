@@ -54,7 +54,7 @@ async function getAthleticById(req, res) {
       include: [{
         model: User,
         as: 'user',        
-        attributes:['id','name']
+        attributes:['name']
       }]
     });
 
@@ -87,6 +87,35 @@ async function getAthleticByName(req, res) {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao obter a Atletica' });
+  }
+}
+
+
+async function updateAthleticById(req, res) {
+  try {
+      if (req.user.role !== 'MOD' || req.user.role !== 'ADMIN') {
+          return res.status(403).json({ message: 'Você não tem permissão para editar atlética.' });
+      }
+
+      const id = req.params.id;
+      if (!id) {
+          res.json({ message: "Você não passou o id no paramentro" })
+      }
+
+      const athleticUpdate = await Athletic.findByPk(id)
+      if (!athleticUpdate) {
+          res.json({ message: 'Atlética não encontrada' })
+
+      }
+      const athletic = req.body;
+
+      await athletic.update(athletic, {
+          where: { id: id }
+      });
+      return res.status(200).json({ message: "Atlética atualizada" });
+
+  } catch (err) {
+      res.status(500).json({ message: err.message });
   }
 }
 
@@ -181,6 +210,7 @@ module.exports = {
   getAllAthletics,
   getAthleticById,
   getAthleticByName,
+  updateAthleticById,
   deleteAthletic,
   addUserToAthletic,
   removeUserFromAthletic

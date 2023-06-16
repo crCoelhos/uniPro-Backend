@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware.js');
-const { createAthletic, deleteAthletic, getAthleticByName, getAthleticById, getAllAthletics, removeUserFromAthletic, addUserToAthletic } = require('../controllers/athleticController.js');
+const { createAthletic, deleteAthletic, getAthleticByName, getAthleticById, updateAthleticById, getAllAthletics, removeUserFromAthletic, addUserToAthletic } = require('../controllers/athleticController.js');
 
 router.post('/athletic', authMiddleware, createAthletic);
+router.put('/athletics/:id', updateAthleticById);
 router.delete('/athletics/:id', authMiddleware, deleteAthletic);
 
 router.get('/athletics/:name', getAthleticByName);

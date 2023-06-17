@@ -14,6 +14,12 @@ module.exports = {
       access_token: process.env.PAYMENT_TOKEN,
       integrator_id: process.env.PAYMENT_KEY
     },
+    email: {
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      user: process.env.EMAIL_AUTH_USER,
+      pass: process.env.EMAIL_AUTH_PASS
+    },
     dialect: 'mysql',
   },
   test: {
@@ -26,6 +32,12 @@ module.exports = {
     mercadopago: {
       access_token: process.env.PAYMENT_TOKEN,
       integrator_id: process.env.PAYMENT_KEY
+    },
+    email: {
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      user: process.env.EMAIL_AUTH_USER,
+      pass: process.env.EMAIL_AUTH_PASS
     },
     dialect: 'mysql',
   },
@@ -40,6 +52,12 @@ module.exports = {
     mercadopago: {
       access_token: process.env.PAYMENT_TOKEN,
       integrator_id: process.env.PAYMENT_KEY
+    },
+    email: {
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      user: process.env.EMAIL_AUTH_USER,
+      pass: process.env.EMAIL_AUTH_PASS
     },
     dialectOptions: {
       ssl: {

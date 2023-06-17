@@ -45,6 +45,14 @@ module.exports = (sequelize) => {
         type: DataTypes.DATE,
         allowNull: false,
       },
+      typeTicketId:{
+        type: DataTypes.INTEGER,
+        allowNull:false,
+        references:{
+          model: 'Type_tickets',
+          key: 'id'
+        }
+      },
       eventId:{
         type: DataTypes.INTEGER,
         allowNull:false,

@@ -79,11 +79,11 @@ async function login(req, res) {
     }
 
     // Extrair o nome e o Role do usuário
-    const { name, role } = user;
+    const { name, role, email } = user;
 
     // Crie e retorne um token de acesso
     const token = jwt.sign({ id: user.id }, config.secret, { expiresIn: '6h' });
-    res.json({ name, role: role.name, token });
+    res.json({ name, email, role: role.name, token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao fazer login' });

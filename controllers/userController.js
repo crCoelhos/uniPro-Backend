@@ -96,6 +96,42 @@ async function getUserById(req, res) {
     }
 }
 
+async function getUserByEmail(req, res) {
+    try {
+
+        const { email } = req.body;
+        if (!email) {
+            res.json({ message: "Você não passou o email no paramentro" })
+        }
+        const user = await User.findOne({
+            where: { email: email },
+            include: [{
+                model: Role,
+                as: 'role',
+                attributes: ['name']
+            },
+            {
+                model: Ticket,
+                as: 'ticket',
+                attributes: ['name'],
+            },
+            {
+                model: Athletic,
+                as: 'athletic',
+                attributes: ['name'],
+            }],
+            attributes: {
+                exclude: ['roleId', 'password'],
+            }
+        })
+        res.status(200).json(user);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}
+
+
+
 async function updateUserById(req, res) {
     try {
         if (req.user.role !== 'ADMIN') {
@@ -124,6 +160,7 @@ async function updateUserById(req, res) {
     }
 }
 
+
 async function deleteUserById(req, res) {
     try {
         if (req.user.role !== 'ADMIN') {
@@ -151,6 +188,7 @@ module.exports = {
     createUser,
     getAllUsers,
     getUserById,
+    getUserByEmail,
     updateUserById,
     deleteUserById,
 }

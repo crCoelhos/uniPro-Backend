@@ -34,7 +34,7 @@ module.exports = {
         },
         allowNull: false
       },
-      state:{
+      status:{
         type: Sequelize.ENUM('cancelado', 'confirmado','processando', 'aguardando', 'expirado'),
       allowNull:false
       },

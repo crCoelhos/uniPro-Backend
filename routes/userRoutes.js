@@ -7,6 +7,7 @@ const authMiddleware = require('../middleware/authMiddleware.js');
 // Define as rotas para as operações CRUD de usuarios(Com exceção do userroles)
 router.get('/user/', authMiddleware, userController.getAllUsers);
 router.get('/user/:id', authMiddleware, userController.getUserById);
+router.get('/user/email', authMiddleware, userController.getUserByEmail);
 router.post('/user/', authMiddleware, userController.createUser);
 router.put('/user/:id', authMiddleware, userController.updateUserById);
 router.delete('/user/:id', authMiddleware, userController.deleteUserById);

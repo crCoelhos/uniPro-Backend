@@ -7,6 +7,10 @@ module.exports = (sequelize) => {
         foreignKey: 'eventId',
         as: 'event',
       });
+      this.belongsTo(models.Type_tickets, {
+        as: 'typeTicket',
+        foreignKey: 'typeTicketId',
+      });
     }
   }
 
@@ -47,6 +51,14 @@ module.exports = (sequelize) => {
           key: 'id'
         }
       },
+      typeTicketId:{
+        type: DataTypes.INTEGER,
+        allowNull:false,
+        references:{
+          model: 'Type_tickets',
+          key: 'id'
+        }
+      }
     },
     {
       sequelize,

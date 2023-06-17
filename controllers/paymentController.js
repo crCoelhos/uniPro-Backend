@@ -28,7 +28,7 @@ async function bookTicket(req, res) {
     ]);
     const qtTickets = await User_ticket.findAll({
       where: {
-        state: {
+        status: {
           [Op.or]: [
             'confirmado',
             'aguardando',
@@ -44,7 +44,7 @@ async function bookTicket(req, res) {
     const isUser_ticket = await User_ticket.findOne({
       where: {
         userId: user.id,
-        state: {
+        status: {
           [Op.or]: [
             'confirmado',
             'aguardando',
@@ -67,7 +67,7 @@ async function bookTicket(req, res) {
       eventId: category.eventId,
     });
     //associação do ingresso com o usuario
-    const userTicket = await User_ticket.create({ userId: user.id, ticketId: ticket.id, eventId: category.eventId, state: 'processando' });
+    const userTicket = await User_ticket.create({ userId: user.id, ticketId: ticket.id, eventId: category.eventId, status: 'processando' });
 
     res.json(userTicket)
   } catch (error) {

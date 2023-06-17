@@ -24,22 +24,21 @@ async function sendPasswordResetEmail(destinatario, nomeUsuario, linkReset) {
     <style>
     /* Estilos do cabeçalho */
     .header {
+      display: flex;
       background-color: #f2f2f2;
       padding: 40px;
-    }
+      justify-content: center;
+  }
 
-    .header-logo {
+  .header-logo {
       display: flex;
       justify-content: center;
-      position: relative;
-    }
+  }
 
-    .header-logo-container {
-      position: absolute;
-      left: 50%;
-      top: 50%;
+  .header-logo-container {
+      justify-items: center;
       transform: translate(-50%, -50%);
-    }
+  }
 
     .header-logo img {
       max-width: 50px;

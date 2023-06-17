@@ -1,12 +1,12 @@
 
 const db = require('../models');
-const Type_tickets = db.Type_tickets;
+const Types_ticket = db.Types_ticket;
 
 async function createTypeTicket (req, res) {
     try {
         const typeTicket = req.body;
 
-        const newTypeTicket = Type_tickets.create(typeTicket);
+        const newTypeTicket = await Types_ticket.create(typeTicket);
 
         res.status(201).json(newTypeTicket);
     } catch (err) {
@@ -14,10 +14,10 @@ async function createTypeTicket (req, res) {
     }
 }
 
-async function getAllTypeTicket (req, res) {
+async function getAllTypeTickets (req, res) {
     try {
 
-        const typeTickets = Type_tickets.findAll();
+        const typeTickets = await Types_ticket.findAll();
 
         res.status(200).json(typeTickets);
     } catch (err) {
@@ -30,7 +30,7 @@ async function getTypeTicketById (req, res) {
 
         const typeTicketId = req.params.id 
 
-        const typeTicket = Type_tickets.findOne({
+        const typeTicket = await Types_ticket.findOne({
             where:{id:typeTicketId}
         });
 
@@ -45,14 +45,14 @@ async function updateTypeTicketById (req, res) {
 
         const typeTicketId = req.params.id 
 
-        const updateTypeTicket = Type_tickets.findByPk(typeTicketId);
+        const updateTypeTicket = await Types_ticket.findByPk(typeTicketId);
 
         if (!updateTypeTicket) {
             res.json({ message: 'Tipo de ingresso não encontrado' })
 
         }
 
-        const typeTicket = Type_tickets.update(updateTypeTicket, {
+        const typeTicket = await Types_ticket.update(updateTypeTicket, {
             where: { id: typeTicketId }
         });
 
@@ -68,13 +68,14 @@ async function deleteTypeTicket (req, res) {
 
         const typeTicketId = req.params.id 
 
-        const typeTicket = Type_tickets.findByPk(typeTicketId);
+        const typeTicket = await Types_ticket.findByPk(typeTicketId);
 
         if (!typeTicket) {
             res.json({ message: 'Tipo de ingresso não encontrado' })
         }
-        typeTicket.status
+        typeTicket.status = false
         
+        typeTicket.save()
         
         res.status(201).json({message: "Deletado com sucesso"});
     } catch (err) {
@@ -88,7 +89,8 @@ async function deleteTypeTicket (req, res) {
 
 module.exports = {
     createTypeTicket,
-    getAllTypeTicket,
+    getAllTypeTickets,
     getTypeTicketById,
-    updateTypeTicketById
+    updateTypeTicketById,
+    deleteTypeTicket
 }

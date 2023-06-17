@@ -10,6 +10,7 @@ const eventRoute = require('./eventRoutes');
 const categoryRoute = require('./categoryRoutes');
 const ticketRoute = require('./ticketRoutes');
 const athleticRoutes = require('./athleticRoutes.js')
+const typeTicketRoutes = require('./typeTicketRoutes.js')
 
 router.use('/auth', authRoute, accessMiddleware);
 router.use('/admin', userRoute, accessMiddleware);
@@ -17,6 +18,7 @@ router.use('/admin', roleRoute, accessMiddleware);
 router.use('/admin', eventRoute, accessMiddleware);
 router.use('/admin', categoryRoute, accessMiddleware);
 router.use('/admin', ticketRoute, accessMiddleware);
+router.use('/admin', typeTicketRoutes, accessMiddleware);
 router.use(athleticRoutes, accessMiddleware);
 
 module.exports = router;

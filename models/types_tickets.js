@@ -22,12 +22,12 @@ module.exports = (sequelize, DataTypes) => {
     status: {
       type:DataTypes.BOOLEAN,
       allowNull:false,
-      defaultValue:false
+      defaultValue:true
     },
    
   }, {
     sequelize,
-    modelName: 'Types_tickets',
+    modelName: 'Types_ticket',
     tableName: 'Types_tickets',
   });
   return Types_tickets;

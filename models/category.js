@@ -7,7 +7,7 @@ module.exports = (sequelize) => {
         foreignKey: 'eventId',
         as: 'event',
       });
-      this.belongsTo(models.Type_tickets, {
+      this.belongsTo(models.Types_ticket, {
         as: 'typeTicket',
         foreignKey: 'typeTicketId',
       });

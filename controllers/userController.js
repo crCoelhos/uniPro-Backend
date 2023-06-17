@@ -83,7 +83,7 @@ async function getUserById(req, res) {
             },
             {
                 model: Athletic,
-                as: 'athletic',
+                as: 'athleticByUser',
                 attributes: ['name'],
             }],
             attributes: {
@@ -117,7 +117,7 @@ async function getUserByEmail(req, res) {
             },
             {
                 model: Athletic,
-                as: 'athletic',
+                as: 'athleticByUser',
                 attributes: ['name'],
             }],
             attributes: {

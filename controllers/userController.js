@@ -29,7 +29,6 @@ async function getAllUsers(req, res) {
         if (req.user.role !== 'ADMIN') {
             return res.status(403).json({ message: 'Você não tem permissão de busca de usuários.' });
         }
-        console.log("AQUIIIIIIIIIIIIIIII")
 
         const users = await User.findAll({
             include: [{
@@ -52,7 +51,6 @@ async function getAllUsers(req, res) {
                 exclude: ['password'],
             }
         });
-        console.log("usuariooooooooooooooooooooooooooooooooooooooooooooooos",users)
         res.status(200).json(users);
     } catch (err) {
 
@@ -97,11 +95,9 @@ async function getUserById(req, res) {
 }
 
 async function getUserByEmail(req, res) {
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
     try {
-        console.log(req)
 
-        const { email } = req.body;
+        const { email } = req.params;
         if (!email) {
             res.json({ message: "Você não passou o email no paramentro" })
         }

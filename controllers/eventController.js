@@ -1,6 +1,7 @@
 const db = require('../models');
 const Event = db.Event;
 const Category = db.Category;
+const Types_ticket = db.Types_ticket;
 
 async function createEvent(req, res) {
   try {
@@ -32,7 +33,12 @@ async function getEventById(req, res) {
       },
       include:[{
         model:Category,
-        as: 'category'
+        as: 'category',
+        include:[{
+          model:Types_ticket,
+          as:'typeTicket',
+          attributes:['name']
+        }]
       }]
     });
 

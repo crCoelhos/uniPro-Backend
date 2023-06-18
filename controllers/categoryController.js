@@ -3,6 +3,7 @@ const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
 const db = require('../models');
 const { Op } = require('sequelize');
+const Types_ticket = db.Types_ticket;
 const Category = db.Category;
 const Event = db.Event;
 
@@ -30,6 +31,11 @@ async function getAllCategories(req, res) {
             include: [{
                 model: Event,
                 as: 'event',
+            },
+            {
+                model: Types_ticket,
+                as: 'typeTicket',
+                attributes: ['name']
             }],
             attributes: {
                 exclude: [
@@ -56,6 +62,11 @@ async function getCategoryById(req, res) {
             include: [{
                 model: Event,
                 as: 'event',
+                attributes: ['name']
+            },
+            {
+                model: Types_ticket,
+                as: 'typeTicket',
                 attributes: ['name']
             }],
             attributes: {

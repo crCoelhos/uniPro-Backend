@@ -9,7 +9,7 @@ module.exports = {
         'typeTicketId', // new field name
         {
           type: Sequelize.INTEGER,
-          allowNull: true,
+          allowNull: false,
           references:{
             model:'Types_tickets',
             key: 'id'

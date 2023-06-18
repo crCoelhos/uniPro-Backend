@@ -134,9 +134,7 @@ async function getUserByEmail(req, res) {
 
 async function updateUserById(req, res) {
     try {
-        if (req.user.role !== 'ADMIN') {
-            return res.status(403).json({ message: 'Você não tem permissão para editar usuário.' });
-        }
+
 
         const id = req.params.id;
         if (!id) {

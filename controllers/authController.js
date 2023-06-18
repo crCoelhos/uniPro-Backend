@@ -90,6 +90,10 @@ async function login(req, res) {
   }
 }
 
+async function passwordReset(req, res){
+  
+}
+
 module.exports = {
   login,
   signup

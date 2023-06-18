@@ -157,7 +157,29 @@ async function Pay(req, res) {
   }
 }
 
+async function Webhook(req, res) {
+  try {
+    // Processar os dados recebidos do Mercado Pago
+    const data = req.body;
+
+    // Exibir os dados recebidos no console
+    console.log('Dados do webhook:', data);
+    // Realizar as ações necessárias com base nos dados recebidos
+    // Exemplo: atualizar o status de pagamento no seu sistema, enviar notificações, etc.
+
+    // Responder com um status de sucesso (200) para o Mercado Pago
+    res.sendStatus(200);
+  } catch (error) {
+    // Tratar erros caso ocorram durante o processamento
+    console.error(error);
+    res.sendStatus(500);
+  }
+}
+
+
+
 module.exports = {
   bookTicket,
-  Pay
+  Pay,
+  Webhook
 };

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware.js')
 const { createTicket, updateTicketById, deleteTicketById, getTicketById, getAllTickets, buyTicket} = require('../controllers/ticketController.js');
-const { bookTicket, Pay } = require('../controllers/paymentController.js')
+const { bookTicket, Pay, Webhook } = require('../controllers/paymentController.js')
 
 router.post('/ticket', authMiddleware, createTicket);
 router.post('/bookticket', authMiddleware, bookTicket);
@@ -14,5 +14,6 @@ router.put('/ticket/:id', updateTicketById);
 router.delete('/ticket/:id', deleteTicketById);
 
 router.post('/pay', Pay);
+router.post('/webhook', Webhook)
 
 module.exports = router;

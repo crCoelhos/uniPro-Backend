@@ -39,7 +39,7 @@ async function getAllUsers(req, res) {
             },
             {
                 model: Athletic,
-                as: 'athleticByUser',
+                as: 'athletic',
                 attributes: ['name']
             },
             {
@@ -83,7 +83,7 @@ async function getUserById(req, res) {
             },
             {
                 model: Athletic,
-                as: 'athleticByUser',
+                as: 'athletic',
                 attributes: ['name'],
             }],
             attributes: {
@@ -97,13 +97,16 @@ async function getUserById(req, res) {
 }
 
 async function getUserByEmail(req, res) {
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
     try {
+        console.log(req)
 
         const { email } = req.body;
         if (!email) {
             res.json({ message: "Você não passou o email no paramentro" })
         }
-        const user = await User.findOne({
+        console.log(email)
+        const user = await User.findAll({
             where: { email: email },
             include: [{
                 model: Role,
@@ -113,17 +116,18 @@ async function getUserByEmail(req, res) {
             {
                 model: Ticket,
                 as: 'ticket',
-                attributes: ['name'],
+                attributes: ['name'], 
             },
             {
                 model: Athletic,
-                as: 'athleticByUser',
+                as: 'athletic',
                 attributes: ['name'],
             }],
             attributes: {
                 exclude: ['roleId', 'password'],
             }
         })
+        console.log(user)
         res.status(200).json(user);
     } catch (err) {
         res.status(500).json({ message: err.message });

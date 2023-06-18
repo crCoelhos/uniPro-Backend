@@ -24,21 +24,21 @@ async function sendPasswordResetEmail(destinatario, nomeUsuario, linkReset) {
     <style>
     /* Estilos do cabeçalho */
     .header {
-      display: flex;
       background-color: #f2f2f2;
-      padding: 40px;
-      justify-content: center;
-  }
+      padding: 10px;
+    }
 
-  .header-logo {
-      display: flex;
-      justify-content: center;
-  }
+    .header-logo {
+      text-align: center;
+    }
+    .header-logo h1{
+      padding-top: 20px;
+    }
 
-  .header-logo-container {
+    .header-logo-container {
       justify-items: center;
       transform: translate(-50%, -50%);
-  }
+    }
 
     .header-logo img {
       max-width: 50px;
@@ -84,7 +84,7 @@ async function sendPasswordResetEmail(destinatario, nomeUsuario, linkReset) {
     }
 
     .footer-social img {
-      max-width: 40px;
+      max-width: 50px;
       height: auto;
     }
 
@@ -105,12 +105,12 @@ async function sendPasswordResetEmail(destinatario, nomeUsuario, linkReset) {
     
     <body>
     <div class="header">
-    <div class="header-logo">
-      <div class="header-logo-container">
-        <img src="https://i.imgur.com/gqrFzaj.png" alt="JogosUni">
+      <div class="header-logo">
+        <h1 class="header-logo-container">
+          <img src="https://i.imgur.com/gqrFzaj.png" alt="JogosUni">
+        </h1>
       </div>
     </div>
-  </div>
       <div class="content">
         <h1>Recuperação de Senha</h1>
         <p>Olá, ${nomeUsuario}!</p>
@@ -159,5 +159,5 @@ async function sendPasswordResetEmail(destinatario, nomeUsuario, linkReset) {
 
 // Exemplo de uso
 const linkReset = 'https://example.com/reset-password'; // Link para a página de redefinição de senha
-sendPasswordResetEmail('ppaalo.henriquecosta@gmail.com', 'Paulo Henrique', linkReset);
+sendPasswordResetEmail('abimael.queirozl@gmail.com', 'Paulo Henrique', linkReset);
 

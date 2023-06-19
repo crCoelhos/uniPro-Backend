@@ -13,7 +13,7 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         references:{
-          model: 'users',
+          model: 'Users',
           key: 'id'
         },
         allowNull:false
@@ -21,7 +21,7 @@ module.exports = {
       ticketId: {
         type: Sequelize.UUID,
         references:{
-          model: 'tickets',
+          model: 'Tickets',
           key: 'id'
         },
         allowNull:false
@@ -29,7 +29,7 @@ module.exports = {
       eventId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'events',
+          model: 'Events',
           key: 'id'
         },
         allowNull: false

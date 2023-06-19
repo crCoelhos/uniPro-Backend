@@ -9,13 +9,13 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'roleId',
       });
       this.belongsToMany(models.Ticket,{
-        through:'user_tickets',
+        through:'User_tickets',
         as: 'ticket',
         foreignKey:'userId',
         otherKey: 'ticketId'
       })
       this.belongsToMany(models.Athletic,{
-        through:'user_athletics',
+        through:'User_athletics',
         as: 'athletic',
         foreignKey:'userId',
         otherKey: 'athleticId'

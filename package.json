@@ -5,6 +5,9 @@
   "repository": "https://github.com/n-x-t-gen/uniPro-Backend.git",
   "author": "ppaalo <ppaalo.henriquecosta@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",

@@ -9,6 +9,7 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     host: process.env.DB_HOST,
+    dbport: process.env.DB_PORT,
     access: process.env.ACCESS_TOKEN,
     mercadopago: {
       access_token: process.env.PAYMENT_TOKEN,
@@ -28,6 +29,7 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     host: process.env.DB_HOST,
+    dbport: process.env.DB_PORT,
     access: process.env.ACCESS_TOKEN,
     mercadopago: {
       access_token: process.env.PAYMENT_TOKEN,
@@ -47,6 +49,7 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     host: process.env.DB_HOST,
+    dbport: process.env.DB_PORT,
     access: process.env.ACCESS_TOKEN,
     dialect: 'mysql',
     mercadopago: {

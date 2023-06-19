@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'user_athletic',
-    tableName: 'user_athletic',
+    tableName: 'User_athletic',
   });
   return User_athletic;
 };

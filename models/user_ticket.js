@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
       //   as: 'user',
       //   foreignKey: 'userId'
       // })
+      this.belongsTo(models.User_athletic,{
+        as: 'userAt',
+        foreignKey: 'userId',
+        targetKey:'userId'
+      })
       this.belongsTo(models.Ticket,{
         as: 'ticket',
         foreignKey: 'ticketId'

@@ -1,15 +1,13 @@
-const config = require(__dirname + '/../config/config.js')[env];
-const { Op } = require('sequelize');
 const db = require('../models');
-const User_athletics = db.User_athletics;
+const User_athletic = db.User_athletic;
 const User = db.User;
 const Athletic = db.Athletic;
 
 async function createUserAthletic(req, res) {
     try {
 
-        const user_athletic = req.body;
-        const newUA = await User_athletics.create(user_athletic)
+        const ids = req.body;
+        const newUA = await User_athletic.create({userId:ids.userId, athleticId:ids.athleticId})
 
         res.status(201).json(newUA)
     } catch (err) {

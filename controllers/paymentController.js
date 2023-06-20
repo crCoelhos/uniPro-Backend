@@ -64,6 +64,7 @@ async function bookTicket(req, res) {
       price: category.price,
       startDate: category.startDate,
       finishDate: category.finishDate,
+      typeTicketId:category.typeTicketId,
       eventId: category.eventId,
     });
     //associação do ingresso com o usuario

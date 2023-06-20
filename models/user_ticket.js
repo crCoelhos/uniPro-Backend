@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     userId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'users',
+        model: 'Users',
         key: 'id'
       },
       allowNull: false
@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
     ticketId: {
       type: DataTypes.UUID,
       references: {
-        model: 'tickets',
+        model: 'Tickets',
         key: 'id'
       },
       allowNull: false
@@ -52,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
     eventId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Event',
+        model: 'Events',
         key: 'id'
       },
       allowNull: false

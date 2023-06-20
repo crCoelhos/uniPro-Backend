@@ -39,9 +39,8 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     accepted:{
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.BOOLEAN,
-      defaultValue: false,
     },
     isInterested:{
       allowNull: false,

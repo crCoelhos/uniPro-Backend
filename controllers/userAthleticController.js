@@ -77,10 +77,34 @@ async function updateUserAthletic(req, res) {
     }
 }
 
+async function getUserAthleticByEventForMod(req, res) {
+    try {
+  
+      const { id } = req.body.params
+  
+      const dashboardAthletic = await db.sequelize.query(
+        `SELECT e.name as Evento, u.name as 'Pessoas', tt.name as 'Tipo', ua.id, ua.accepted as 'Aceito' FROM uni_prod.users as u, uni_prod.events as e, 
+         uni_prod.athletics as a, uni_prod.user_tickets as ut, uni_prod.user_athletics as ua, uni_prod.tickets as t, uni_prod.types_tickets as tt
+         WHERE e.id = ut.eventId and u.id = ut.userId and u.id = ua.userId and a.id = ua.athleticId and t.id = ut.ticketId and t.typeTicketId = tt.id 
+         and tt.name Like '%Atleta%' and a.id = ${id} 
+        `,
+        {
+          type: QueryTypes.SELECT
+        }
+      )
+  
+  
+      res.json(dashboardAthletic)
+    } catch (err) {
+      res.status(500).json({ message: err.message })
+    }
+  }
+  
 
 
 module.exports = {
     createUserAthletic,
     updateUserAthletic,
-    getAllUserAthletics
+    getAllUserAthletics,
+    getUserAthleticByEventForMod
 }

@@ -27,9 +27,8 @@ module.exports = {
         }
       },
       accepted:{
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.BOOLEAN,
-        defaultValue: false,
       },
       isInterested:{
         allowNull: false,

@@ -4,6 +4,7 @@ const Ticket = db.Ticket;
 const Category = db.Category;
 const User = db.User;
 const User_ticket = db.User_ticket;
+const User_athletic = db.User_athletic;
 const mercadopago = require('mercadopago');
 
 const jwt = require('jsonwebtoken');
@@ -21,10 +22,12 @@ async function bookTicket(req, res) {
 
     const decoded = jwt.verify(authHeader, config.secret);
 
-    const categoryId = req.body
-    const [category, user] = await Promise.all([
-      Category.findByPk(categoryId.id),
-      User.findByPk(decoded.id)
+    const {categoryId, athleticId } = req.body
+    const [category, user, athletic] = await Promise.all([
+      Category.findByPk(categoryId),
+      User.findByPk(decoded.id),
+      User_athletic.findByPk(athleticId)
+
     ]);
     const qtTickets = await User_ticket.findAll({
       where: {
@@ -68,7 +71,7 @@ async function bookTicket(req, res) {
       eventId: category.eventId,
     });
     //associação do ingresso com o usuario
-    const userTicket = await User_ticket.create({ userId: user.id, ticketId: ticket.id, eventId: category.eventId, status: 'processando' });
+    const userTicket = await User_ticket.create({ userId: user.id, ticketId: ticket.id, eventId: category.eventId, athleticId:athletic.id, status: 'processando' });
 
     res.json(userTicket)
   } catch (error) {

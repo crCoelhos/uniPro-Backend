@@ -62,6 +62,14 @@ module.exports = (sequelize, DataTypes) => {
       },
       allowNull: false
     },
+    athleticId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Athletics',
+        key: 'id'
+      },
+      allowNull: false
+    },
     status:{
       type: DataTypes.ENUM('processando', 'aguardando', 'confirmado', 'cancelado', 'expirado'),
       allowNull:false

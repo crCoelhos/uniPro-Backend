@@ -16,4 +16,6 @@ router.delete('/ticket/:id', deleteTicketById);
 router.post('/pay', Pay);
 
 
+// TODO getTicketByUser
+
 module.exports = router;

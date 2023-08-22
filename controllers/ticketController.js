@@ -6,7 +6,7 @@ const db = require('../models');
 const Ticket = db.Ticket;
 const Event = db.Event;
 const User = db.User;
-
+const User_ticket = db.User_ticket;
 
 async function createTicket(req, res) {
     try {
@@ -39,6 +39,7 @@ async function getAllTickets(req, res) {
         res.status(500).json({ message: err.message });
     }
 }
+
 async function getTicketById(req, res) {
     try {
 
@@ -119,7 +120,6 @@ async function deleteTicketById(req, res) {
     }
 }
 
-
 async function buyTicket(req, res) {
     const authHeader = req.header('Authorization');
     if (!authHeader) {
@@ -143,6 +143,39 @@ async function buyTicket(req, res) {
     }
 }
 
+// TODO getTicketByUser
+async function getTicketsByUser(req, res) {
+    try {
+      const userId = req.user.id;
+      console.log('UserID:', userId);
+  
+      const userTickets = await User_ticket.findAll({
+        where: { userId },
+        include: [
+          {
+            model: Ticket,
+            as: 'ticket',
+            include: [
+              {
+                model: Event,
+                as: 'event'
+              }
+            ]
+          }
+        ]
+      });
+
+      if (userTickets.length === 0) {
+        return res.status(404).json({ message: 'Nenhum ingresso encontrado para esse usuarios.' });
+      }
+  
+      res.status(200).json(userTickets);
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ message: err.message });
+    }
+  }
+  
 
 module.exports = {
     createTicket,
@@ -150,5 +183,6 @@ module.exports = {
     getTicketById,
     updateTicketById,
     deleteTicketById,
-    buyTicket
+    buyTicket,
+    getTicketsByUser
 }

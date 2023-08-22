@@ -20,6 +20,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    queryInterface.removeColumn('Tickets', 'typeTicketId')
+    await queryInterface.removeColumn('Tickets', 'typeTicketId')
   }
 };

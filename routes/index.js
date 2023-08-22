@@ -12,6 +12,8 @@ const ticketRoute = require('./ticketRoutes');
 const athleticRoutes = require('./athleticRoutes.js')
 const userAthleticRoutes = require('./userAthleticRoutes.js')
 const typeTicketRoutes = require('./typeTicketRoutes.js')
+const modalityUserTicketsRoutes = require('./modalityUserTicketsRoutes.js')
+const modalityRoutes = require('./modalityRoutes.js')
 const { Webhook }= require('../controllers/paymentController.js')
 
 router.use('/auth', authRoute, accessMiddleware);
@@ -22,6 +24,8 @@ router.use('/admin', categoryRoute);
 router.use('/admin', ticketRoute, accessMiddleware);
 router.use('/admin', userAthleticRoutes, accessMiddleware);
 router.use('/admin', typeTicketRoutes, accessMiddleware);
+router.use('/admin', modalityRoutes, accessMiddleware);
+router.use('/admin', modalityUserTicketsRoutes, accessMiddleware);
 router.post('/webhook', Webhook);
 router.use(athleticRoutes, accessMiddleware);
 

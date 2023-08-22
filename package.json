@@ -6,7 +6,7 @@
   "author": "ppaalo <ppaalo.henriquecosta@gmail.com>",
   "license": "MIT",
   "engines": {
-    "node": "18.x"
+    "node": "16.15.1"
   },
   "scripts": {
     "start": "node app.js",

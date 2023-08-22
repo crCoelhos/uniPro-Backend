@@ -1,5 +1,5 @@
-const db = require('../models');
 const { QueryTypes } = require('sequelize');
+const db = require('../models');
 const Event = db.Event;
 const Category = db.Category;
 const Types_ticket = db.Types_ticket;
@@ -18,7 +18,6 @@ async function createEvent(req, res) {
 
     res.status(201).json({ event: newEvent });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: 'Erro ao criar o evento' });
   }
 }
@@ -27,7 +26,7 @@ async function createEvent(req, res) {
 async function getEventById(req, res) {
   try {
     const eventId = req.params.id;
-
+  
     const event = await Event.findOne({
       where: {
         id: eventId
@@ -130,8 +129,8 @@ async function getUserAthleticByEvent(req, res) {
 
     const dashboardEvent = await db.sequelize.query(
       `SELECT e.name as 'Evento', a.name as 'Atletica', u.name as 'Pessoas', u.email as 'Email', tt.name as 'Associacao',  t.price as 'Valor', t.id FROM uni_prod.users as u,  
-       uni_prod.events as e,  uni_prod.athletics as a, uni_prod.user_tickets as ut, uni_prod.user_athletics as ua, uni_prod.tickets as t, uni_prod.types_tickets as tt
-       WHERE e.id = ut.eventId and u.id = ut.userId and u.id = ua.userId and a.id = ua.athleticId and t.id = ut.ticketId and t.typeTicketId = tt.id  
+       uni_prod.events as e,  uni_prod.athletics as a, uni_prod.user_tickets as ut, uni_prod.tickets as t, uni_prod.types_tickets as tt
+       WHERE e.id = ut.eventId and u.id = ut.userId and u.id = ua.userId and a.id = ut.athleticId and t.id = ut.ticketId and t.typeTicketId = tt.id  
       `,
       {
         type: QueryTypes.SELECT

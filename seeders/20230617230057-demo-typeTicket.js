@@ -7,26 +7,31 @@ module.exports = {
 
       {
         name:"Atleta Bronze",
+        qt_modalities: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         name:"Atleta Prata",
+        qt_modalities: 2,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         name:"Atleta Ouro",
+        qt_modalities: 3,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         name:"Tocedor Simples",
+        qt_modalities: 3,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         name:"Tocedor Completo",
+        qt_modalities: 3,
         createdAt: new Date(),
         updatedAt: new Date()
       },

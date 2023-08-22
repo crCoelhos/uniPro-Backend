@@ -5,21 +5,17 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     return Promise.all([
       queryInterface.addColumn(
-        'Categories', // table name
-        'typeTicketId', // new field name
+        'Types_tickets', // table name
+        'qt_modalities', // new field name
         {
           type: Sequelize.INTEGER,
           allowNull: false,
-          references:{
-            model:'Types_tickets',
-            key: 'id'
-          }
         },
       ),
     ]);
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.removeColumn('Categories', 'typeTicketId')
+    await queryInterface.removeColumn('Types_tickets', 'qt_modalities');
   }
 };

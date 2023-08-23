@@ -4,7 +4,7 @@ const Ticket = db.Ticket;
 const Category = db.Category;
 const User = db.User;
 const User_ticket = db.User_ticket;
-const User_athletic = db.User_athletic;
+const Athletic = db.Athletic;
 const mercadopago = require('mercadopago');
 
 const jwt = require('jsonwebtoken');
@@ -23,10 +23,11 @@ async function bookTicket(req, res) {
     const decoded = jwt.verify(authHeader, config.secret);
 
     const {categoryId, athleticId } = req.body
+    console.log(req.body)
     const [category, user, athletic] = await Promise.all([
       Category.findByPk(categoryId),
       User.findByPk(decoded.id),
-      User_athletic.findByPk(athleticId)
+      Athletic.findByPk(athleticId)
 
     ]);
     const qtTickets = await User_ticket.findAll({
@@ -71,14 +72,16 @@ async function bookTicket(req, res) {
       eventId: category.eventId,
     });
     //associação do ingresso com o usuario
-    const userTicket = await User_ticket.create({ userId: user.id, ticketId: ticket.id, eventId: category.eventId, athleticId:athletic.id, status: 'processando' });
+    const userTicket = await User_ticket.create({ userId: user.id, ticketId: ticket.id, eventId: category.eventId, athleticId:athletic.id, status: 'aguardando' });
 
+    //todo setinterval (de aguardando, passou 20 apenas os aguardando vai para expirando)
     res.json(userTicket)
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao inicia o processo de comprar' });
   }
 }
+// função aqui
 
 // necessario alteracoes, fazer ser por pix ou cartao.
 async function Pay(req, res) {

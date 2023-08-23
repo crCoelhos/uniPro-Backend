@@ -170,11 +170,15 @@ async function Webhook(req, res) {
     console.log('Dados do webhook:', data);
     // Realizar as ações necessárias com base nos dados recebidos
     // Exemplo: atualizar o status de pagamento no seu sistema, enviar notificações, etc.
+    if (data.action === 'payment.created') {
+      const paymentId = data.data.id;
+      const userId = data.user_id;
 
+      console.log(`Payment ID ${paymentId} created for User ID ${userId}`);
+    }
     // Responder com um status de sucesso (200) para o Mercado Pago
     res.sendStatus(200);
   } catch (error) {
-    // Tratar erros caso ocorram durante o processamento
     console.error(error);
     res.sendStatus(500);
   }

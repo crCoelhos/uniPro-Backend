@@ -4,34 +4,39 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     return queryInterface.bulkInsert('Types_tickets', [
-
       {
-        name:"Atleta Bronze",
+        name:"Pacote Bronze",
         qt_modalities: 1,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name:"Atleta Prata",
-        qt_modalities: 2,
+        name:"Pacote Prata",
+        qt_modalities: 4,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name:"Atleta Ouro",
-        qt_modalities: 3,
+        name:"Pacote Ouro",
+        qt_modalities: 6,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name:"Tocedor Simples",
-        qt_modalities: 3,
+        name:"Pacote Diamante",
+        qt_modalities: 14,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        name:"Tocedor Completo",
-        qt_modalities: 3,
+        name:"Torcedor Simples",
+        qt_modalities: 14,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        name:"Torcedor Completo",
+        qt_modalities: 14,
         createdAt: new Date(),
         updatedAt: new Date()
       },

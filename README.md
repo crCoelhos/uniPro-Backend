@@ -1,33 +1,46 @@
-# uniPro-Backend
+# Back End JogosUni
 
-## (21/05)
+[Back end jogosuni!](api.uniproducoes.com.br)
 
-Rotas usuario
+## Conteudo
 
-- [x] (POST) Criacao conta
-- [x] (POST) Login
-- [ ] Logout (implementacao Front)
+- [Getting Started](#getting-started)
+- [Features](#features)
+- [Installation](#installation)
+- [TODO List](todo.md)
 
-Models
+## Getting Started
 
-- [x] Criacao User(Nome, email, senha, contato, cpf, nascimento)
-- [x] Cricao Role(Cargo, descricao)
-- [x] Criacao User_roles (user ObjectID: ref:User; role ObjectID: ref:role)
+[Back end jogosuni!](api.uniproducoes.com.br) densevolvido pela [NXT-Gen](nxtgeneration.com.br)  para o website do JogosUni usado para vendas de ingressos. Utilizamos MySQL como banco de dados, Node.js com javascript para o Back End.
 
-## Rota Admin
 
-- [x] (PUT) modificar usuarios [cargos, dados]
-- [x] (GET) todos usuarios
+## Features
 
-16 anos pode participar mais sem alcool, abaixo de 16 precisa de termo assinado pelos pais (envio de foto do termo)? a pensar???
+- CRUD para eventos e ingressos
 
-- Logica para enviar email por usuario.
+## Installation
 
-enviar por front todos os ingresso? ou quando abrir o evento mostrar os ingresso, caso tenha passado da data dizer que esgotou e caso tenha passado.
+Antes de iniciar o projeto, é necessário configurar as variáveis de ambiente. Para isso, copie o ``.env.example`` para ``.env`` e preencha as variáveis de acordo com o ambiente.
 
-npx sequelize-cli migration:generate --name (nome)
+```bash
+cp .env.example .env # Linux/Macos
+copy .env.example .env # Windows
+```
 
-- upload da imagem do documento do usuário;
-- upload da imagem do evento;
-- upload da imagem da atlética;
-- quando for fazer imagem do documento, faz imagem do evento também
+Rode as migrations para criar as tabelas do banco de dados
+
+```bash
+npx sequelize-cli db:migrate
+```
+
+Caso esteja em Development, rode as seeders para ter dados para testes
+
+```bash
+npx sequelize-cli db:seed:all
+```
+
+inicie o servidor com
+
+```bash
+node .
+```

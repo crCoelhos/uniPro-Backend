@@ -1,0 +1,1146 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "UniProd",
+    "dateExported": "2023-08-23T18:10:00.923Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "456f8936-c51b-40d8-ba1c-73473a95f250",
+            "name": "User",
+            "containerId": "",
+            "created": "2023-05-30T19:26:16.194Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "6db2d153-50b8-495f-b644-fc5421c9178e",
+            "name": "Lot",
+            "containerId": "",
+            "created": "2023-05-30T19:26:16.195Z",
+            "sortNum": 22500
+        },
+        {
+            "_id": "5d12b279-4ae4-4a77-8dbe-ca093c74f54b",
+            "name": "Ticket",
+            "containerId": "",
+            "created": "2023-05-30T19:26:16.196Z",
+            "sortNum": 23750
+        },
+        {
+            "_id": "202ec407-c1db-40ae-91c0-be290b2276db",
+            "name": "Role",
+            "containerId": "",
+            "created": "2023-05-30T19:26:16.197Z",
+            "sortNum": 25000
+        },
+        {
+            "_id": "df36d5e4-fe9f-4833-b9f1-ab78b005ceb4",
+            "name": "Event",
+            "containerId": "",
+            "created": "2023-05-30T19:26:16.198Z",
+            "sortNum": 35000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "367a3aa3-fd31-417c-bb3f-3e822f5f43b9",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "456f8936-c51b-40d8-ba1c-73473a95f250",
+            "name": "getById",
+            "url": "http://localhost:3000/admin/user/1",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-05-30T19:26:16.196Z",
+            "modified": "2023-05-30T19:26:16.196Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "{{token}}"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "ec9261ef-13e4-4157-a486-46a7cc567265",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "202ec407-c1db-40ae-91c0-be290b2276db",
+            "name": "getById",
+            "url": "http://localhost:3000/user/646909d183d84d4d2a66809a",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-05-30T19:26:16.197Z",
+            "modified": "2023-05-30T19:26:16.197Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDY5MDlkMTgzZDg0ZDRkMmE2NjgwOWEiLCJpYXQiOjE2ODQ2MzQ0OTQsImV4cCI6MTY4NDYzODA5NH0.1zSDaGN9PyAk7td96EFWQ8e3TH0XtTsLOBiKoKwa5sM"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "9cb91876-96a3-4011-b61f-a5d83de75543",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "",
+            "name": "Login",
+            "url": "{{uniLocal}}/auth/login",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-08-22T19:24:19.378Z",
+            "modified": "2023-08-22T22:51:31.213Z",
+            "headers": [
+                {
+                    "name": "Access",
+                    "value": "123",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n\t\"login\": \"admin@admin.com\",\n\t\"password\": \"admin\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "6e91d753-e20b-4330-a61d-caadd141135c",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "456f8936-c51b-40d8-ba1c-73473a95f250",
+            "name": "getUserRoleById",
+            "url": "http://localhost:3000/admin/userroles/4",
+            "method": "GET",
+            "sortNum": 12500,
+            "created": "2023-05-30T19:26:16.198Z",
+            "modified": "2023-05-30T19:26:16.198Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "{{token}}"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "826a8fd3-6991-4ea6-a763-b1613f66ff4f",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "456f8936-c51b-40d8-ba1c-73473a95f250",
+            "name": "getUserRoleByUserId",
+            "url": "http://localhost:3000/admin/userroles/user/2",
+            "method": "GET",
+            "sortNum": 15000,
+            "created": "2023-05-30T19:26:16.199Z",
+            "modified": "2023-05-30T19:26:16.199Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "{{token}}"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "dea4b86c-09d4-499a-a42b-66ae43cebb7e",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "456f8936-c51b-40d8-ba1c-73473a95f250",
+            "name": "getUserRoleByRoleId ",
+            "url": "http://localhost:3000/admin/userroles/role/1",
+            "method": "GET",
+            "sortNum": 17500,
+            "created": "2023-05-30T19:26:16.200Z",
+            "modified": "2023-05-30T19:26:16.200Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "{{token}}"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "8ec8ee59-9010-4c1e-99ab-94400cbe5d26",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "456f8936-c51b-40d8-ba1c-73473a95f250",
+            "name": "UpdateById",
+            "url": "http://localhost:3000/admin/user/2",
+            "method": "PUT",
+            "sortNum": 20000,
+            "created": "2023-05-30T19:26:16.201Z",
+            "modified": "2023-05-30T19:26:16.201Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "{{token}}"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Ppaalo Henrique\",\n  \"birthdate\": \"2023-05-27\",\n  \"email\": \"paulo.henrque@gmail.com\",\n  \"contact\": \"123456789\",\n  \"cpf\": \"7777777776\",\n  \"roleId\": 3\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "67067ed7-b5bb-414a-9a17-bb784d712db6",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "202ec407-c1db-40ae-91c0-be290b2276db",
+            "name": "UpdateById",
+            "url": "http://localhost:3000/user/64690701047b8c42eb691d10",
+            "method": "PUT",
+            "sortNum": 20000,
+            "created": "2023-05-30T19:26:16.202Z",
+            "modified": "2023-05-30T19:26:16.202Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDY5MDlkMTgzZDg0ZDRkMmE2NjgwOWEiLCJpYXQiOjE2ODQ2MzQ0OTQsImV4cCI6MTY4NDYzODA5NH0.1zSDaGN9PyAk7td96EFWQ8e3TH0XtTsLOBiKoKwa5sM"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\":\"debora17.ac@gmail.com\"\n}\n",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "f54e72e0-5c2a-4813-86d5-82270b18bbf8",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "456f8936-c51b-40d8-ba1c-73473a95f250",
+            "name": "CreateUser",
+            "url": "http://localhost:3000/user/",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-05-30T19:26:16.203Z",
+            "modified": "2023-05-30T19:26:16.203Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "{{token}}"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "[{\n  \"name\": \"joaodafsafaf\",\n  \"email\": \"5643@example.com\",\n  \"password\": \"asdasf\",\n  \"birthdate\": \"2003-01-24\",\n  \"contact\": \"6783788\",\n  \"cpf\": \"678356\"\n},\n{ \n  \"id\": 1\n}\n]",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "a447a568-e373-45e5-861f-683f667f7e06",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "202ec407-c1db-40ae-91c0-be290b2276db",
+            "name": "CreateUser",
+            "url": "http://localhost:3000/user/",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2023-05-30T19:26:16.204Z",
+            "modified": "2023-05-30T19:26:16.204Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg0OTYwMTkxLCJleHAiOjE2ODQ5NjM3OTF9.3JMiKQKc6lceKEWmQggNzZgmxtDtMhmB1aegcwH4VvE"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "[{\n  \"name\": \"joaodafsafaf\",\n  \"email\": \"fsdgsd@example.com\",\n  \"password\": \"asdasf\",\n  \"birthdate\": \"2003-01-24\",\n  \"contact\": \"543634625\",\n  \"cpf\": \"2362645234\"\n},\n{ \"id\": 3,\n  \"name\":\"MOD\"\n}\n]",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "34ecf1ca-e5a8-4d1e-8c39-329309933381",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "456f8936-c51b-40d8-ba1c-73473a95f250",
+            "name": "DeleteById",
+            "url": "http://localhost:3000/admin/user/3",
+            "method": "DELETE",
+            "sortNum": 40000,
+            "created": "2023-05-30T19:26:16.205Z",
+            "modified": "2023-05-30T19:26:16.205Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "{{token}}"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\":\"debora17.ac@gmail.com\"\n}\n",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "252a1bbb-8758-4b48-982a-d2b91b30b6c1",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "202ec407-c1db-40ae-91c0-be290b2276db",
+            "name": "DeleteById",
+            "url": "http://localhost:3000/user/646906bd3a3d352aff6ddda5",
+            "method": "DELETE",
+            "sortNum": 40000,
+            "created": "2023-05-30T19:26:16.206Z",
+            "modified": "2023-05-30T19:26:16.206Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDY5MDlkMTgzZDg0ZDRkMmE2NjgwOWEiLCJpYXQiOjE2ODQ2MzQ0OTQsImV4cCI6MTY4NDYzODA5NH0.1zSDaGN9PyAk7td96EFWQ8e3TH0XtTsLOBiKoKwa5sM"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\":\"debora17.ac@gmail.com\"\n}\n",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "e1028d4b-e661-4f79-a874-9e79165b039c",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "456f8936-c51b-40d8-ba1c-73473a95f250",
+            "name": "getAll",
+            "url": "http://localhost:3000/admin/user/",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2023-05-30T19:26:16.207Z",
+            "modified": "2023-05-30T19:26:16.207Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "{{token}}"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "c3048c41-e36f-40b4-8029-9bfc379971dd",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "202ec407-c1db-40ae-91c0-be290b2276db",
+            "name": "getAll",
+            "url": "http://localhost:3000/user/",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2023-05-30T19:26:16.208Z",
+            "modified": "2023-05-30T19:26:16.208Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjg0OTYwMTkxLCJleHAiOjE2ODQ5NjM3OTF9.3JMiKQKc6lceKEWmQggNzZgmxtDtMhmB1aegcwH4VvE"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "a5783d25-b584-4f29-bbaa-3fd16a9eec2e",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "df36d5e4-fe9f-4833-b9f1-ab78b005ceb4",
+            "name": "CreateEvent",
+            "url": "{{local}}/admin/event",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2023-05-30T19:26:16.209Z",
+            "modified": "2023-05-30T19:37:14.517Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiaWF0IjoxNjg1NDc1Mzg3LCJleHAiOjE2ODU0OTY5ODd9.bjglbGRG5evko5BfrMAa94z74pPpBS-8vDXsSB-2nb8"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"orgia de jorge\",\n  \"state\": 1,\n  \"date\": \"2000-01-01\",\n  \"location\": \"rogerio\",\n  \"description\": \"LETICIA\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "72e6adee-159a-4597-bceb-3dd21decc9aa",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "6db2d153-50b8-495f-b644-fc5421c9178e",
+            "name": "CreateLot",
+            "url": "{{local}}/admin/event",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2023-05-30T19:26:16.210Z",
+            "modified": "2023-05-30T19:40:28.469Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiaWF0IjoxNjg1NDc1Mzg3LCJleHAiOjE2ODU0OTY5ODd9.bjglbGRG5evko5BfrMAa94z74pPpBS-8vDXsSB-2nb8"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"lote do lote\",\n  \"state\": 1,\n  \"date\": \"2023-10-07\",\n  \"location\": \"localização la\",\n  \"description\": \"JOGO\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "6a57ffea-4aa2-4c92-8708-6985ab1476d6",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "5d12b279-4ae4-4a77-8dbe-ca093c74f54b",
+            "name": "CreateTicket",
+            "url": "{{local}}/admin/event",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2023-05-30T19:26:16.211Z",
+            "modified": "2023-05-30T19:38:08.125Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiaWF0IjoxNjg1NDc1Mzg3LCJleHAiOjE2ODU0OTY5ODd9.bjglbGRG5evko5BfrMAa94z74pPpBS-8vDXsSB-2nb8"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Jogos JORGE\",\n  \"state\": 1,\n  \"date\": \"2023-10-07\",\n  \"location\": \"afafgarafa\",\n  \"description\": \"leticia\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "8ad1f215-c793-4a81-93e8-a536672cc135",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "df36d5e4-fe9f-4833-b9f1-ab78b005ceb4",
+            "name": "GetEventById",
+            "url": "{{local}}/admin/event/1",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2023-05-30T19:26:16.212Z",
+            "modified": "2023-05-30T19:31:10.140Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiaWF0IjoxNjg1NDc1MDM1LCJleHAiOjE2ODU0OTY2MzV9.ff-Mco_DorRNphjVOoswhqs44t9WOLhjTQnLd0ZXWYI"
+                },
+                {
+                    "name": "Access",
+                    "value": "123"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Carnval\",\n  \"state\": 1,\n  \"date\": \"2023-10-07\",\n  \"location\": \"afafgarafa\",\n  \"description\": \"Abimael\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "2a879ed1-ef85-4423-8d77-9b7a1daa046c",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "6db2d153-50b8-495f-b644-fc5421c9178e",
+            "name": "GetLotById",
+            "url": "{{local}}/admin/lot/1",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2023-05-30T19:26:16.213Z",
+            "modified": "2023-05-30T19:41:20.620Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiaWF0IjoxNjg1NDc1Mzg3LCJleHAiOjE2ODU0OTY5ODd9.bjglbGRG5evko5BfrMAa94z74pPpBS-8vDXsSB-2nb8"
+                },
+                {
+                    "name": "Access",
+                    "value": "20000"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Carnval\",\n  \"state\": 1,\n  \"date\": \"2023-10-07\",\n  \"location\": \"afafgarafa\",\n  \"description\": \"Abimael\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "62ac8f53-2471-46c2-92c9-c4965d3eaca0",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "5d12b279-4ae4-4a77-8dbe-ca093c74f54b",
+            "name": "GetTicketById",
+            "url": "{{local}}/admin/ticket/4",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2023-05-30T19:26:16.214Z",
+            "modified": "2023-05-30T19:26:16.214Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "{{token}}"
+                },
+                {
+                    "name": "Access",
+                    "value": "20000"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Carnval\",\n  \"state\": 1,\n  \"date\": \"2023-10-07\",\n  \"location\": \"afafgarafa\",\n  \"description\": \"Abimael\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "9fcff75b-bc25-4e63-a931-8c1f2a9958ca",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "5d12b279-4ae4-4a77-8dbe-ca093c74f54b",
+            "name": "GetTicketById Copy",
+            "url": "{{uniLocal}}/admin/tickets/user",
+            "method": "GET",
+            "sortNum": 72500,
+            "created": "2023-08-22T22:48:42.746Z",
+            "modified": "2023-08-22T22:51:57.138Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "{{uniToken}}"
+                },
+                {
+                    "name": "Access",
+                    "value": "123"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Carnval\",\n  \"state\": 1,\n  \"date\": \"2023-10-07\",\n  \"location\": \"afafgarafa\",\n  \"description\": \"Abimael\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "700ae5ac-582b-4569-82d5-cd04308bc7bf",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "df36d5e4-fe9f-4833-b9f1-ab78b005ceb4",
+            "name": "GetAllEvent",
+            "url": "{{local}}/admin/events/",
+            "method": "GET",
+            "sortNum": 75000,
+            "created": "2023-05-30T19:26:16.215Z",
+            "modified": "2023-08-22T19:16:52.995Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "{{token}}"
+                },
+                {
+                    "name": "Access",
+                    "value": "123"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "21ec3631-c548-4ef7-b882-ff5c4fe4d6ed",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "6db2d153-50b8-495f-b644-fc5421c9178e",
+            "name": "GetAllLot",
+            "url": "{{local}}/admin/lots/",
+            "method": "GET",
+            "sortNum": 75000,
+            "created": "2023-05-30T19:26:16.216Z",
+            "modified": "2023-05-30T19:26:16.216Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "{{token}}"
+                },
+                {
+                    "name": "Access",
+                    "value": "20000"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Carnval\",\n  \"state\": 1,\n  \"date\": \"2023-10-07\",\n  \"location\": \"afafgarafa\",\n  \"description\": \"Abimael\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "af70a41c-481d-4fbf-817b-c84e524508b2",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "5d12b279-4ae4-4a77-8dbe-ca093c74f54b",
+            "name": "GetAllTicket",
+            "url": "{{local}}/admin/tickets/",
+            "method": "GET",
+            "sortNum": 75000,
+            "created": "2023-05-30T19:26:16.217Z",
+            "modified": "2023-05-30T19:32:05.432Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "{{token}}"
+                },
+                {
+                    "name": "Access",
+                    "value": "123"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Carnval\",\n  \"state\": 1,\n  \"date\": \"2023-10-07\",\n  \"location\": \"afafgarafa\",\n  \"description\": \"Abimael\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "98b61ccd-b01d-4574-aa3d-59528ab586c8",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "5d12b279-4ae4-4a77-8dbe-ca093c74f54b",
+            "name": "processTicket",
+            "url": "{{local}}/admin/processticket/",
+            "method": "POST",
+            "sortNum": 77500,
+            "created": "2023-05-30T19:26:16.218Z",
+            "modified": "2023-05-30T19:26:16.218Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "{{token}}"
+                },
+                {
+                    "name": "Access",
+                    "value": "20000"
+                },
+                {
+                    "name": "Confirm",
+                    "value": "true"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"id\": 4,\n    \"name\": \"Noob\",\n    \"price\": \"105.00\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "5d2cba6e-93f2-464b-8f67-209b310c2880",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "5d12b279-4ae4-4a77-8dbe-ca093c74f54b",
+            "name": "buyTicket",
+            "url": "{{local}}/admin/buyticket/",
+            "method": "GET",
+            "sortNum": 78750,
+            "created": "2023-05-30T19:26:16.219Z",
+            "modified": "2023-05-30T19:29:39.690Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "{{token}}"
+                },
+                {
+                    "name": "Access",
+                    "value": "123"
+                },
+                {
+                    "name": "Confirm",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWNrZXRJZCI6NCwidXNlcklkIjoyLCJpYXQiOjE2ODUzNDQzNjksImV4cCI6MTY4NTM0NTU2OX0.r0G6uD7D0g3j5bhTu3y_JK6Buds3AkGmfIaiH4ZoCU8"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"id\": 1,\n    \"name\": \"Noob\",\n    \"price\": \"105.00\",\n    \"sold\": false,\n    \"inProcessing\": false\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "0527e2c0-cba7-46fa-b62b-2f1ae31fad7d",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "df36d5e4-fe9f-4833-b9f1-ab78b005ceb4",
+            "name": "UpdateEventById",
+            "url": "{{local}}/admin/event/1",
+            "method": "PUT",
+            "sortNum": 80000,
+            "created": "2023-05-30T19:26:16.220Z",
+            "modified": "2023-05-30T19:26:16.220Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "{{token}}"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Carnval encerrado\",\n  \"state\": 0\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "e8b6090e-0113-4513-8642-af488b15c156",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "6db2d153-50b8-495f-b644-fc5421c9178e",
+            "name": "UpdateLotById",
+            "url": "{{local}}/admin/event/1",
+            "method": "PUT",
+            "sortNum": 80000,
+            "created": "2023-05-30T19:26:16.221Z",
+            "modified": "2023-05-30T19:26:16.221Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "{{token}}"
+                },
+                {
+                    "name": "Access",
+                    "value": "20000"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Carnval encerrado\",\n  \"state\": 0\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "b329a4eb-51f0-44da-8e39-484ecb9ac7d2",
+            "colId": "8a4fface-8574-425c-aa43-183cb8202c9e",
+            "containerId": "5d12b279-4ae4-4a77-8dbe-ca093c74f54b",
+            "name": "UpdateTicketById",
+            "url": "{{local}}/admin/event/1",
+            "method": "PUT",
+            "sortNum": 80000,
+            "created": "2023-05-30T19:26:16.222Z",
+            "modified": "2023-05-30T19:26:16.222Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                },
+                {
+                    "name": "Authorization",
+                    "value": "{{token}}"
+                },
+                {
+                    "name": "Access",
+                    "value": "20000"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Carnval encerrado\",\n  \"state\": 0\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}

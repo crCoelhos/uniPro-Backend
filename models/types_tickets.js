@@ -24,8 +24,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull:false,
       defaultValue:true
     },
-   
-  }, {
+    qt_modalities: {
+      type:DataTypes.INTEGER,
+      allowNull:false,
+    },
+  }, 
+  {
     sequelize,
     modelName: 'Types_ticket',
     tableName: 'Types_tickets',

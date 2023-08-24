@@ -32,6 +32,7 @@ async function authMiddleware(req, res, next) {
 
     //req.user = user;
     req.user = {
+      id: decoded.id,
       name,
       role: roleName,
       token: decoded

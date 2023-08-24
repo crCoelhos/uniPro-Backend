@@ -96,14 +96,17 @@ const footerContent =`
 <div class="footer">
 <p>Siga-nos nas redes sociais:</p>
 <div class="footer-social">
-  <a href="https://www.facebook.com/seu-perfil" target="_blank">
+  <a href="https://www.facebook.com/jogosuniac" target="_blank">
     <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
   </a>
-  <a href="https://www.instagram.com/seu-perfil" target="_blank">
+  <a href="https://www.instagram.com/jogosuni/" target="_blank">
     <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
   </a>
-  <a href="https://www.twitter.com/seu-perfil" target="_blank">
+  <a href="https://twitter.com/jogosuni" target="_blank">
     <img src="https://cdn-icons-png.flaticon.com/512/889/889147.png" alt="Twitter">
+  </a>
+  <a href="https://www.youtube.com/@jogosuni" target="_blank">
+    <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="Youtube">
   </a>
 </div>
 <p class="footer-copyright">

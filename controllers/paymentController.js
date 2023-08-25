@@ -169,17 +169,36 @@ async function Webhook(req, res) {
     // Processar os dados recebidos do Mercado Pago
     const data = req.body;
 
-    // Exibir os dados recebidos no console
     console.log('Dados do webhook:', data);
-    // Realizar as ações necessárias com base nos dados recebidos
-    // Exemplo: atualizar o status de pagamento no seu sistema, enviar notificações, etc.
+
     if (data.action === 'payment.created') {
       const paymentId = data.data.id;
       const userId = data.user_id;
 
       console.log(`Payment ID ${paymentId} created for User ID ${userId}`);
     }
-    // Responder com um status de sucesso (200) para o Mercado Pago
+    
+    if (notification.action === 'payment.update') {
+      try {
+          const paymentId = notification.data.id;
+          const access_token = mercadopago.access_token;
+
+          const response = await axios.get(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
+              headers: {
+                  Authorization: `Bearer ${access_token}`
+              }
+          });
+
+          const paymentStatus = response.data.status;
+          console.log(`Status do pagamento ${paymentId}: ${paymentStatus}`);
+
+          res.status(200).send('Notificação recebida e processada com sucesso.');
+      } catch (error) {
+          console.error('Erro ao verificar pagamento:', error);
+          res.status(500).send('Erro ao processar notificação de pagamento.');
+      }
+  }
+
     res.sendStatus(200);
   } catch (error) {
     console.error(error);
@@ -188,6 +207,28 @@ async function Webhook(req, res) {
 }
 
 
+// app.post('/webhook', (req, res) => {
+//   // Processamento da notificação do Mercado Pago
+//   const evento = req.body;
+
+//   const resposta = { message: 'Pagamento processado com sucesso!' };
+
+//   // Enviar a resposta para o servidor de front-end
+//   fetch('http://localhost:3001/notification', {
+//       method: 'POST',
+//       headers: {
+//           'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify(resposta)
+//   })
+//   .then(() => {
+//       res.status(200).send('Notificação recebida e resposta enviada ao front-end.');
+//   })
+//   .catch(error => {
+//       console.error('Erro ao enviar resposta para o front-end:', error);
+//       res.status(500).send('Erro ao processar notificação e enviar resposta.');
+//   });
+// });
 
 module.exports = {
   bookTicket,

@@ -1,0 +1,74 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Node.js CI
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 12
+      uses: actions/setup-node@v2
+      with:
+        node-version: 12.x
+    - run: npm i
+    - run: npm run build --if-present
+    - run: npm test
+
+-----BEGIN RSA PRIVATE KEY-----
+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
+-----END RSA PRIVATE KEY-----

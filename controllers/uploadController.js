@@ -15,7 +15,7 @@ async function uploadUserPhoto(req, res) {
         return res.status(400).json({ message: err.message });
       }
 
-  
+      
       if (req.file.mimetype === 'application/pdf') {
         user.document = req.file.filename;
         user.save();
@@ -26,6 +26,32 @@ async function uploadUserPhoto(req, res) {
         return res.status(200).json({ message: 'Foto do perfil atualizada' });
       }
 
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+async function uploadUserRegistration(req, res) {
+  try {
+    const user = await User.findByPk(req.user.token.id);
+    if (!user) {
+      return res.status(404).json({ message: 'Usuário não encontrado' });
+    }
+
+    upload.single('registration')(req, res, (err) => {
+      if (err) {
+        return res.status(400).json({ message: err.message });
+      }
+
+      console.log(req.file )
+      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+      
+      if (req.file.mimetype === 'application/pdf') {
+        user.registration = req.file.filename;
+        user.save();
+        return res.status(200).json({ message: 'Foto do matricula atualizada' });
+      }
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -79,6 +105,7 @@ async function uploadAthleticPhoto(req, res) {
 
 module.exports = {
   uploadUserPhoto,
+  uploadUserRegistration,
   uploadEventPhoto,
   uploadAthleticPhoto
 }

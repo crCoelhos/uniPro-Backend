@@ -11,6 +11,8 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     if (file.fieldname == "user")
       cb(null, 'uploads/users');
+    if (file.fieldname == "registration")
+      cb(null, 'uploads/users');
     if (file.fieldname == "event")
       cb(null, 'uploads/events');
     if (file.fieldname == "athletic")
@@ -18,6 +20,19 @@ const storage = multer.diskStorage({
   },
   // Define o nome do arquivo
   filename: async (req, file, cb) => {
+    if (file.fieldname == "registration") {
+      const user = await User.findOne({
+        where: { id: req.user.token.id },
+        attributes: ['cpf']
+      })
+      // Pegar o numero do cpf para o nome do arquivo
+      const cpf = user.cpf;
+      // Extrai a extensão do arquivo
+      const ext = path.extname(file.originalname);
+
+      const filename = `${cpf}-registration${ext}`;
+      cb(null, filename);
+    }
     if (file.fieldname == "user") {
       const user = await User.findOne({
         where: { id: req.user.token.id },
@@ -41,7 +56,7 @@ const storage = multer.diskStorage({
     if (file.fieldname == "athletic") {
       const athletic = await Athletic.findOne({
         where: { id: req.params.id },
-        attributes:['name']
+        attributes: ['name']
       })
       const name = athletic.name.replace(" ", "")
       const ext = path.extname(file.originalname);

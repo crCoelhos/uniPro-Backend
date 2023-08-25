@@ -30,6 +30,7 @@ jobs:
           cd ~/uniPro-Backend
           git pull origin main
           git status
+          npm install pm2@latest -g
           yarn
           yarn run migration
           yarn run start

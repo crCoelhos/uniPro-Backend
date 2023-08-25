@@ -37,7 +37,7 @@ async function getEventById(req, res) {
         include: [{
           model: Types_ticket,
           as: 'typeTicket',
-          attributes: ['name']
+          attributes: ['name', 'qt_modalities']
         }]
       }]
     });

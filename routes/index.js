@@ -24,7 +24,7 @@ router.use('/admin', categoryRoute);
 router.use('/admin', ticketRoute, accessMiddleware);
 router.use('/admin', userAthleticRoutes, accessMiddleware);
 router.use('/admin', typeTicketRoutes, accessMiddleware);
-router.use('/admin', modalityRoutes, accessMiddleware);
+router.use('/admin', modalityRoutes);
 router.use('/admin', modalityUserTicketsRoutes, accessMiddleware);
 router.post('/webhook', Webhook);
 router.use(athleticRoutes, accessMiddleware);

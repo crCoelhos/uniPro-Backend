@@ -32,9 +32,6 @@ async function getAllModalities(req, res) {
 async function getModalityById(req, res) {
     try {
 
-        if (req.user.role !== 'ADMIN') {
-            return res.status(403).json({ message: 'Você não tem permissão para criar modalidades.' });
-        }
 
         const { id } = req.params;
         const modality = await Modality.findByPk(id)
@@ -48,7 +45,7 @@ async function getModalityById(req, res) {
 async function updateModalityById(req, res) {
     try {
         if (req.user.role !== 'ADMIN') {
-            return res.status(403).json({ message: 'Você não tem permissão para criar modalidades.' });
+            return res.status(403).json({ message: 'Você não tem permissão para atualizar modalidades.' });
         }
 
         const { id } = req.params;
@@ -91,6 +88,19 @@ async function deleteModalityById(req, res) {
     }
 }
 
+async function getModalitiesByEvent(req, res) {
+    try {
+
+        const { id } = req.params;
+        const modalities = await Modality.findAll({where:{
+            eventId:id
+        }})
+        res.status(201).json(modalities)
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+}
+
 
 
 
@@ -99,5 +109,6 @@ module.exports = {
     getAllModalities,
     getModalityById,
     updateModalityById,
-    deleteModalityById
+    deleteModalityById,
+    getModalitiesByEvent
 }

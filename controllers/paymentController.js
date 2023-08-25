@@ -24,12 +24,14 @@ async function bookTicket(req, res) {
 
     const {categoryId, athleticId } = req.body
     console.log(req.body)
+    console.log(req.body)
     const [category, user, athletic] = await Promise.all([
       Category.findByPk(categoryId),
       User.findByPk(decoded.id),
       Athletic.findByPk(athleticId)
 
     ]);
+    console.log(athletic)
     const qtTickets = await User_ticket.findAll({
       where: {
         status: {
@@ -41,6 +43,7 @@ async function bookTicket(req, res) {
         }
       }
     })
+    console.log(category)
     if (qtTickets.length == category.quantity) {
       return res.status(301).json('Acabou os ingressos desse lote.');
     }
@@ -51,8 +54,8 @@ async function bookTicket(req, res) {
         status: {
           [Op.or]: [
             'confirmado',
-            'aguardando',
-            //  'processando',
+            // 'aguardando',
+             'processando',
           ]
         },
         eventId: category.eventId
@@ -60,7 +63,7 @@ async function bookTicket(req, res) {
     });
     // se o usuario ja possui processo em andamento ou confirmado a compra ele nao pode comprar mais daquele evento
     if (isUser_ticket) {
-      return res.status(301).json(`${user.name} já possui ingresso`);
+      // return res.status(301).json(`${user.name} já possui ingresso`);
     }
     //Criação do ingresso
     const ticket = await Ticket.create({

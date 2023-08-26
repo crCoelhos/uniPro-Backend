@@ -23,9 +23,6 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Build the app
-        run: yarn build
-
       - name: Deploy using SSH
         uses: n-x-t-gen/ssh-action@master
         with:

@@ -8,39 +8,34 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x]
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 20.x
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: yarn install
 
-    - name: Install PM2
-      run: npm install -g pm2
+      - name: Build the app
+        run: yarn build
 
-    - name: Deploy using SSH
-      uses: n-x-t-gen/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.PRIVATE_KEY }}
-        port: 22
-        script: |
-          cd /home/api/htdocs/api.uniproducoes.com.br
-          git pull origin main
-          git status
-          yarn install --production
-          yarn run migration
-          pm2 restart back
+      - name: Deploy using SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd /home/api/htdocs/api.uniproducoes.com.br
+            git pull origin main
+            yarn install --production
+            npx sequelize-cli db:migrate
+            pm2 restart back

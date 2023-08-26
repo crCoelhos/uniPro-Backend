@@ -27,13 +27,9 @@ jobs:
         key: ${{ secrets.PRIVATE_KEY }}
         port: 22
         script: |
-          cd ~/uniPro-Backend
+          cd ~/htdocs/api.uniproducoes.com.br
           git pull origin main
           git status
-          npm install pm2@latest -g
           yarn
           yarn run migration
-          yarn run start
-
           pm2 restart back
-          

@@ -23,6 +23,12 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Check if npx is available
+        run: |
+          if ! command -v npx &> /dev/null; then
+            npm install -g npx
+          fi
+
       - name: Deploy using SSH
         uses: n-x-t-gen/ssh-action@master
         with:

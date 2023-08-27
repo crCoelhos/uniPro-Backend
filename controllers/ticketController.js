@@ -146,36 +146,69 @@ async function buyTicket(req, res) {
 // TODO getTicketByUser
 async function getTicketsByUser(req, res) {
     try {
-      const userId = req.user.id;
-      console.log('UserID:', userId);
-  
-      const userTickets = await User_ticket.findAll({
-        where: { userId },
-        include: [
-          {
-            model: Ticket,
-            as: 'ticket',
-            include: [
-              {
-                model: Event,
-                as: 'event'
-              }
-            ]
-          }
-        ]
-      });
+        const userId = req.user.id;
+        console.log('UserID:', userId);
 
-      if (userTickets.length === 0) {
-        return res.status(404).json({ message: 'Nenhum ingresso encontrado para esse usuarios.' });
-      }
-  
-      res.status(200).json(userTickets);
+        const userTickets = await User_ticket.findAll({
+            where: { userId },
+            include: [
+                {
+                    model: Ticket,
+                    as: 'ticket',
+                    include: [
+                        {
+                            model: Event,
+                            as: 'event'
+                        }
+                    ]
+                }
+            ]
+        });
+
+        if (userTickets.length === 0) {
+            return res.status(404).json({ message: 'Nenhum ingresso encontrado para esse usuarios.' });
+        }
+
+        res.status(200).json(userTickets);
     } catch (err) {
         console.error('Error:', err);
         res.status(500).json({ message: err.message });
     }
-  }
-  
+}
+
+
+async function getUserTicketById(req, res) {
+    try {
+        const userTicket = req.params
+        console.log(userTicket)
+        const userTickets = await User_ticket.findByPk(userTicket.id);
+
+        if (userTickets.length === 0) {
+            return res.status(404).json({ message: 'Nenhum ingresso encontrado para esse usuarios.' });
+        }
+
+        res.status(200).json(userTickets);
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ message: err.message });
+    }
+}
+
+async function getUserTicketById(req, res) {
+    try {
+        const userTicket = req.params
+        const userTickets = await User_ticket.findByPk(userTicket.id);
+
+        if (userTickets.length === 0) {
+            return res.status(404).json({ message: 'Nenhum ingresso encontrado para esse usuarios.' });
+        }
+
+        res.status(200).json(userTickets);
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ message: err.message });
+    }
+}
 
 module.exports = {
     createTicket,
@@ -184,5 +217,6 @@ module.exports = {
     updateTicketById,
     deleteTicketById,
     buyTicket,
-    getTicketsByUser
+    getTicketsByUser,
+    getUserTicketById
 }

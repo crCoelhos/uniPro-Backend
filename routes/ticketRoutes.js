@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware.js')
-const { createTicket, updateTicketById, deleteTicketById, getTicketById, getAllTickets, buyTicket, getTicketsByUser} = require('../controllers/ticketController.js');
+const { createTicket, updateTicketById, deleteTicketById, getTicketById, getAllTickets, buyTicket, getTicketsByUser, getUserTicketById} = require('../controllers/ticketController.js');
 const { bookTicket, Pay } = require('../controllers/paymentController.js')
 
 router.post('/ticket', authMiddleware, createTicket);
@@ -17,5 +17,6 @@ router.post('/pay', Pay);
 
 // TODO getTicketByUser
 router.get('/tickets/user', authMiddleware, getTicketsByUser);
+router.get('/userticket/:id', authMiddleware, getUserTicketById);
 
 module.exports = router;

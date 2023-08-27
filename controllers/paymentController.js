@@ -5,6 +5,7 @@ const Category = db.Category;
 const User = db.User;
 const User_ticket = db.User_ticket;
 const Athletic = db.Athletic;
+const Transation = db.Transation;
 const mercadopago = require('mercadopago');
 
 const jwt = require('jsonwebtoken');
@@ -22,7 +23,7 @@ async function bookTicket(req, res) {
 
     const decoded = jwt.verify(authHeader, config.secret);
 
-    const {categoryId, athleticId } = req.body
+    const { categoryId, athleticId } = req.body
     console.log(req.body)
     console.log(req.body)
     const [category, user, athletic] = await Promise.all([
@@ -55,7 +56,7 @@ async function bookTicket(req, res) {
           [Op.or]: [
             'confirmado',
             // 'aguardando',
-             'processando',
+            'processando',
           ]
         },
         eventId: category.eventId
@@ -71,11 +72,11 @@ async function bookTicket(req, res) {
       price: category.price,
       startDate: category.startDate,
       finishDate: category.finishDate,
-      typeTicketId:category.typeTicketId,
+      typeTicketId: category.typeTicketId,
       eventId: category.eventId,
     });
     //associação do ingresso com o usuario
-    const userTicket = await User_ticket.create({ userId: user.id, ticketId: ticket.id, eventId: category.eventId, athleticId:athletic.id, status: 'aguardando' });
+    const userTicket = await User_ticket.create({ userId: user.id, ticketId: ticket.id, eventId: category.eventId, athleticId: athletic.id, status: 'aguardando' });
 
     //todo setinterval (de aguardando, passou 20 apenas os aguardando vai para expirando)
     res.json(userTicket)
@@ -93,6 +94,7 @@ async function Pay(req, res) {
 
     const { body } = req;
     const { payer } = body;
+
     console.log(body)
     var paymentData = {}
     if (body.payment_method_id === 'pix') {
@@ -100,13 +102,14 @@ async function Pay(req, res) {
         transaction_amount: body.transaction_amount,
         description: body.description,
         payment_method_id: body.payment_method_id,
+        // notification_url: body.notification_url,
         payer: {
           email: payer.email,
           first_name: payer.first_name,
-          last_name: payer.last_name,  
+          last_name: payer.last_name,
           identification: {
             type: payer.identification.type,
-            number: payer.identification.number 
+            number: payer.identification.number
           },
           address: {
             zip_code: payer.address.zip_code,
@@ -116,16 +119,24 @@ async function Pay(req, res) {
             city: payer.address.city,
             federal_unit: payer.address.federal_unit
           }
-        }  
+        }
       };
+
+
       const response = await mercadopago.payment.create(paymentData);
-      const { response:data } = response;
+      const { response: data } = response;
       const { point_of_interaction } = data
 
+      // const notification_url = body.notification_url.split("/");
+      // const user_ticketId = notification_url[notification_url.length - 1]
+      // const transationId = data.id
+
+      // const transation = await Transation.create({ user_ticketId, transationId })
+
       res.status(201).json({
-        pix_id:data.id,
-        pix_status:data.status,
-        pix_status_details:data.status_detail,
+        pix_id: data.id,
+        pix_status: data.status,
+        pix_status_details: data.status_detail,
         pix_qr_code: point_of_interaction.transaction_data
       });
     } else {
@@ -136,7 +147,8 @@ async function Pay(req, res) {
         installments: Number(body.installments),
         payment_method_id: body.payment_method_id,
         issuer_id: body.issuerId,
-        payer: { 
+        // notification_url: body.notification_url,
+        payer: {
           email: payer.email,
           identification: {
             type: payer.identification.docType,
@@ -147,10 +159,15 @@ async function Pay(req, res) {
       console.log(mercadopago.payment)
       const response = await mercadopago.payment.save(paymentData);
       const { response: data } = response;
+      // const notification_url = body.notification_url.split("/");
+      // const user_ticketId = notification_url[notification_url.length - 1]
+      // const transationId = data.id
+
+      // const transation = await Transation.create({ user_ticketId, transationId })
       res.status(201).json({
         pay_status_detail: data.status_detail,
         pay_status: data.status,
-        pay_id: data.id
+        pay_id: data.id,
       });
     }
     // console.log(paymentData)
@@ -173,14 +190,49 @@ async function Webhook(req, res) {
     const data = req.body;
 
     // Exibir os dados recebidos no console
-    console.log('Dados do webhook:', data);
+    // console.log('Dados do webhook:', data);
     // Realizar as ações necessárias com base nos dados recebidos
     // Exemplo: atualizar o status de pagamento no seu sistema, enviar notificações, etc.
     if (data.action === 'payment.created') {
       const paymentId = data.data.id;
       const userId = data.user_id;
 
-      console.log(`Payment ID ${paymentId} created for User ID ${userId}`);
+
+      // console.log(`Payment ID ${paymentId} created for User ID ${userId}`);
+    }
+    const transation = await Transation.findOne({
+      where: {
+        transationId: data.data.id
+      }
+    })
+    // Responder com um status de sucesso (200) para o Mercado Pago
+    res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+}
+
+async function WebhookNotification(req, res) {
+  try {
+    // Processar os dados recebidos do Mercado Pago
+    const data = req.body;
+    console.log(req.params + "ABIMAELLLL")
+
+    // Exibir os dados recebidos no console
+    console.log('Dados do webhook:', data);
+    const transation = await Transation.findOne({
+      where: {
+        transationId: data.data.id
+      }
+    })
+    // Realizar as ações necessárias com base nos dados recebidos
+    // Exemplo: atualizar o status de pagamento no seu sistema, enviar notificações, etc.
+    if (data.action === 'payment.created') {
+      const paymentId = data.data.id;
+      const userId = data.user_id;
+
+      // console.log(`Payment ID ${paymentId} created for User ID ${userId}`);
     }
     // Responder com um status de sucesso (200) para o Mercado Pago
     res.sendStatus(200);
@@ -191,9 +243,9 @@ async function Webhook(req, res) {
 }
 
 
-
 module.exports = {
   bookTicket,
   Pay,
-  Webhook
+  Webhook,
+  WebhookNotification
 };

@@ -5,9 +5,9 @@ REPO_FOLDER=/home/api/htdocs/api.uniproducoes.com.br
 
 cd $REPO_FOLDER
 
-git pull origin main
+git_pull_output=$(git pull origin main)
 
-if git rev-parse HEAD..origin/main >/dev/null 2>&1; then
+if [[ "$git_pull_output" != *"Already up to date."* ]]; then
   echo "Nova atualização na main. Executando comando..."
   
   yarn install

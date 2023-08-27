@@ -15,7 +15,7 @@ if git rev-parse HEAD..origin/main >/dev/null 2>&1; then
   yarn run migration
   pm2 restart back
   
-  echo "Executado em: $current_date" >> /home/front/script_log.txt
+  echo "Executado em: $current_date" >> /home/api/script_log.txt
 else
-  echo "$current_date Não há novas atualizações na main". /home/front/script_log.txt
+  echo "$current_date Não há novas atualizações na main". /home/api/script_log.txt
 fi

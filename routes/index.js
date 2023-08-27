@@ -14,8 +14,11 @@ const userAthleticRoutes = require('./userAthleticRoutes.js')
 const typeTicketRoutes = require('./typeTicketRoutes.js')
 const modalityUserTicketsRoutes = require('./modalityUserTicketsRoutes.js')
 const modalityRoutes = require('./modalityRoutes.js')
-const { Webhook }= require('../controllers/paymentController.js')
+
+const transationRoutes = require('./transationRoutes.js')
+const { Webhook, WebhookNotification }= require('../controllers/paymentController.js')
 const couponRoutes = require('./couponRoutes.js')
+
 
 router.use('/auth', authRoute, accessMiddleware);
 router.use('/admin', userRoute, accessMiddleware);
@@ -26,9 +29,11 @@ router.use('/admin', ticketRoute, accessMiddleware);
 router.use('/admin', couponRoutes, accessMiddleware);
 router.use('/admin', userAthleticRoutes, accessMiddleware);
 router.use('/admin', typeTicketRoutes, accessMiddleware);
+router.use('/admin', transationRoutes, accessMiddleware);
 router.use('/admin', modalityRoutes, accessMiddleware);
 router.use('/admin', modalityUserTicketsRoutes, accessMiddleware);
 router.post('/webhook', Webhook);
+router.post('/webhook/:id', WebhookNotification);
 router.use(athleticRoutes, accessMiddleware);
 
 module.exports = router;

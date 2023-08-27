@@ -2,6 +2,7 @@
 
 # Define a pasta do repositório
 REPO_FOLDER=/home/api/htdocs/api.uniproducoes.com.br
+current_date=$(date +"-%d-%m-%Y %H:%M:%S")
 
 cd $REPO_FOLDER
 
@@ -12,9 +13,9 @@ if git rev-parse HEAD..origin/main >/dev/null 2>&1; then
   
   yarn install
   yarn run migration
-  pm2 restart 0
+  pm2 restart back
   
-  echo "Comando executado com sucesso."
+  echo "Executado em: $current_date" >> /home/front/script_log.txt
 else
-  echo "Não há novas atualizações na main."
+  echo "$current_date Não há novas atualizações na main". /home/front/script_log.txt
 fi

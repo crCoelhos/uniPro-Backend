@@ -11,6 +11,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    env:
+      PATH: ${{ github.workspace }}/node_modules/.bin:/root/.nvm/versions/node/v20.5.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2

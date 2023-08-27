@@ -17,5 +17,5 @@ if git rev-parse HEAD..origin/main >/dev/null 2>&1; then
   
   echo "Executado em: $current_date" >> /home/api/script_log.txt
 else
-  echo "$current_date Não há novas atualizações na main". /home/api/script_log.txt
+  echo "$current_date Não há novas atualizações na main" >> /home/api/script_log.txt
 fi

@@ -8,7 +8,7 @@ const config = require(__dirname + '/../config/config.js')[env];
 async function authMiddleware(req, res, next) {
   const authHeader = req.header('Authorization');
   if (!authHeader) {
-    return res.status(401).json('Acesso negado. Token não fornecido.');
+    return res.status(401).json({ error: 'Acesso negado. Usuario não logado.' });
   }
   try {
     //decodifica o token do usuario que fez a requisição

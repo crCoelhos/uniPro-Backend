@@ -5,8 +5,10 @@ const Category = db.Category;
 const User = db.User;
 const User_ticket = db.User_ticket;
 const Athletic = db.Athletic;
-const Transations = db.Transations;
+const Transation = db.Transation;
+const axios = require('axios')
 const mercadopago = require('mercadopago');
+const statusMappings = require('../utils/paymentStatusMappings');
 
 const jwt = require('jsonwebtoken');
 const env = process.env.NODE_ENV || 'development';
@@ -186,116 +188,71 @@ async function Pay(req, res) {
 
 async function Webhook(req, res) {
   try {
-    // Processar os dados recebidos do Mercado Pago
     const data = req.body;
-
-
-    // Exibir os dados recebidos no console
-    // console.log('Dados do webhook:', data);
-    // Realizar as ações necessárias com base nos dados recebidos
-    // Exemplo: atualizar o status de pagamento no seu sistema, enviar notificações, etc.
-
-    console.log('Dados do webhook:', data);
 
     if (data.action === 'payment.created') {
       const paymentId = data.data.id;
       const userId = data.user_id;
-
-
-      // console.log(`Payment ID ${paymentId} created for User ID ${userId}`);
     }
 
-    const transation = await Transations.findOne({
+    const transation = await Transation.findOne({
       where: {
         transationId: data.data.id
       }
     })
-    // Responder com um status de sucesso (200) para o Mercado Pago
 
-    if (notification.action === 'payment.update') {
+    if (data.action === 'payment.update') {
       try {
-          const paymentId = notification.data.id;
-          const access_token = mercadopago.access_token;
+        const paymentId = data.data.id;
+        const access_token = config.mercadopago.access_token;
 
-          const response = await axios.get(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
-              headers: {
-                  Authorization: `Bearer ${access_token}`
-              }
-          });
+        const response = await axios.get(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
+          headers: {
+            Authorization: `Bearer ${access_token}`
+          }
+        });
 
-          const paymentStatus = response.data.status;
-          console.log(`Status do pagamento ${paymentId}: ${paymentStatus}`);
+        const paymentStatus = response.data.status;
+        console.log(`Status do pagamento ${paymentId}: ${paymentStatus}`);
 
-          res.status(200).send('Notificação recebida e processada com sucesso.');
+        const transation = await Transation.findOne({
+          where: {
+            transationId: paymentId
+          }
+        });
+
+        if (transation) {
+          const userTicketId = transation.user_ticketId;
+          const userTicket = await User_ticket.findByPk(userTicketId);
+
+          if (userTicket) {
+            const newStatus = statusMappings[paymentStatus];
+            if (newStatus) {
+              userTicket.status = newStatus;
+              await userTicket.save();
+              console.log(`Status do user_ticket ${userTicketId} atualizado para ${newStatus}.`);
+            } else {
+              console.log(`Mapeamento de status não encontrado para ${paymentStatus}.`);
+            }
+          }
+        }
+
+        res.status(200).send('Notificação recebida e processada com sucesso.');
       } catch (error) {
-          console.error('Erro ao verificar pagamento:', error);
-          res.status(500).send('Erro ao processar notificação de pagamento.');
+        console.error('Erro ao verificar pagamento:', error);
+        res.status(500).send('Erro ao processar notificação de pagamento.');
       }
-  }
-
-
-    res.sendStatus(200);
-  } catch (error) {
-    console.error(error);
-    res.sendStatus(500);
-  }
-}
-
-async function WebhookNotification(req, res) {
-  try {
-    // Processar os dados recebidos do Mercado Pago
-    const data = req.body;
-    console.log(req.params + "ABIMAELLLL")
-
-    // Exibir os dados recebidos no console
-    console.log('Dados do webhook:', data);
-    const transation = await Transations.findOne({
-      where: {
-        transationId: data.data.id
-      }
-    })
-    // Realizar as ações necessárias com base nos dados recebidos
-    // Exemplo: atualizar o status de pagamento no seu sistema, enviar notificações, etc.
-    if (data.action === 'payment.created') {
-      const paymentId = data.data.id;
-      const userId = data.user_id;
-
-      // console.log(`Payment ID ${paymentId} created for User ID ${userId}`);
+    } else {
+      res.status(400).send('Ação não reconhecida.');
     }
-    // Responder com um status de sucesso (200) para o Mercado Pago
-    res.sendStatus(200);
   } catch (error) {
-    console.error(error);
-    res.sendStatus(500);
+    console.error('Erro geral:', error);
+    res.status(500).send('Erro geral.');
   }
 }
-
-// app.post('/webhook', (req, res) => {
-//   // Processamento da notificação do Mercado Pago
-//   const evento = req.body;
-
-//   const resposta = { message: 'Pagamento processado com sucesso!' };
-
-//   // Enviar a resposta para o servidor de front-end
-//   fetch('http://localhost:3001/notification', {
-//       method: 'POST',
-//       headers: {
-//           'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify(resposta)
-//   })
-//   .then(() => {
-//       res.status(200).send('Notificação recebida e resposta enviada ao front-end.');
-//   })
-//   .catch(error => {
-//       console.error('Erro ao enviar resposta para o front-end:', error);
-//       res.status(500).send('Erro ao processar notificação e enviar resposta.');
-//   });
-// });
 
 module.exports = {
   bookTicket,
   Pay,
   Webhook,
-  WebhookNotification
 };

@@ -7,7 +7,7 @@ router.post('/modalitusertickets', authMiddleware, createModalityUserTickets);
 router.get('/modalitusertickets/:id', getModalityUserTicketsById);
 router.get('/modalitiesusertickets', getAllModalitiesUserTickets);
 router.put('/modalitusertickets/:id', authMiddleware, updateModalityUserTicketsById);
-router.delete('/modalitusertickets:id', authMiddleware, deleteModalityUserTicketsById);
+router.delete('/modalitusertickets/:id', authMiddleware, deleteModalityUserTicketsById);
 
 
 module.exports = router;

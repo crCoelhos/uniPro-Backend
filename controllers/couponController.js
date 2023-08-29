@@ -7,7 +7,7 @@ async function createCoupon(req, res) {
   try {
 
     if (req.user.role !== 'ADMIN') {
-        return res.status(403).json({ message: 'Você não tem permissão para criar Cupons.' });
+      return res.status(403).json({ message: 'Você não tem permissão para criar Cupons.' });
     }
 
     const newCoupon = await Coupon.create(req.body);
@@ -36,7 +36,7 @@ async function getAllCoupon(req, res) {
   try {
 
     if (req.user.role !== 'ADMIN') {
-        return res.status(403).json({ message: 'Você não tem permissão para pesquisa os cupons.' });
+      return res.status(403).json({ message: 'Você não tem permissão para pesquisa os cupons.' });
     }
 
     const coupons = await Coupon.findAll();
@@ -51,7 +51,7 @@ async function updateCoupon(req, res) {
   try {
 
     if (req.user.role !== 'ADMIN') {
-        return res.status(403).json({ message: 'Você não tem permissão para editar um cupom.' });
+      return res.status(403).json({ message: 'Você não tem permissão para editar um cupom.' });
     }
 
     const coupon = await Coupon.findByPk(req.params.id);
@@ -71,7 +71,7 @@ async function deleteCoupon(req, res) {
   try {
 
     if (req.user.role !== 'ADMIN') {
-        return res.status(403).json({ message: 'Você não tem permissão para deletar um cupom.' });
+      return res.status(403).json({ message: 'Você não tem permissão para deletar um cupom.' });
     }
 
     const coupon = await Coupon.findByPk(req.params.id);
@@ -88,68 +88,68 @@ async function deleteCoupon(req, res) {
 
 // rotas consumo de cupom
 async function consumeCoupon(req, res) {
+  const { code } = req.params;
+  const userId = req.user.token.id;
 
-    const { code } = req.params;
-    const userId = await User.findByPk(req.user.token.id);
-    if (!userId) {
-      return res.status(404).json({ message: 'Usuário não encontrado' });
+  if (!userId) {
+    return res.status(404).json({ message: 'Usuário não encontrado' });
+  }
+
+  try {
+    const coupon = await Coupon.findOne({
+      where: { code, isActive: true },
+    });
+
+    if (!coupon) {
+      res.status(404).json({ message: 'Cupom não encontrado ou usado' });
+      return;
     }
 
-    try {
-        const coupon = await Coupon.findOne({
-          where: { code, isActive: true },
-        });
-    
-        if (!coupon) {
-          res.status(404).json({ message: 'Cupom não encontrado ou usado' });
-          return;
-        }
+    const currentDate = new Date();
+    if (coupon.expireDate && coupon.expireDate <= currentDate) {
+      res.status(400).json({ message: 'Cupom já expirado' });
+      return;
+    }
 
-        const currentDate = new Date();
-        if (coupon.expireDate && coupon.expireDate <= currentDate) {
-        res.status(400).json({ message: 'Cupom já expirado' });
+    if (coupon.usageMax !== null && coupon.usageCount >= coupon.usageMax) {
+      res.status(400).json({ message: 'Cupom já alcançou o maximo de usos' });
+      return;
+    }
+
+    if (coupon.isUniqueUse) {
+      const usedByUserId = coupon.usedByUserId;
+      if (usedByUserId === userId) {
+        res.status(400).json({ message: 'Esse cupom já foi utilizado' });
         return;
-        }
-    
-        if (coupon.usageMax !== null && coupon.usageCount >= coupon.usageMax) {
-          res.status(400).json({ message: 'Cupom já alcançou o maximo de usos' });
-          return;
-        }
-    
-        if (coupon.isUniqueUse) {
-          const usedByUserId = coupon.usedByUserId;
-          if (usedByUserId === userId) {
-            res.status(400).json({ message: 'Esse cupom já foi utilizado' });
-            return;
-          }
-        }
-    
-        await Used_coupon.create({
-          couponCode: coupon.code,
-          userId: userId,
-        });
-    
-        coupon.usageCount += 1;
-
-        if (coupon.isUniqueUse) {
-        coupon.isActive = false;
-        }
-
-        // Desativar o cupom se atingir o máximo de uso
-        if (coupon.usageMax !== null && coupon.usageCount >= coupon.usageMax) {
-        coupon.isActive = false;
-        }
-
-        await coupon.save();
-    
-        res.status(200).json({
-            message: 'Cupom aplicado',
-            couponType: coupon.type,
-            couponAmount: coupon.amount,
-          });
-        } catch (error) {
-        res.status(500).json({ message: error.message });   
+      }
     }
+
+    await Used_coupon.create({
+      couponCode: coupon.code,
+      userId: userId,
+    });
+
+    coupon.usageCount += 1;
+
+    if (coupon.isUniqueUse) {
+      coupon.isActive = false;
+    }
+
+    // Desativar o cupom se atingir o máximo de uso
+    if (coupon.usageMax !== null && coupon.usageCount >= coupon.usageMax) {
+      coupon.isActive = false;
+    }
+
+    await coupon.save();
+
+    res.status(200).json({
+      message: 'Cupom aplicado',
+      couponType: coupon.type,
+      couponAmount: coupon.amount,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 }
 
 module.exports = {

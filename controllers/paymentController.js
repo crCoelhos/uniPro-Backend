@@ -6,6 +6,7 @@ const User = db.User;
 const User_ticket = db.User_ticket;
 const Athletic = db.Athletic;
 const Transation = db.Transation;
+const Coupon = db.Coupon
 const axios = require('axios')
 const mercadopago = require('mercadopago');
 const statusMappings = require('../utils/paymentStatusMappings');
@@ -98,10 +99,30 @@ async function Pay(req, res) {
     const { payer } = body;
 
     console.log(body)
+
+    let discountAmount = 0;
+    if (body.coupon) {
+      const coupon = await Coupon.findOne({
+        where: {
+          code: body.coupon,
+        },
+      });
+
+      if (coupon) {
+        if (coupon.type === 'value') {
+          discountAmount = coupon.amount;
+        } else if (coupon.type === 'percentage') {
+          discountAmount = (body.transaction_amount * coupon.amount) / 100;
+        }
+      }
+    }
+
+    const finalTransactionAmount = body.transaction_amount - discountAmount;
+
     var paymentData = {}
     if (body.payment_method_id === 'pix') {
       paymentData = {
-        transaction_amount: body.transaction_amount,
+        transaction_amount: finalTransactionAmount,
         description: body.description,
         payment_method_id: body.payment_method_id,
         // notification_url: body.notification_url,
@@ -143,7 +164,7 @@ async function Pay(req, res) {
       });
     } else {
       paymentData = {
-        transaction_amount: Number(body.transaction_amount),
+        transaction_amount: Number(finalTransactionAmount),
         token: body.token,
         description: body.description,
         installments: Number(body.installments),

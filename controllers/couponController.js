@@ -1,5 +1,6 @@
 const db = require('../models');
 const Coupon = db.Coupon
+const Used_coupon = db.Used_coupon
 const User = db.User;
 
 async function createCoupon(req, res) {
@@ -123,7 +124,7 @@ async function consumeCoupon(req, res) {
           }
         }
     
-        await UsedCoupon.create({
+        await Used_coupon.create({
           couponCode: coupon.code,
           userId: userId,
         });

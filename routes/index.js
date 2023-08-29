@@ -34,5 +34,7 @@ router.use('/admin', modalityRoutes, accessMiddleware);
 router.use('/admin', modalityUserTicketsRoutes, accessMiddleware);
 router.post('/webhook', Webhook);
 router.use(athleticRoutes, accessMiddleware);
+router.use('/uploads/athletics', express.static('uploads/athletics'));
+router.use('/uploads/users', express.static('uploads/users'));
 
 module.exports = router;

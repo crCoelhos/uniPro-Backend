@@ -40,6 +40,12 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       },
+      {
+        name:"Torcedor",
+        qt_modalities: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
     ])
   },
 

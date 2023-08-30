@@ -45,6 +45,11 @@ module.exports = (sequelize) => {
         type: DataTypes.DATE,
         allowNull: false,
       },
+      pre: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue:true
+      },
       typeTicketId:{
         type: DataTypes.INTEGER,
         allowNull:false,

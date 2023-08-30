@@ -47,7 +47,7 @@ async function bookTicket(req, res) {
         }
       }
     })
-    console.log(category)
+    
     if (qtTickets.length == category.quantity) {
       return res.status(301).json('Acabou os ingressos desse lote.');
     }
@@ -66,7 +66,7 @@ async function bookTicket(req, res) {
       }
     });
     // se o usuario ja possui processo em andamento ou confirmado a compra ele nao pode comprar mais daquele evento
-    if (isUser_ticket) {
+    if (isUser_ticket && !category.pre) {
       // return res.status(301).json(`${user.name} já possui ingresso`);
     }
     //Criação do ingresso
@@ -202,7 +202,7 @@ async function Pay(req, res) {
 
   } catch (error) {
     console.log(error);
-    const { errorMessage, errorStatus } = validator(error);
+    const { errorMessage, errorStatus } = ValidationErrorItemOrigin(error);
     res.status(errorStatus).json({ error_message: errorMessage });
   }
 }

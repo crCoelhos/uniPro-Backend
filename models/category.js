@@ -43,6 +43,16 @@ module.exports = (sequelize) => {
         type: DataTypes.DATE,
         allowNull: false,
       },
+      status: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue:true
+      },
+      pre: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue:true
+      },
       eventId:{
         type: DataTypes.INTEGER,
         allowNull:false,

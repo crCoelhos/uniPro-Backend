@@ -22,6 +22,7 @@ module.exports = {
       pass: process.env.EMAIL_AUTH_PASS
     },
     dialect: 'mysql',
+    timezone: '-05:00'
   },
   test: {
     secret: process.env.JWT_SECRET,

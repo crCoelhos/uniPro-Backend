@@ -44,7 +44,7 @@ const storage = multer.diskStorage({
       const ext = path.extname(file.originalname);
 
       if (file.mimetype === 'application/pdf') {
-        const filename = `${cpf}-matricula${ext}`;
+        const filename = `${cpf}-documento${ext}`;
         cb(null, filename);
 
       } else {

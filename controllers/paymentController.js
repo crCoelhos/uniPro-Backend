@@ -67,7 +67,7 @@ async function bookTicket(req, res) {
     });
     // se o usuario ja possui processo em andamento ou confirmado a compra ele nao pode comprar mais daquele evento
     if (isUser_ticket && !category.pre) {
-      // return res.status(301).json(`${user.name} já possui ingresso`);
+       return res.status(301).json(`${user.name} já possui ingresso`);
     }
     //Criação do ingresso
     const ticket = await Ticket.create({
@@ -125,7 +125,8 @@ async function Pay(req, res) {
         transaction_amount: finalTransactionAmount,
         description: body.description,
         payment_method_id: body.payment_method_id,
-        // notification_url: body.notification_url,
+        notification_url: body.notification_url,
+        expiration_date: body.expiration_date,
         payer: {
           email: payer.email,
           first_name: payer.first_name,
@@ -264,7 +265,7 @@ async function Webhook(req, res) {
         res.status(500).send('Erro ao processar notificação de pagamento.');
       }
     } else {
-      res.status(400).send('Ação não reconhecida.');
+      res.status(200).send('Ação não reconhecida.');
     }
   } catch (error) {
     console.error('Erro geral:', error);

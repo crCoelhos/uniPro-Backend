@@ -125,7 +125,7 @@ async function Pay(req, res) {
         transaction_amount: finalTransactionAmount,
         description: body.description,
         payment_method_id: body.payment_method_id,
-        // notification_url: body.notification_url,
+        notification_url: body.notification_url,
         payer: {
           email: payer.email,
           first_name: payer.first_name,

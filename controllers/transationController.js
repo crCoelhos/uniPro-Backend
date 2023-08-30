@@ -1,10 +1,17 @@
 const db = require('../models');
 const Transation = db.Transation;
+const User_ticket = db.User_ticket;
 
 async function createTransation(req, res) {
     try {
         const transation = req.body;
         const newTransation = await Transation.create(transation);
+
+        const userTicket = await User_ticket.findByPk(transation.user_ticketId)
+
+        userTicket.status = "processando"
+        await userTicket.save()
+
 
         res.status(201).json(newTransation);
     } catch (err) {

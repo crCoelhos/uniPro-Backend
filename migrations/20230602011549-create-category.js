@@ -23,14 +23,16 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      quantity: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
       startDate: {
         type: Sequelize.DATE,
         allowNull: false
       },
+      status: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue:true
+      },
+      
       finishDate: {
         type: Sequelize.DATE,
         allowNull: false

@@ -264,7 +264,7 @@ async function Webhook(req, res) {
         res.status(500).send('Erro ao processar notificação de pagamento.');
       }
     } else {
-      res.status(400).send('Ação não reconhecida.');
+      res.status(200).send('Ação não reconhecida.');
     }
   } catch (error) {
     console.error('Erro geral:', error);

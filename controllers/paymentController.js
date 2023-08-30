@@ -67,7 +67,7 @@ async function bookTicket(req, res) {
     });
     // se o usuario ja possui processo em andamento ou confirmado a compra ele nao pode comprar mais daquele evento
     if (isUser_ticket) {
-      // return res.status(301).json(`${user.name} já possui ingresso`);
+      return res.status(301).json(`${user.name} já possui uma comprar em andamento`);
     }
     //Criação do ingresso
     const ticket = await Ticket.create({
@@ -126,6 +126,7 @@ async function Pay(req, res) {
         description: body.description,
         payment_method_id: body.payment_method_id,
         notification_url: body.notification_url,
+        expiration_date: body.expiration_date,
         payer: {
           email: payer.email,
           first_name: payer.first_name,

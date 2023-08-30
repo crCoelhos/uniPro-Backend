@@ -7,7 +7,6 @@ const Types_ticket = db.Types_ticket;
 async function createEvent(req, res) {
   try {
 
-
     if (req.user.role !== 'ADMIN') {
       return res.status(403).json({ message: 'Você não tem permissão para criar eventos.' });
     }

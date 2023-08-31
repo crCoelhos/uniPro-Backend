@@ -7,6 +7,10 @@ module.exports = (sequelize) => {
         foreignKey: 'eventId',
         as: 'event',
       });
+      this.belongsTo(models.Types_ticket, {
+        foreignKey: 'typeTicketId',
+        as: 'typeTicket',
+      });
       // this.belongsToMany(models.User,{
       //   through:'user_tickets',
       //   as: 'user',

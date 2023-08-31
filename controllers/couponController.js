@@ -154,7 +154,7 @@ async function consumeCoupon(req, res) {
 
 async function verifyCoupon(req, res) {
   const { code } = req.params;
-  const userId = req.user.token.id;
+  const userId = req.user.id;
 
   if (!userId) {
     return res.status(404).json({ message: 'Usuário não encontrado' });
@@ -166,25 +166,25 @@ async function verifyCoupon(req, res) {
     });
 
     if (!coupon) {
-      res.status(404).json({ message: 'Cupom não está mais ativo' });
+      res.status(450).json({ message: 'Cupom não está mais ativo ou não existe' });
       return;
     }
 
     const currentDate = new Date();
     if (coupon.expireDate && coupon.expireDate <= currentDate) {
-      res.status(400).json({ message: 'Cupom já expirado' });
+      res.status(450).json({ message: 'Cupom já expirado' });
       return;
     }
 
     if (coupon.usageMax !== null && coupon.usageCount >= coupon.usageMax) {
-      res.status(400).json({ message: 'Cupom já alcançou o maximo de usos' });
+      res.status(450).json({ message: 'Cupom já alcançou o máximo de usos' });
       return;
     }
 
     if (coupon.isUniqueUse) {
       const usedByUserId = coupon.usedByUserId;
       if (usedByUserId === userId) {
-        res.status(400).json({ message: 'Esse cupom já foi utilizado' });
+        res.status(450).json({ message: 'Esse cupom já foi utilizado' });
         return;
       }
     }

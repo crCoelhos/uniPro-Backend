@@ -7,6 +7,7 @@ const Ticket = db.Ticket;
 const Event = db.Event;
 const User = db.User;
 const User_ticket = db.User_ticket;
+const Types_ticket = db.Types_ticket;
 
 async function createTicket(req, res) {
     try {
@@ -31,7 +32,12 @@ async function getAllTickets(req, res) {
             include: [{
                 model: Event,
                 as: 'event',
-            }],
+            },
+            {
+                model: Types_ticket,
+                as: 'typeTicket',
+            }
+        ],
         });
         res.status(200).json(tickets);
     } catch (err) {
@@ -206,9 +212,6 @@ async function getUserTicketByCategoryAthletic(req, res) {
             }
         });
 
-        if (userTickets.length === 0) {
-            return res.status(404).json({ message: 'Nenhum ingresso encontrado para esse usuarios.' });
-        }
 
         res.status(200).json(userTickets);
     } catch (err) {

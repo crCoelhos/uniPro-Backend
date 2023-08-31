@@ -46,6 +46,14 @@ module.exports = (sequelize, DataTypes) => {
       },
       allowNull: false
     },
+    categoryId: {
+      type: DataTypes.UUID,
+      references: {
+        model: 'Categories',
+        key: 'id'
+      },
+      allowNull: false
+    },
     userId: {
       type: DataTypes.INTEGER,
       references: {
@@ -70,16 +78,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       allowNull: false
     },
-    athleticId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'Athletics',
-        key: 'id'
-      },
-      allowNull: false
-    },
     status:{
       type: DataTypes.ENUM('processando', 'aguardando', 'confirmado', 'cancelado', 'expirado'),
+      allowNull:false
+    },
+    responsibility:{
+      type: DataTypes.ENUM('Ps', 'Vc', 'Dr', 'Aa', 'Ts', 'Tc'),
       allowNull:false
     },
   }, {

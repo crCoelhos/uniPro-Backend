@@ -10,6 +10,7 @@ const Coupon = db.Coupon
 const axios = require('axios')
 const mercadopago = require('mercadopago');
 const statusMappings = require('../utils/paymentStatusMappings');
+const moment = require('moment');
 
 const jwt = require('jsonwebtoken');
 const env = process.env.NODE_ENV || 'development';
@@ -124,6 +125,7 @@ async function Pay(req, res) {
     }
 
     const finalTransactionAmount = body.transaction_amount - discountAmount;
+    const formattedExpirationDate = moment(body.expiration_date).format('YYYY-MM-DDTHH:mm:ss.SSSZ');
 
     var paymentData = {}
     if (body.payment_method_id === 'pix') {
@@ -132,7 +134,7 @@ async function Pay(req, res) {
         description: body.description,
         payment_method_id: body.payment_method_id,
         notification_url: body.notification_url,
-        expiration_date: body.expiration_date,
+        expiration_date: formattedExpirationDate,
         payer: {
           email: payer.email,
           first_name: payer.first_name,
@@ -208,9 +210,8 @@ async function Pay(req, res) {
     // 11/25
 
   } catch (error) {
-    console.log(error);
-    const { errorMessage, errorStatus } = ValidationErrorItemOrigin(error);
-    res.status(errorStatus).json({ error_message: errorMessage });
+    console.log(error)
+    res.status(errorStatus).json({ error_message: error.message });
   }
 }
 

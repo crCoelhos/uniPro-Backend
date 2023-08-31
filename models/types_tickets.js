@@ -24,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull:false,
       defaultValue:true
     },
+    color: {
+      type:DataTypes.STRING,
+      allowNull:true
+    },
     qt_modalities: {
       type:DataTypes.INTEGER,
       allowNull:false,

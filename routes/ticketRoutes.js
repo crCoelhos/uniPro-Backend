@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware.js')
-const { createTicket, updateTicketById, deleteTicketById, getTicketById, getAllTickets, buyTicket, getTicketsByUser, getUserTicketById, getUserTicketByCategoryAthletic} = require('../controllers/ticketController.js');
+const { createTicket, updateTicketById, deleteTicketById, getTicketById, getAllTickets, buyTicket, getTicketsByUser, getUserTicketById, getUserTicketByCategoryAthletic, getTicketsByEventId} = require('../controllers/ticketController.js');
+
 const { bookTicket, Pay } = require('../controllers/paymentController.js')
 
 router.post('/ticket', authMiddleware, createTicket);
@@ -19,5 +20,6 @@ router.post('/pay', Pay);
 router.get('/tickets/user', authMiddleware, getTicketsByUser);
 router.get('/userticket/:id', authMiddleware, getUserTicketById);
 router.get('/userticket/:categoryId/:athleticId', authMiddleware, getUserTicketByCategoryAthletic);
+router.get('/ticketevent/:id', authMiddleware, getTicketsByEventId)
 
 module.exports = router;

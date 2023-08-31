@@ -217,6 +217,26 @@ async function getUserTicketByCategoryAthletic(req, res) {
     }
 }
 
+async function getTicketsByEventId(req, res) {
+    try {
+        if (req.user.role !== 'ADMIN') {
+            return res.status(403).json({ message: 'Você não tem permissão para criar tickets.' });
+        }
+
+        const tickets = await Ticket.findAll({
+            where: {
+                eventId: req.params.id, // Certifique-se de que "req.params.id" esteja correto
+            },
+        });
+
+        return res.status(200).json(tickets); // Enviar a lista de ingressos como resposta
+    } catch (error) {
+        console.error('Erro ao obter os ingressos do evento:', error);
+        return res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+}
+
+
 module.exports = {
     createTicket,
     getAllTickets,
@@ -227,4 +247,5 @@ module.exports = {
     getTicketsByUser,
     getUserTicketById,
     getUserTicketByCategoryAthletic,
+    getTicketsByEventId
 }

@@ -19,6 +19,8 @@ const transationRoutes = require('./transationRoutes.js')
 const { Webhook }= require('../controllers/paymentController.js')
 const couponRoutes = require('./couponRoutes.js')
 
+router.use('/uploads/athletics', express.static('uploads/athletics'));
+router.use('/uploads/users', express.static('uploads/users'));
 
 router.use('/auth', authRoute, accessMiddleware);
 router.use('/admin', userRoute, accessMiddleware);
@@ -34,7 +36,5 @@ router.use('/admin', modalityRoutes, accessMiddleware);
 router.use('/admin', modalityUserTicketsRoutes, accessMiddleware);
 router.post('/webhook', Webhook);
 router.use(athleticRoutes, accessMiddleware);
-router.use('/uploads/athletics', express.static('uploads/athletics'));
-router.use('/uploads/users', express.static('uploads/users'));
 
 module.exports = router;

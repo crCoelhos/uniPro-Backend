@@ -226,7 +226,7 @@ async function getTicketsByEventId(req, res) {
             return res.status(403).json({ message: 'Você não tem permissão para criar tickets.' });
         }
 
-        const tickets = await Ticket.findAll({
+        const tickets = await User_ticket.findAll({
             where: {
                 eventId: req.params.id, // Certifique-se de que "req.params.id" esteja correto
             },

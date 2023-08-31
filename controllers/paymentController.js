@@ -77,10 +77,16 @@ async function bookTicket(req, res) {
       finishDate: category.finishDate,
       typeTicketId: category.typeTicketId,
       eventId: category.eventId,
+      pre: category.pre,
     });
     //associação do ingresso com o usuario
-    const userTicket = await User_ticket.create({ userId: user.id, ticketId: ticket.id, eventId: category.eventId, athleticId: athletic.id, status: 'aguardando' });
-
+    const userTicket = await User_ticket.create({ userId: user.id, ticketId: ticket.id, eventId: category.eventId, categoryId:category.id, athleticId: athletic.id, status: 'aguardando' });
+    setTimeout(async ()=>{
+      verifyUserTicket = await User_ticket.findByPk(userTicket.id)
+      if (verifyUserTicket.status === "aguardando"){
+        verifyUserTicket.destroy()
+      }
+    }, 300000)
     //todo setinterval (de aguardando, passou 20 apenas os aguardando vai para expirando)
     res.json(userTicket)
   } catch (error) {

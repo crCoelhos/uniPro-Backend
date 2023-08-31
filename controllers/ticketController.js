@@ -194,10 +194,17 @@ async function getUserTicketById(req, res) {
     }
 }
 
-async function getUserTicketById(req, res) {
+async function getUserTicketByCategoryAthletic(req, res) {
     try {
-        const userTicket = req.params
-        const userTickets = await User_ticket.findByPk(userTicket.id);
+        const user = req.user
+        const {categoryId, athleticId} = req.params
+        const userTickets = await User_ticket.findOne({
+            where:{
+                userId: user.id,
+                athleticId: athleticId,
+                categoryId: categoryId
+            }
+        });
 
         if (userTickets.length === 0) {
             return res.status(404).json({ message: 'Nenhum ingresso encontrado para esse usuarios.' });
@@ -218,5 +225,6 @@ module.exports = {
     deleteTicketById,
     buyTicket,
     getTicketsByUser,
-    getUserTicketById
+    getUserTicketById,
+    getUserTicketByCategoryAthletic,
 }

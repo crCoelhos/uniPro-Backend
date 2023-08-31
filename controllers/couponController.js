@@ -101,7 +101,7 @@ async function consumeCoupon(req, res) {
     });
 
     if (!coupon) {
-      res.status(404).json({ message: 'Cupom não encontrado ou usado' });
+      res.status(404).json({ message: 'Cupom não está mais ativo' });
       return;
     }
 
@@ -152,11 +152,57 @@ async function consumeCoupon(req, res) {
   }
 }
 
+async function verifyCoupon(req, res) {
+  const { code } = req.params;
+  const userId = req.user.token.id;
+
+  if (!userId) {
+    return res.status(404).json({ message: 'Usuário não encontrado' });
+  }
+
+  try {
+    const coupon = await Coupon.findOne({
+      where: { code, isActive: true },
+    });
+
+    if (!coupon) {
+      res.status(404).json({ message: 'Cupom não está mais ativo' });
+      return;
+    }
+
+    const currentDate = new Date();
+    if (coupon.expireDate && coupon.expireDate <= currentDate) {
+      res.status(400).json({ message: 'Cupom já expirado' });
+      return;
+    }
+
+    if (coupon.usageMax !== null && coupon.usageCount >= coupon.usageMax) {
+      res.status(400).json({ message: 'Cupom já alcançou o maximo de usos' });
+      return;
+    }
+
+    if (coupon.isUniqueUse) {
+      const usedByUserId = coupon.usedByUserId;
+      if (usedByUserId === userId) {
+        res.status(400).json({ message: 'Esse cupom já foi utilizado' });
+        return;
+      }
+    }
+
+    res.status(200).json({
+      message: 'Cupom Valido',
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 module.exports = {
   createCoupon,
   getCoupon,
   getAllCoupon,
   updateCoupon,
   deleteCoupon,
-  consumeCoupon
+  consumeCoupon,
+  verifyCoupon
 };

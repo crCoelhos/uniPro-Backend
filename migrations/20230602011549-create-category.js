@@ -2,7 +2,7 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Categories', {
       id: {
         type: Sequelize.UUID,
@@ -27,12 +27,6 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false
       },
-      status: {
-        type: Sequelize.BOOLEAN,
-        allowNull: true,
-        defaultValue:true
-      },
-      
       finishDate: {
         type: Sequelize.DATE,
         allowNull: false
@@ -40,8 +34,8 @@ module.exports = {
       eventId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references:{
-          model:'Events',
+        references: {
+          model: 'Events',
           key: 'id'
         }
       },
@@ -56,7 +50,7 @@ module.exports = {
     });
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Categories');
   }
 };

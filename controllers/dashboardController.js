@@ -57,6 +57,7 @@ async function getdatausersbyevent(req, res) {
       ticketDetails.push({
         ticketId: ticket.id,
         ticketName: ticket.name,
+        status: user_tickets.map(userTicket => userTicket.status),
         typeTicket: typeTicket ? typeTicket.name : null,
         users: userDetails,
       });

@@ -4,6 +4,7 @@ const Ticket = db.Ticket;
 const Category = db.Category;
 const User = db.User;
 const User_ticket = db.User_ticket;
+const Types_ticket = db.Types_ticket;
 const Athletic = db.Athletic;
 const Transation = db.Transation;
 const Coupon = db.Coupon
@@ -27,9 +28,8 @@ async function bookTicket(req, res) {
 
     const decoded = jwt.verify(authHeader, config.secret);
 
-    const { categoryId, athleticId } = req.body
-    console.log(req.body)
-    console.log(req.body)
+    const { categoryId, athleticId, responsibility } = req.body
+
     const [category, user, athletic] = await Promise.all([
       Category.findByPk(categoryId),
       User.findByPk(decoded.id),
@@ -48,10 +48,11 @@ async function bookTicket(req, res) {
         }
       }
     })
-    
+
     if (qtTickets.length == category.quantity) {
       return res.status(301).json('Acabou os ingressos desse lote.');
     }
+
     //Verificação se o usuario ja possui processo de compra de ingresso
     const isUser_ticket = await User_ticket.findOne({
       where: {
@@ -68,7 +69,7 @@ async function bookTicket(req, res) {
     });
     // se o usuario ja possui processo em andamento ou confirmado a compra ele nao pode comprar mais daquele evento
     if (isUser_ticket && !category.pre) {
-       return res.status(301).json(`${user.name} já possui ingresso`);
+      return res.status(301).json(`${user.name} já possui ingresso`);
     }
     //Criação do ingresso
     const ticket = await Ticket.create({
@@ -80,11 +81,35 @@ async function bookTicket(req, res) {
       eventId: category.eventId,
       pre: category.pre,
     });
+
+    let responsibi
+    if (responsibility) {
+      responsibi = responsibility
+
+    }
+
+    const typeTicket = await Types_ticket.findByPk(category.typeTicketId)
+    const name = typeTicket.name.toLowerCase()
+    if (name.includes("torcedor") && name.includes("simples")) {
+    
+      responsibi = "Ts"
+
+    }
+    if (name.includes("torcedor") && name.includes("completo")) {
+      responsibi = "Tc"
+
+    }
     //associação do ingresso com o usuario
-    const userTicket = await User_ticket.create({ userId: user.id, ticketId: ticket.id, eventId: category.eventId, categoryId:category.id, athleticId: athletic.id, status: 'aguardando' });
-    setTimeout(async ()=>{
+
+    const userTicket = await User_ticket.create({ userId: user.id, ticketId: ticket.id, eventId: category.eventId, categoryId: category.id, athleticId: athletic.id, status: 'aguardando' });
+    console.log(responsibi)
+    if (responsibi) {
+      userTicket.responsibility = responsibi
+      userTicket.save()
+    }
+    setTimeout(async () => {
       verifyUserTicket = await User_ticket.findByPk(userTicket.id)
-      if (verifyUserTicket.status === "aguardando"){
+      if (verifyUserTicket.status === "aguardando") {
         verifyUserTicket.destroy()
       }
     }, 300000)
@@ -133,7 +158,7 @@ async function Pay(req, res) {
         transaction_amount: finalTransactionAmount,
         description: body.description,
         payment_method_id: body.payment_method_id,
-        notification_url: body.notification_url,
+        // notification_url: body.notification_url,
         //expiration_date: formattedExpirationDate,
         payer: {
           email: payer.email,
@@ -211,7 +236,7 @@ async function Pay(req, res) {
 
   } catch (error) {
     console.log(error)
-    res.status(errorStatus).json({ error_message: error.message });
+    res.status(error.status).json({ error_message: error.message });
   }
 }
 

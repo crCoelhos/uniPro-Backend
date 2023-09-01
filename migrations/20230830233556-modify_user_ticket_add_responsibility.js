@@ -9,7 +9,7 @@ module.exports = {
         'responsibility', // new field name
         {
           type: Sequelize.ENUM('Ps', 'Vc', 'Dr', 'Aa', 'Ts', 'Tc'),
-          allowNull: false,
+          allowNull: true,
           
         },
       ),

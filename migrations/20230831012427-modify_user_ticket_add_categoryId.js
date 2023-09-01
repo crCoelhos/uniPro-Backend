@@ -8,7 +8,7 @@ module.exports = {
         'User_tickets', // table name
         'categoryId', // new field name
         {
-          type: Sequelize.ENUM(''),
+          type: Sequelize.UUID,
           allowNull: false,
           
         },

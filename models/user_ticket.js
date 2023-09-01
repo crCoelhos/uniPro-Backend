@@ -84,7 +84,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     responsibility:{
       type: DataTypes.ENUM('Pr', 'Vc', 'Dr', 'Aa', 'Ts', 'Tc'),
-      allowNull:false
+      allowNull:true
     },
   }, {
     sequelize,

@@ -11,8 +11,8 @@ async function getdatausersbyevent(req, res) {
   try {
 
     if (req.user.role !== 'ADMIN') {
-        return res.status(403).json({ message: 'Você não tem permissão para visualizar os dados.' });
-      }
+      return res.status(403).json({ message: 'Você não tem permissão para visualizar os dados.' });
+    }
 
     const eventId = req.params.eventId;
 
@@ -29,16 +29,14 @@ async function getdatausersbyevent(req, res) {
     for (const ticket of tickets) {
       const user_tickets = await User_ticket.findAll({ where: { ticketId: ticket.id } });
 
-      const userDetails = [];
+      let userDetails;
 
       for (const userTicket of user_tickets) {
         const user = await User.findOne({ where: { id: userTicket.userId } });
-        const userAthletic = await User_athletic.findOne({
-            where: { userId: user.id },
-            include: [{ model: Athletic, as: 'athletic' }],
-          });
-      
-        userDetails.push({
+        const athletic = await Athletic.findOne({
+          where: { id: userTicket.athleticId },
+        });
+        userDetails={
           userId: user.id,
           name: user.name,
           email: user.email,
@@ -46,9 +44,9 @@ async function getdatausersbyevent(req, res) {
           sex: user.sex,
           document: user.document,
           registration: user.registration,
-          athleticId: userAthletic ? userAthletic.athletic.id : null,
-          athleticName: userAthletic ? userAthletic.athletic.name : null,
-        });
+          athleticId: athletic ? athletic.id : null, 
+          athleticName: athletic ? athletic.name : null,
+        };
       }
 
       const typeTicket = await Type_ticket.findOne({ where: { id: ticket.typeTicketId } });
@@ -59,7 +57,15 @@ async function getdatausersbyevent(req, res) {
         ticketName: ticket.name,
         status: user_tickets.map(userTicket => userTicket.status),
         typeTicket: typeTicket ? typeTicket.name : null,
-        users: userDetails,
+        userId: userDetails.userId,
+        name: userDetails.name,
+        email: userDetails.email,
+        cpf: userDetails.cpf,
+        sex: userDetails.sex,
+        document: userDetails.document,
+        registration: userDetails.registration,
+        athleticId: userDetails.athleticId,
+        athleticName: userDetails.athleticName
       });
     }
 

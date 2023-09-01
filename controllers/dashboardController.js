@@ -5,12 +5,13 @@ const User_ticket = db.User_ticket;
 const User = db.User;
 const User_athletic = db.User_athletic;
 const Athletic = db.Athletic;
+const Type_ticket = db.Types_ticket;
 
 async function getdatausersbyevent(req, res) {
   try {
 
     if (req.user.role !== 'ADMIN') {
-        return res.status(403).json({ message: 'Você não tem permissão para criar Cupons.' });
+        return res.status(403).json({ message: 'Você não tem permissão para visualizar os dados.' });
       }
 
     const eventId = req.params.eventId;
@@ -50,9 +51,13 @@ async function getdatausersbyevent(req, res) {
         });
       }
 
+      const typeTicket = await Type_ticket.findOne({ where: { id: ticket.typeTicketId } });
+
+
       ticketDetails.push({
         ticketId: ticket.id,
         ticketName: ticket.name,
+        typeTicket: typeTicket ? typeTicket.name : null,
         users: userDetails,
       });
     }

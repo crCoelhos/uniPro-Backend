@@ -44,7 +44,7 @@ async function getAllUsers(req, res) {
             {
                 model: Ticket,
                 as: 'ticket',
-                attributes: ['name', 'createdAt'],
+                attributes: ['name'],
             }
             ],
             attributes: {

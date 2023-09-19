@@ -152,7 +152,7 @@ async function buyTicket(req, res) {
 // TODO getTicketByUser
 async function getTicketsByUser(req, res) {
     try {
-        const userId = req.params.id;
+        const userId = req.user.id;
         console.log('UserID:', userId);
 
         const userTickets = await User_ticket.findAll({

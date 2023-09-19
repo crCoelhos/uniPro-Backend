@@ -17,7 +17,7 @@ router.delete('/ticket/:id', deleteTicketById);
 router.post('/pay', Pay);
 
 // TODO getTicketByUser
-router.get('/tickets/user/:id', authMiddleware, getTicketsByUser);
+router.get('/tickets/user', authMiddleware, getTicketsByUser);
 router.get('/userticket/:id', authMiddleware, getUserTicketById);
 router.get('/userticket/:categoryId/:athleticId', authMiddleware, getUserTicketByCategoryAthletic);
 router.get('/ticketevent/:id', authMiddleware, getTicketsByEventId)
